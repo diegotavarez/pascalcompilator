@@ -103,66 +103,47 @@ ruleModel returns [EObject current=null]
 
 
 // Entry rule entryRuleGreeting
-entryRuleGreeting returns [String current=null] 
+entryRuleGreeting returns [EObject current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getGreetingRule()); } 
+	{ newCompositeNode(grammarAccess.getGreetingRule()); }
 	 iv_ruleGreeting=ruleGreeting 
-	 { $current=$iv_ruleGreeting.current.getText(); }  
+	 { $current=$iv_ruleGreeting.current; } 
 	 EOF 
 ;
 
 // Rule Greeting
-ruleGreeting returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+ruleGreeting returns [EObject current=null] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-
-    { 
-        newCompositeNode(grammarAccess.getGreetingAccess().getIdentifierParserRuleCall()); 
+(	otherlv_0='Hello' 
+    {
+    	newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
     }
-    this_identifier_0=ruleidentifier    {
-		$current.merge(this_identifier_0);
+(
+(
+		lv_name_1_0=RULE_ID
+		{
+			newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getGreetingRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"name",
+        		lv_name_1_0, 
+        		"ID");
+	    }
+
+)
+)	otherlv_2='!' 
+    {
+    	newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
     }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-
-    ;
-
-
-
-
-
-
-
-// Entry rule entryRuleinteger_number
-entryRuleinteger_number returns [String current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getInteger_numberRule()); } 
-	 iv_ruleinteger_number=ruleinteger_number 
-	 { $current=$iv_ruleinteger_number.current.getText(); }  
-	 EOF 
+)
 ;
-
-// Rule integer_number
-ruleinteger_number returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-
-    { 
-        newCompositeNode(grammarAccess.getInteger_numberAccess().getDigit_sequenceParserRuleCall()); 
-    }
-    this_digit_sequence_0=ruledigit_sequence    {
-		$current.merge(this_digit_sequence_0);
-    }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-
-    ;
 
 
 
@@ -217,6 +198,162 @@ ruleidentifier returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToke
         afterParserOrEnumRuleCall();
     }
 )?)
+    ;
+
+
+
+
+
+
+
+// Entry rule entryRuleinteger_number
+entryRuleinteger_number returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getInteger_numberRule()); } 
+	 iv_ruleinteger_number=ruleinteger_number 
+	 { $current=$iv_ruleinteger_number.current.getText(); }  
+	 EOF 
+;
+
+// Rule integer_number
+ruleinteger_number returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+
+    { 
+        newCompositeNode(grammarAccess.getInteger_numberAccess().getDigit_sequenceParserRuleCall()); 
+    }
+    this_digit_sequence_0=ruledigit_sequence    {
+		$current.merge(this_digit_sequence_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+
+    ;
+
+
+
+
+
+
+
+// Entry rule entryRuleunsigned_digit_sequence
+entryRuleunsigned_digit_sequence returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getUnsigned_digit_sequenceRule()); } 
+	 iv_ruleunsigned_digit_sequence=ruleunsigned_digit_sequence 
+	 { $current=$iv_ruleunsigned_digit_sequence.current.getText(); }  
+	 EOF 
+;
+
+// Rule unsigned_digit_sequence
+ruleunsigned_digit_sequence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+    { 
+        newCompositeNode(grammarAccess.getUnsigned_digit_sequenceAccess().getDigitParserRuleCall_0()); 
+    }
+    this_digit_0=ruledigit    {
+		$current.merge(this_digit_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+(
+    { 
+        newCompositeNode(grammarAccess.getUnsigned_digit_sequenceAccess().getDigitParserRuleCall_1()); 
+    }
+    this_digit_1=ruledigit    {
+		$current.merge(this_digit_1);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+)*)
+    ;
+
+
+
+
+
+// Entry rule entryRuledigit_sequence
+entryRuledigit_sequence returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getDigit_sequenceRule()); } 
+	 iv_ruledigit_sequence=ruledigit_sequence 
+	 { $current=$iv_ruledigit_sequence.current.getText(); }  
+	 EOF 
+;
+
+// Rule digit_sequence
+ruledigit_sequence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+((
+    { 
+        newCompositeNode(grammarAccess.getDigit_sequenceAccess().getSignParserRuleCall_0()); 
+    }
+    this_sign_0=rulesign    {
+		$current.merge(this_sign_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+)?
+    { 
+        newCompositeNode(grammarAccess.getDigit_sequenceAccess().getUnsigned_digit_sequenceParserRuleCall_1()); 
+    }
+    this_unsigned_digit_sequence_1=ruleunsigned_digit_sequence    {
+		$current.merge(this_unsigned_digit_sequence_1);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+)
+    ;
+
+
+
+
+
+// Entry rule entryRulesign
+entryRulesign returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getSignRule()); } 
+	 iv_rulesign=rulesign 
+	 { $current=$iv_rulesign.current.getText(); }  
+	 EOF 
+;
+
+// Rule sign
+rulesign returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+	kw='+' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getSignAccess().getPlusSignKeyword_0()); 
+    }
+
+    |
+	kw='-' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getSignAccess().getHyphenMinusKeyword_1()); 
+    }
+)
     ;
 
 
@@ -694,124 +831,6 @@ ruledigit returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
     ;
 
 
-
-
-
-// Entry rule entryRuledigit_sequence
-entryRuledigit_sequence returns [String current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getDigit_sequenceRule()); } 
-	 iv_ruledigit_sequence=ruledigit_sequence 
-	 { $current=$iv_ruledigit_sequence.current.getText(); }  
-	 EOF 
-;
-
-// Rule digit_sequence
-ruledigit_sequence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-((
-    { 
-        newCompositeNode(grammarAccess.getDigit_sequenceAccess().getSignParserRuleCall_0()); 
-    }
-    this_sign_0=rulesign    {
-		$current.merge(this_sign_0);
-    }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-)?
-    { 
-        newCompositeNode(grammarAccess.getDigit_sequenceAccess().getUnsigned_digit_sequenceParserRuleCall_1()); 
-    }
-    this_unsigned_digit_sequence_1=ruleunsigned_digit_sequence    {
-		$current.merge(this_unsigned_digit_sequence_1);
-    }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-)
-    ;
-
-
-
-
-
-// Entry rule entryRulesign
-entryRulesign returns [String current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getSignRule()); } 
-	 iv_rulesign=rulesign 
-	 { $current=$iv_rulesign.current.getText(); }  
-	 EOF 
-;
-
-// Rule sign
-rulesign returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-(
-	kw='+' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getSignAccess().getPlusSignKeyword_0()); 
-    }
-
-    |
-	kw='-' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getSignAccess().getHyphenMinusKeyword_1()); 
-    }
-)
-    ;
-
-
-
-
-
-// Entry rule entryRuleunsigned_digit_sequence
-entryRuleunsigned_digit_sequence returns [String current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getUnsigned_digit_sequenceRule()); } 
-	 iv_ruleunsigned_digit_sequence=ruleunsigned_digit_sequence 
-	 { $current=$iv_ruleunsigned_digit_sequence.current.getText(); }  
-	 EOF 
-;
-
-// Rule unsigned_digit_sequence
-ruleunsigned_digit_sequence returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-(
-    { 
-        newCompositeNode(grammarAccess.getUnsigned_digit_sequenceAccess().getDigitParserRuleCall_0()); 
-    }
-    this_digit_0=ruledigit    {
-		$current.merge(this_digit_0);
-    }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-(
-    { 
-        newCompositeNode(grammarAccess.getUnsigned_digit_sequenceAccess().getDigitParserRuleCall_1()); 
-    }
-    this_digit_1=ruledigit    {
-		$current.merge(this_digit_1);
-    }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-)*)
-    ;
 
 
 

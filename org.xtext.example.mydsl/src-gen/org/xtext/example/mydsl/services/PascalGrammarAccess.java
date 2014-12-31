@@ -36,38 +36,30 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 
 	public class GreetingElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Greeting");
-		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cHelloKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Keyword cExclamationMarkKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//Greeting:
-		//	identifier;
+		//	"Hello" name=ID "!";
 		public ParserRule getRule() { return rule; }
 
-		//identifier
-		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
-	}
+		//"Hello" name=ID "!"
+		public Group getGroup() { return cGroup; }
 
-	public class LabelElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "label");
-		private final RuleCall cInteger_numberParserRuleCall = (RuleCall)rule.eContents().get(1);
-		
-		//label:
-		//	integer_number;
-		public ParserRule getRule() { return rule; }
+		//"Hello"
+		public Keyword getHelloKeyword_0() { return cHelloKeyword_0; }
 
-		//integer_number
-		public RuleCall getInteger_numberParserRuleCall() { return cInteger_numberParserRuleCall; }
-	}
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
 
-	public class Integer_numberElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "integer_number");
-		private final RuleCall cDigit_sequenceParserRuleCall = (RuleCall)rule.eContents().get(1);
-		
-		//integer_number:
-		//	digit_sequence;
-		public ParserRule getRule() { return rule; }
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
 
-		//digit_sequence
-		public RuleCall getDigit_sequenceParserRuleCall() { return cDigit_sequenceParserRuleCall; }
+		//"!"
+		public Keyword getExclamationMarkKeyword_2() { return cExclamationMarkKeyword_2; }
 	}
 
 	public class IdentifierElements extends AbstractParserRuleElementFinder {
@@ -78,6 +70,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cLetterParserRuleCall_1_0 = (RuleCall)cAlternatives_1.eContents().get(0);
 		private final RuleCall cDigitParserRuleCall_1_1 = (RuleCall)cAlternatives_1.eContents().get(1);
 		
+		////VARIABLE AND IDENTIFIER CATEGORIES
 		//identifier:
 		//	letter (letter | digit)?;
 		public ParserRule getRule() { return rule; }
@@ -96,6 +89,119 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 
 		//digit
 		public RuleCall getDigitParserRuleCall_1_1() { return cDigitParserRuleCall_1_1; }
+	}
+
+	public class Constant_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "constant_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//constant_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
+	public class Integer_numberElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "integer_number");
+		private final RuleCall cDigit_sequenceParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		////LOW LEVEL DEFINITIONS
+		//integer_number:
+		//	digit_sequence;
+		public ParserRule getRule() { return rule; }
+
+		//digit_sequence
+		public RuleCall getDigit_sequenceParserRuleCall() { return cDigit_sequenceParserRuleCall; }
+	}
+
+	public class Scale_factorElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "scale_factor");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final Keyword cEKeyword_0_0 = (Keyword)cAlternatives_0.eContents().get(0);
+		private final Keyword cEKeyword_0_1 = (Keyword)cAlternatives_0.eContents().get(1);
+		private final RuleCall cDigit_sequenceParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		
+		//scale_factor:
+		//	("E" | "e") digit_sequence;
+		public ParserRule getRule() { return rule; }
+
+		//("E" | "e") digit_sequence
+		public Group getGroup() { return cGroup; }
+
+		//"E" | "e"
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
+
+		//"E"
+		public Keyword getEKeyword_0_0() { return cEKeyword_0_0; }
+
+		//"e"
+		public Keyword getEKeyword_0_1() { return cEKeyword_0_1; }
+
+		//digit_sequence
+		public RuleCall getDigit_sequenceParserRuleCall_1() { return cDigit_sequenceParserRuleCall_1; }
+	}
+
+	public class Unsigned_digit_sequenceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "unsigned_digit_sequence");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cDigitParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final RuleCall cDigitParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		
+		//unsigned_digit_sequence:
+		//	digit digit*;
+		public ParserRule getRule() { return rule; }
+
+		//digit digit*
+		public Group getGroup() { return cGroup; }
+
+		//digit
+		public RuleCall getDigitParserRuleCall_0() { return cDigitParserRuleCall_0; }
+
+		//digit*
+		public RuleCall getDigitParserRuleCall_1() { return cDigitParserRuleCall_1; }
+	}
+
+	public class Digit_sequenceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "digit_sequence");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cSignParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final RuleCall cUnsigned_digit_sequenceParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		
+		//digit_sequence:
+		//	sign? unsigned_digit_sequence;
+		public ParserRule getRule() { return rule; }
+
+		//sign? unsigned_digit_sequence
+		public Group getGroup() { return cGroup; }
+
+		//sign?
+		public RuleCall getSignParserRuleCall_0() { return cSignParserRuleCall_0; }
+
+		//unsigned_digit_sequence
+		public RuleCall getUnsigned_digit_sequenceParserRuleCall_1() { return cUnsigned_digit_sequenceParserRuleCall_1; }
+	}
+
+	public class SignElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "sign");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cPlusSignKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cHyphenMinusKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		
+		//sign:
+		//	"+" | "-";
+		public ParserRule getRule() { return rule; }
+
+		//"+" | "-"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//"+"
+		public Keyword getPlusSignKeyword_0() { return cPlusSignKeyword_0; }
+
+		//"-"
+		public Keyword getHyphenMinusKeyword_1() { return cHyphenMinusKeyword_1; }
 	}
 
 	public class LetterElements extends AbstractParserRuleElementFinder {
@@ -374,77 +480,31 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getDigitNineKeyword_9() { return cDigitNineKeyword_9; }
 	}
 
-	public class Digit_sequenceElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "digit_sequence");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final RuleCall cSignParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
-		private final RuleCall cUnsigned_digit_sequenceParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+	public class LabelElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "label");
+		private final RuleCall cInteger_numberParserRuleCall = (RuleCall)rule.eContents().get(1);
 		
-		//digit_sequence:
-		//	sign? unsigned_digit_sequence;
+		//label:
+		//	integer_number;
 		public ParserRule getRule() { return rule; }
 
-		//sign? unsigned_digit_sequence
-		public Group getGroup() { return cGroup; }
-
-		//sign?
-		public RuleCall getSignParserRuleCall_0() { return cSignParserRuleCall_0; }
-
-		//unsigned_digit_sequence
-		public RuleCall getUnsigned_digit_sequenceParserRuleCall_1() { return cUnsigned_digit_sequenceParserRuleCall_1; }
-	}
-
-	public class SignElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "sign");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Keyword cPlusSignKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
-		private final Keyword cHyphenMinusKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
-		
-		//sign:
-		//	"+" | "-";
-		public ParserRule getRule() { return rule; }
-
-		//"+" | "-"
-		public Alternatives getAlternatives() { return cAlternatives; }
-
-		//"+"
-		public Keyword getPlusSignKeyword_0() { return cPlusSignKeyword_0; }
-
-		//"-"
-		public Keyword getHyphenMinusKeyword_1() { return cHyphenMinusKeyword_1; }
-	}
-
-	public class Unsigned_digit_sequenceElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "unsigned_digit_sequence");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final RuleCall cDigitParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
-		private final RuleCall cDigitParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
-		
-		//unsigned_digit_sequence:
-		//	digit digit*;
-		public ParserRule getRule() { return rule; }
-
-		//digit digit*
-		public Group getGroup() { return cGroup; }
-
-		//digit
-		public RuleCall getDigitParserRuleCall_0() { return cDigitParserRuleCall_0; }
-
-		//digit*
-		public RuleCall getDigitParserRuleCall_1() { return cDigitParserRuleCall_1; }
+		//integer_number
+		public RuleCall getInteger_numberParserRuleCall() { return cInteger_numberParserRuleCall; }
 	}
 	
 	
 	private final ModelElements pModel;
 	private final GreetingElements pGreeting;
-	private final LabelElements pLabel;
-	private final Integer_numberElements pInteger_number;
 	private final IdentifierElements pIdentifier;
-	private final LetterElements pLetter;
-	private final DigitElements pDigit;
+	private final Constant_identifierElements pConstant_identifier;
+	private final Integer_numberElements pInteger_number;
+	private final Scale_factorElements pScale_factor;
+	private final Unsigned_digit_sequenceElements pUnsigned_digit_sequence;
 	private final Digit_sequenceElements pDigit_sequence;
 	private final SignElements pSign;
-	private final Unsigned_digit_sequenceElements pUnsigned_digit_sequence;
+	private final LetterElements pLetter;
+	private final DigitElements pDigit;
+	private final LabelElements pLabel;
 	
 	private final Grammar grammar;
 
@@ -457,14 +517,16 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		this.gaTerminals = gaTerminals;
 		this.pModel = new ModelElements();
 		this.pGreeting = new GreetingElements();
-		this.pLabel = new LabelElements();
-		this.pInteger_number = new Integer_numberElements();
 		this.pIdentifier = new IdentifierElements();
-		this.pLetter = new LetterElements();
-		this.pDigit = new DigitElements();
+		this.pConstant_identifier = new Constant_identifierElements();
+		this.pInteger_number = new Integer_numberElements();
+		this.pScale_factor = new Scale_factorElements();
+		this.pUnsigned_digit_sequence = new Unsigned_digit_sequenceElements();
 		this.pDigit_sequence = new Digit_sequenceElements();
 		this.pSign = new SignElements();
-		this.pUnsigned_digit_sequence = new Unsigned_digit_sequenceElements();
+		this.pLetter = new LetterElements();
+		this.pDigit = new DigitElements();
+		this.pLabel = new LabelElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -505,7 +567,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Greeting:
-	//	identifier;
+	//	"Hello" name=ID "!";
 	public GreetingElements getGreetingAccess() {
 		return pGreeting;
 	}
@@ -514,16 +576,28 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		return getGreetingAccess().getRule();
 	}
 
-	//label:
-	//	integer_number;
-	public LabelElements getLabelAccess() {
-		return pLabel;
+	////VARIABLE AND IDENTIFIER CATEGORIES
+	//identifier:
+	//	letter (letter | digit)?;
+	public IdentifierElements getIdentifierAccess() {
+		return pIdentifier;
 	}
 	
-	public ParserRule getLabelRule() {
-		return getLabelAccess().getRule();
+	public ParserRule getIdentifierRule() {
+		return getIdentifierAccess().getRule();
 	}
 
+	//constant_identifier:
+	//	identifier;
+	public Constant_identifierElements getConstant_identifierAccess() {
+		return pConstant_identifier;
+	}
+	
+	public ParserRule getConstant_identifierRule() {
+		return getConstant_identifierAccess().getRule();
+	}
+
+	////LOW LEVEL DEFINITIONS
 	//integer_number:
 	//	digit_sequence;
 	public Integer_numberElements getInteger_numberAccess() {
@@ -534,14 +608,44 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		return getInteger_numberAccess().getRule();
 	}
 
-	//identifier:
-	//	letter (letter | digit)?;
-	public IdentifierElements getIdentifierAccess() {
-		return pIdentifier;
+	//scale_factor:
+	//	("E" | "e") digit_sequence;
+	public Scale_factorElements getScale_factorAccess() {
+		return pScale_factor;
 	}
 	
-	public ParserRule getIdentifierRule() {
-		return getIdentifierAccess().getRule();
+	public ParserRule getScale_factorRule() {
+		return getScale_factorAccess().getRule();
+	}
+
+	//unsigned_digit_sequence:
+	//	digit digit*;
+	public Unsigned_digit_sequenceElements getUnsigned_digit_sequenceAccess() {
+		return pUnsigned_digit_sequence;
+	}
+	
+	public ParserRule getUnsigned_digit_sequenceRule() {
+		return getUnsigned_digit_sequenceAccess().getRule();
+	}
+
+	//digit_sequence:
+	//	sign? unsigned_digit_sequence;
+	public Digit_sequenceElements getDigit_sequenceAccess() {
+		return pDigit_sequence;
+	}
+	
+	public ParserRule getDigit_sequenceRule() {
+		return getDigit_sequenceAccess().getRule();
+	}
+
+	//sign:
+	//	"+" | "-";
+	public SignElements getSignAccess() {
+		return pSign;
+	}
+	
+	public ParserRule getSignRule() {
+		return getSignAccess().getRule();
 	}
 
 	//letter:
@@ -566,34 +670,14 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		return getDigitAccess().getRule();
 	}
 
-	//digit_sequence:
-	//	sign? unsigned_digit_sequence;
-	public Digit_sequenceElements getDigit_sequenceAccess() {
-		return pDigit_sequence;
+	//label:
+	//	integer_number;
+	public LabelElements getLabelAccess() {
+		return pLabel;
 	}
 	
-	public ParserRule getDigit_sequenceRule() {
-		return getDigit_sequenceAccess().getRule();
-	}
-
-	//sign:
-	//	"+" | "-";
-	public SignElements getSignAccess() {
-		return pSign;
-	}
-	
-	public ParserRule getSignRule() {
-		return getSignAccess().getRule();
-	}
-
-	//unsigned_digit_sequence:
-	//	digit digit*;
-	public Unsigned_digit_sequenceElements getUnsigned_digit_sequenceAccess() {
-		return pUnsigned_digit_sequence;
-	}
-	
-	public ParserRule getUnsigned_digit_sequenceRule() {
-		return getUnsigned_digit_sequenceAccess().getRule();
+	public ParserRule getLabelRule() {
+		return getLabelAccess().getRule();
 	}
 
 	//terminal ID:

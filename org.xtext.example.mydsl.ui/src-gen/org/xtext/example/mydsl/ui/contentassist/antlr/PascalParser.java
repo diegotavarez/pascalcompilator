@@ -38,13 +38,17 @@ public class PascalParser extends AbstractContentAssistParser {
 				private static final long serialVersionUID = 1L;
 				{
 					put(grammarAccess.getIdentifierAccess().getAlternatives_1(), "rule__Identifier__Alternatives_1");
+					put(grammarAccess.getScale_factorAccess().getAlternatives_0(), "rule__Scale_factor__Alternatives_0");
+					put(grammarAccess.getSignAccess().getAlternatives(), "rule__Sign__Alternatives");
 					put(grammarAccess.getLetterAccess().getAlternatives(), "rule__Letter__Alternatives");
 					put(grammarAccess.getDigitAccess().getAlternatives(), "rule__Digit__Alternatives");
-					put(grammarAccess.getSignAccess().getAlternatives(), "rule__Sign__Alternatives");
+					put(grammarAccess.getGreetingAccess().getGroup(), "rule__Greeting__Group__0");
 					put(grammarAccess.getIdentifierAccess().getGroup(), "rule__Identifier__Group__0");
-					put(grammarAccess.getDigit_sequenceAccess().getGroup(), "rule__Digit_sequence__Group__0");
+					put(grammarAccess.getScale_factorAccess().getGroup(), "rule__Scale_factor__Group__0");
 					put(grammarAccess.getUnsigned_digit_sequenceAccess().getGroup(), "rule__Unsigned_digit_sequence__Group__0");
+					put(grammarAccess.getDigit_sequenceAccess().getGroup(), "rule__Digit_sequence__Group__0");
 					put(grammarAccess.getModelAccess().getGreetingsAssignment(), "rule__Model__GreetingsAssignment");
+					put(grammarAccess.getGreetingAccess().getNameAssignment_1(), "rule__Greeting__NameAssignment_1");
 				}
 			};
 		}

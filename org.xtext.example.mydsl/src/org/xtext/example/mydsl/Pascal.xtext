@@ -8,27 +8,26 @@ Model:
 Greeting:
 	'Hello' name=ID '!';
 
-label:
-        integer_number;
- 
+//VARIABLE AND IDENTIFIER CATEGORIES
+identifier:
+	letter (letter | digit)?;
+constant_identifier:
+	identifier;
+
+//LOW LEVEL DEFINITIONS
 integer_number:
         digit_sequence;
-        
-identifier:
-        letter (letter | digit)?;
-        
-letter:
-        "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z";
- 
-digit:
-        "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-        
-digit_sequence:
-        (sign)? unsigned_digit_sequence;
-       
-sign:
-        "+" | "-";
-       
+scale_factor:
+	("E" | "e")digit_sequence;
 unsigned_digit_sequence:
-        digit (digit)*;
-        
+	digit (digit)*;
+digit_sequence:
+	(sign)? unsigned_digit_sequence;
+sign:
+	"+" | "-";
+letter:
+	"A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z";
+digit:
+	"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+label:
+	integer_number;

@@ -5,9 +5,11 @@ package org.xtext.example.mydsl.pascal.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
+import org.xtext.example.mydsl.pascal.Greeting;
 import org.xtext.example.mydsl.pascal.Model;
 import org.xtext.example.mydsl.pascal.PascalFactory;
 import org.xtext.example.mydsl.pascal.PascalPackage;
@@ -26,6 +28,13 @@ public class PascalPackageImpl extends EPackageImpl implements PascalPackage
    * @generated
    */
   private EClass modelEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass greetingEClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -105,9 +114,29 @@ public class PascalPackageImpl extends EPackageImpl implements PascalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getModel_Greetings()
+  public EReference getModel_Greetings()
   {
-    return (EAttribute)modelEClass.getEStructuralFeatures().get(0);
+    return (EReference)modelEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getGreeting()
+  {
+    return greetingEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGreeting_Name()
+  {
+    return (EAttribute)greetingEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -141,7 +170,10 @@ public class PascalPackageImpl extends EPackageImpl implements PascalPackage
 
     // Create classes and their features
     modelEClass = createEClass(MODEL);
-    createEAttribute(modelEClass, MODEL__GREETINGS);
+    createEReference(modelEClass, MODEL__GREETINGS);
+
+    greetingEClass = createEClass(GREETING);
+    createEAttribute(greetingEClass, GREETING__NAME);
   }
 
   /**
@@ -176,7 +208,10 @@ public class PascalPackageImpl extends EPackageImpl implements PascalPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getModel_Greetings(), ecorePackage.getEString(), "greetings", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getModel_Greetings(), this.getGreeting(), null, "greetings", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(greetingEClass, Greeting.class, "Greeting", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getGreeting_Name(), ecorePackage.getEString(), "name", null, 0, 1, Greeting.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Create resource
     createResource(eNS_URI);

@@ -8,7 +8,10 @@
   <genPackages prefix="Pascal" basePackage="org.xtext.example.mydsl" disposableProviderFactory="true"
       fileExtensions="pas" ecorePackage="Pascal.ecore#/">
     <genClasses ecoreClass="Pascal.ecore#//Model">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Pascal.ecore#//Model/greetings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Pascal.ecore#//Model/greetings"/>
+    </genClasses>
+    <genClasses ecoreClass="Pascal.ecore#//Greeting">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Pascal.ecore#//Greeting/name"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
