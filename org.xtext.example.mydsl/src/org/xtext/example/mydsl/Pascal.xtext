@@ -8,6 +8,20 @@ Model:
 Greeting:
 	'Hello' name=ID '!';
 
+//PROGRAMS AND BLOCKS
+program:
+	program_heading block ".";
+program_heading:
+	'program' identifier "(" identifier_list ")" ";";
+block:
+	declaration_part statement_part;
+declaration_part:
+	"declaration_part";
+statement_part:
+	"statement_part";	
+label_declaration_part:
+	'label' label ("," label)* ";";
+ 
 //VARIABLE AND IDENTIFIER CATEGORIES
 identifier:
 	letter (letter | digit)?;
@@ -15,6 +29,8 @@ constant_identifier:
 	identifier;
 
 //LOW LEVEL DEFINITIONS
+identifier_list:
+	identifier ("," identifier)*;
 integer_number:
         digit_sequence;
 scale_factor:

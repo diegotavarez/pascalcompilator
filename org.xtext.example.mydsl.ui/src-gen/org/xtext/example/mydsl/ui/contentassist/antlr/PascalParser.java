@@ -43,7 +43,12 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getLetterAccess().getAlternatives(), "rule__Letter__Alternatives");
 					put(grammarAccess.getDigitAccess().getAlternatives(), "rule__Digit__Alternatives");
 					put(grammarAccess.getGreetingAccess().getGroup(), "rule__Greeting__Group__0");
+					put(grammarAccess.getProgramAccess().getGroup(), "rule__Program__Group__0");
+					put(grammarAccess.getProgram_headingAccess().getGroup(), "rule__Program_heading__Group__0");
+					put(grammarAccess.getBlockAccess().getGroup(), "rule__Block__Group__0");
 					put(grammarAccess.getIdentifierAccess().getGroup(), "rule__Identifier__Group__0");
+					put(grammarAccess.getIdentifier_listAccess().getGroup(), "rule__Identifier_list__Group__0");
+					put(grammarAccess.getIdentifier_listAccess().getGroup_1(), "rule__Identifier_list__Group_1__0");
 					put(grammarAccess.getScale_factorAccess().getGroup(), "rule__Scale_factor__Group__0");
 					put(grammarAccess.getUnsigned_digit_sequenceAccess().getGroup(), "rule__Unsigned_digit_sequence__Group__0");
 					put(grammarAccess.getDigit_sequenceAccess().getGroup(), "rule__Digit_sequence__Group__0");
