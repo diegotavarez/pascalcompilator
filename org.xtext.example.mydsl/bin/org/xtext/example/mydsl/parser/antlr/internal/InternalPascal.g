@@ -116,9 +116,13 @@ ruleGreeting returns [EObject current=null]
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-(	otherlv_0='Hello' 
-    {
-    	newLeafNode(otherlv_0, grammarAccess.getGreetingAccess().getHelloKeyword_0());
+(
+    { 
+        newCompositeNode(grammarAccess.getGreetingAccess().getIdentifierParserRuleCall_0()); 
+    }
+ruleidentifier
+    { 
+        afterParserOrEnumRuleCall();
     }
 (
 (
@@ -315,6 +319,68 @@ rulestatement_part returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRule
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// Entry rule entryRuletype
+entryRuletype returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getTypeRule()); } 
+	 iv_ruletype=ruletype 
+	 { $current=$iv_ruletype.current.getText(); }  
+	 EOF 
+;
+
+// Rule type
+ruletype returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+	kw='simple_type' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getTypeAccess().getSimple_typeKeyword_0()); 
+    }
+
+    |
+	kw='structured_type' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getTypeAccess().getStructured_typeKeyword_1()); 
+    }
+
+    |
+	kw='pointer_type' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getTypeAccess().getPointer_typeKeyword_2()); 
+    }
+
+    |
+	kw='type_identifier' 
+    {
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getTypeAccess().getType_identifierKeyword_3()); 
+    }
+)
+    ;
+
+
+
+
+
+
+
 // Entry rule entryRuleidentifier
 entryRuleidentifier returns [String current=null] 
 	:
@@ -365,6 +431,78 @@ ruleidentifier returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToke
     }
 )?)
     ;
+
+
+
+
+
+// Entry rule entryRulefield_identifier
+entryRulefield_identifier returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getField_identifierRule()); } 
+	 iv_rulefield_identifier=rulefield_identifier 
+	 { $current=$iv_rulefield_identifier.current.getText(); }  
+	 EOF 
+;
+
+// Rule field_identifier
+rulefield_identifier returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+
+    { 
+        newCompositeNode(grammarAccess.getField_identifierAccess().getIdentifierParserRuleCall()); 
+    }
+    this_identifier_0=ruleidentifier    {
+		$current.merge(this_identifier_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+
+    ;
+
+
+
+
+
+
+
+// Entry rule entryRulevariable_identifier
+entryRulevariable_identifier returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getVariable_identifierRule()); } 
+	 iv_rulevariable_identifier=rulevariable_identifier 
+	 { $current=$iv_rulevariable_identifier.current.getText(); }  
+	 EOF 
+;
+
+// Rule variable_identifier
+rulevariable_identifier returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+
+    { 
+        newCompositeNode(grammarAccess.getVariable_identifierAccess().getIdentifierParserRuleCall()); 
+    }
+    this_identifier_0=ruleidentifier    {
+		$current.merge(this_identifier_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+
+    ;
+
+
+
+
+
+
 
 
 
@@ -1046,6 +1184,36 @@ ruledigit returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
     ;
 
 
+
+
+
+// Entry rule entryRulelabel
+entryRulelabel returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getLabelRule()); } 
+	 iv_rulelabel=rulelabel 
+	 { $current=$iv_rulelabel.current.getText(); }  
+	 EOF 
+;
+
+// Rule label
+rulelabel returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+
+    { 
+        newCompositeNode(grammarAccess.getLabelAccess().getInteger_numberParserRuleCall()); 
+    }
+    this_integer_number_0=ruleinteger_number    {
+		$current.merge(this_integer_number_0);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+
+    ;
 
 
 

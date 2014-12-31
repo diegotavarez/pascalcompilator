@@ -230,6 +230,48 @@ finally {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// Entry rule entryRuletype
+entryRuletype 
+:
+{ before(grammarAccess.getTypeRule()); }
+	 ruletype
+{ after(grammarAccess.getTypeRule()); } 
+	 EOF 
+;
+
+// Rule type
+ruletype
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getTypeAccess().getAlternatives()); }
+(rule__Type__Alternatives)
+{ after(grammarAccess.getTypeAccess().getAlternatives()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
+
+
 // Entry rule entryRuleidentifier
 entryRuleidentifier 
 :
@@ -255,6 +297,70 @@ ruleidentifier
 finally {
 	restoreStackSize(stackSize);
 }
+
+
+
+// Entry rule entryRulefield_identifier
+entryRulefield_identifier 
+:
+{ before(grammarAccess.getField_identifierRule()); }
+	 rulefield_identifier
+{ after(grammarAccess.getField_identifierRule()); } 
+	 EOF 
+;
+
+// Rule field_identifier
+rulefield_identifier
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getField_identifierAccess().getIdentifierParserRuleCall()); }
+	ruleidentifier
+{ after(grammarAccess.getField_identifierAccess().getIdentifierParserRuleCall()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
+
+
+// Entry rule entryRulevariable_identifier
+entryRulevariable_identifier 
+:
+{ before(grammarAccess.getVariable_identifierRule()); }
+	 rulevariable_identifier
+{ after(grammarAccess.getVariable_identifierRule()); } 
+	 EOF 
+;
+
+// Rule variable_identifier
+rulevariable_identifier
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getVariable_identifierAccess().getIdentifierParserRuleCall()); }
+	ruleidentifier
+{ after(grammarAccess.getVariable_identifierAccess().getIdentifierParserRuleCall()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
+
+
+
 
 
 
@@ -458,8 +564,80 @@ finally {
 
 
 
+// Entry rule entryRulelabel
+entryRulelabel 
+:
+{ before(grammarAccess.getLabelRule()); }
+	 rulelabel
+{ after(grammarAccess.getLabelRule()); } 
+	 EOF 
+;
+
+// Rule label
+rulelabel
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getLabelAccess().getInteger_numberParserRuleCall()); }
+	ruleinteger_number
+{ after(grammarAccess.getLabelAccess().getInteger_numberParserRuleCall()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
 
 
+
+
+
+
+
+
+rule__Type__Alternatives
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getTypeAccess().getSimple_typeKeyword_0()); }
+
+	'simple_type' 
+
+{ after(grammarAccess.getTypeAccess().getSimple_typeKeyword_0()); }
+)
+
+    |(
+{ before(grammarAccess.getTypeAccess().getStructured_typeKeyword_1()); }
+
+	'structured_type' 
+
+{ after(grammarAccess.getTypeAccess().getStructured_typeKeyword_1()); }
+)
+
+    |(
+{ before(grammarAccess.getTypeAccess().getPointer_typeKeyword_2()); }
+
+	'pointer_type' 
+
+{ after(grammarAccess.getTypeAccess().getPointer_typeKeyword_2()); }
+)
+
+    |(
+{ before(grammarAccess.getTypeAccess().getType_identifierKeyword_3()); }
+
+	'type_identifier' 
+
+{ after(grammarAccess.getTypeAccess().getType_identifierKeyword_3()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
 
 rule__Identifier__Alternatives_1
     @init {
@@ -1046,11 +1224,9 @@ rule__Greeting__Group__0__Impl
     }
 :
 (
-{ before(grammarAccess.getGreetingAccess().getHelloKeyword_0()); }
-
-	'Hello' 
-
-{ after(grammarAccess.getGreetingAccess().getHelloKeyword_0()); }
+{ before(grammarAccess.getGreetingAccess().getIdentifierParserRuleCall_0()); }
+	ruleidentifier
+{ after(grammarAccess.getGreetingAccess().getIdentifierParserRuleCall_0()); }
 )
 
 ;
@@ -1373,6 +1549,10 @@ rule__Block__Group__1__Impl
 finally {
 	restoreStackSize(stackSize);
 }
+
+
+
+
 
 
 

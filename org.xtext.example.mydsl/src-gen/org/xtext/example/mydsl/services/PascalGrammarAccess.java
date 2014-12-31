@@ -37,20 +37,20 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	public class GreetingElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Greeting");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cHelloKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final RuleCall cIdentifierParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Keyword cExclamationMarkKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//Greeting:
-		//	"Hello" name=ID "!";
+		//	identifier name=ID "!";
 		public ParserRule getRule() { return rule; }
 
-		//"Hello" name=ID "!"
+		//identifier name=ID "!"
 		public Group getGroup() { return cGroup; }
 
-		//"Hello"
-		public Keyword getHelloKeyword_0() { return cHelloKeyword_0; }
+		//identifier
+		public RuleCall getIdentifierParserRuleCall_0() { return cIdentifierParserRuleCall_0; }
 
 		//name=ID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
@@ -167,6 +167,236 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getStatement_partKeyword() { return cStatement_partKeyword; }
 	}
 
+	public class Label_declaration_partElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "label_declaration_part");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cLabelKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final RuleCall cLabelParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cCommaKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final RuleCall cLabelParserRuleCall_2_1 = (RuleCall)cGroup_2.eContents().get(1);
+		private final Keyword cSemicolonKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		
+		//label_declaration_part:
+		//	"label" label ("," label)* ";";
+		public ParserRule getRule() { return rule; }
+
+		//"label" label ("," label)* ";"
+		public Group getGroup() { return cGroup; }
+
+		//"label"
+		public Keyword getLabelKeyword_0() { return cLabelKeyword_0; }
+
+		//label
+		public RuleCall getLabelParserRuleCall_1() { return cLabelParserRuleCall_1; }
+
+		//("," label)*
+		public Group getGroup_2() { return cGroup_2; }
+
+		//","
+		public Keyword getCommaKeyword_2_0() { return cCommaKeyword_2_0; }
+
+		//label
+		public RuleCall getLabelParserRuleCall_2_1() { return cLabelParserRuleCall_2_1; }
+
+		//";"
+		public Keyword getSemicolonKeyword_3() { return cSemicolonKeyword_3; }
+	}
+
+	public class Type_definitionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "type_definition");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cIdentifierParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Keyword cEqualsSignKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final RuleCall cTypeParserRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
+		
+		//type_definition:
+		//	identifier "=" type;
+		public ParserRule getRule() { return rule; }
+
+		//identifier "=" type
+		public Group getGroup() { return cGroup; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall_0() { return cIdentifierParserRuleCall_0; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_1() { return cEqualsSignKeyword_1; }
+
+		//type
+		public RuleCall getTypeParserRuleCall_2() { return cTypeParserRuleCall_2; }
+	}
+
+	public class Relational_operatorElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "relational_operator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cEqualsSignKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cLessThanSignGreaterThanSignKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Keyword cLessThanSignKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final Keyword cLessThanSignEqualsSignKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final Keyword cGreaterThanSignKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
+		private final Keyword cGreaterThanSignEqualsSignKeyword_5 = (Keyword)cAlternatives.eContents().get(5);
+		private final Keyword cInKeyword_6 = (Keyword)cAlternatives.eContents().get(6);
+		
+		////EXPRESSIONS
+		//relational_operator:
+		//	"=" | "<>" | "<" | "<=" | ">" | ">=" | "in";
+		public ParserRule getRule() { return rule; }
+
+		//"=" | "<>" | "<" | "<=" | ">" | ">=" | "in"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//"="
+		public Keyword getEqualsSignKeyword_0() { return cEqualsSignKeyword_0; }
+
+		//"<>"
+		public Keyword getLessThanSignGreaterThanSignKeyword_1() { return cLessThanSignGreaterThanSignKeyword_1; }
+
+		//"<"
+		public Keyword getLessThanSignKeyword_2() { return cLessThanSignKeyword_2; }
+
+		//"<="
+		public Keyword getLessThanSignEqualsSignKeyword_3() { return cLessThanSignEqualsSignKeyword_3; }
+
+		//">"
+		public Keyword getGreaterThanSignKeyword_4() { return cGreaterThanSignKeyword_4; }
+
+		//">="
+		public Keyword getGreaterThanSignEqualsSignKeyword_5() { return cGreaterThanSignEqualsSignKeyword_5; }
+
+		//"in"
+		public Keyword getInKeyword_6() { return cInKeyword_6; }
+	}
+
+	public class Addition_operatorElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "addition_operator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cPlusSignKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cHyphenMinusKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Keyword cOrKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		
+		//addition_operator:
+		//	"+" | "-" | "or";
+		public ParserRule getRule() { return rule; }
+
+		//"+" | "-" | "or"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//"+"
+		public Keyword getPlusSignKeyword_0() { return cPlusSignKeyword_0; }
+
+		//"-"
+		public Keyword getHyphenMinusKeyword_1() { return cHyphenMinusKeyword_1; }
+
+		//"or"
+		public Keyword getOrKeyword_2() { return cOrKeyword_2; }
+	}
+
+	public class Multiplication_operatorElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "multiplication_operator");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cAsteriskKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cSolidusKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Keyword cDivKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final Keyword cModKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final Keyword cAndKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
+		
+		//multiplication_operator:
+		//	"*" | "/" | "div" | "mod" | "and";
+		public ParserRule getRule() { return rule; }
+
+		//"*" | "/" | "div" | "mod" | "and"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//"*"
+		public Keyword getAsteriskKeyword_0() { return cAsteriskKeyword_0; }
+
+		//"/"
+		public Keyword getSolidusKeyword_1() { return cSolidusKeyword_1; }
+
+		//"div"
+		public Keyword getDivKeyword_2() { return cDivKeyword_2; }
+
+		//"mod"
+		public Keyword getModKeyword_3() { return cModKeyword_3; }
+
+		//"and"
+		public Keyword getAndKeyword_4() { return cAndKeyword_4; }
+	}
+
+	public class Entire_variableElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "entire_variable");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cVariable_identifierParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cField_identifierParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//entire_variable:
+		//	variable_identifier | field_identifier;
+		public ParserRule getRule() { return rule; }
+
+		//variable_identifier | field_identifier
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//variable_identifier
+		public RuleCall getVariable_identifierParserRuleCall_0() { return cVariable_identifierParserRuleCall_0; }
+
+		//field_identifier
+		public RuleCall getField_identifierParserRuleCall_1() { return cField_identifierParserRuleCall_1; }
+	}
+
+	public class TypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "type");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cSimple_typeKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cStructured_typeKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Keyword cPointer_typeKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		private final Keyword cType_identifierKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		
+		////TYPES
+		//type:
+		//	"simple_type" | "structured_type" | "pointer_type" | "type_identifier";
+		public ParserRule getRule() { return rule; }
+
+		//"simple_type" | "structured_type" | "pointer_type" | "type_identifier"
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//"simple_type"
+		public Keyword getSimple_typeKeyword_0() { return cSimple_typeKeyword_0; }
+
+		//"structured_type"
+		public Keyword getStructured_typeKeyword_1() { return cStructured_typeKeyword_1; }
+
+		//"pointer_type"
+		public Keyword getPointer_typeKeyword_2() { return cPointer_typeKeyword_2; }
+
+		//"type_identifier"
+		public Keyword getType_identifierKeyword_3() { return cType_identifierKeyword_3; }
+	}
+
+	public class Enumerated_typeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "enumerated_type");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cLeftParenthesisKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final RuleCall cIdentifier_listParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Keyword cRightParenthesisKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		
+		//enumerated_type:
+		//	"(" identifier_list ")";
+		public ParserRule getRule() { return rule; }
+
+		//"(" identifier_list ")"
+		public Group getGroup() { return cGroup; }
+
+		//"("
+		public Keyword getLeftParenthesisKeyword_0() { return cLeftParenthesisKeyword_0; }
+
+		//identifier_list
+		public RuleCall getIdentifier_listParserRuleCall_1() { return cIdentifier_listParserRuleCall_1; }
+
+		//")"
+		public Keyword getRightParenthesisKeyword_2() { return cRightParenthesisKeyword_2; }
+	}
+
 	public class IdentifierElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "identifier");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -196,11 +426,83 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getDigitParserRuleCall_1_1() { return cDigitParserRuleCall_1_1; }
 	}
 
+	public class Field_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "field_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//field_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
 	public class Constant_identifierElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "constant_identifier");
 		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
 		
 		//constant_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
+	public class Variable_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "variable_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//variable_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
+	public class Type_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "type_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//type_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
+	public class Procedure_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "procedure_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//procedure_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
+	public class Function_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "function_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//function_identifier:
+		//	identifier;
+		public ParserRule getRule() { return rule; }
+
+		//identifier
+		public RuleCall getIdentifierParserRuleCall() { return cIdentifierParserRuleCall; }
+	}
+
+	public class Bound_identifierElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "bound_identifier");
+		private final RuleCall cIdentifierParserRuleCall = (RuleCall)rule.eContents().get(1);
+		
+		//bound_identifier:
 		//	identifier;
 		public ParserRule getRule() { return rule; }
 
@@ -633,8 +935,22 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	private final BlockElements pBlock;
 	private final Declaration_partElements pDeclaration_part;
 	private final Statement_partElements pStatement_part;
+	private final Label_declaration_partElements pLabel_declaration_part;
+	private final Type_definitionElements pType_definition;
+	private final Relational_operatorElements pRelational_operator;
+	private final Addition_operatorElements pAddition_operator;
+	private final Multiplication_operatorElements pMultiplication_operator;
+	private final Entire_variableElements pEntire_variable;
+	private final TypeElements pType;
+	private final Enumerated_typeElements pEnumerated_type;
 	private final IdentifierElements pIdentifier;
+	private final Field_identifierElements pField_identifier;
 	private final Constant_identifierElements pConstant_identifier;
+	private final Variable_identifierElements pVariable_identifier;
+	private final Type_identifierElements pType_identifier;
+	private final Procedure_identifierElements pProcedure_identifier;
+	private final Function_identifierElements pFunction_identifier;
+	private final Bound_identifierElements pBound_identifier;
 	private final Identifier_listElements pIdentifier_list;
 	private final Integer_numberElements pInteger_number;
 	private final Scale_factorElements pScale_factor;
@@ -661,8 +977,22 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		this.pBlock = new BlockElements();
 		this.pDeclaration_part = new Declaration_partElements();
 		this.pStatement_part = new Statement_partElements();
+		this.pLabel_declaration_part = new Label_declaration_partElements();
+		this.pType_definition = new Type_definitionElements();
+		this.pRelational_operator = new Relational_operatorElements();
+		this.pAddition_operator = new Addition_operatorElements();
+		this.pMultiplication_operator = new Multiplication_operatorElements();
+		this.pEntire_variable = new Entire_variableElements();
+		this.pType = new TypeElements();
+		this.pEnumerated_type = new Enumerated_typeElements();
 		this.pIdentifier = new IdentifierElements();
+		this.pField_identifier = new Field_identifierElements();
 		this.pConstant_identifier = new Constant_identifierElements();
+		this.pVariable_identifier = new Variable_identifierElements();
+		this.pType_identifier = new Type_identifierElements();
+		this.pProcedure_identifier = new Procedure_identifierElements();
+		this.pFunction_identifier = new Function_identifierElements();
+		this.pBound_identifier = new Bound_identifierElements();
 		this.pIdentifier_list = new Identifier_listElements();
 		this.pInteger_number = new Integer_numberElements();
 		this.pScale_factor = new Scale_factorElements();
@@ -712,7 +1042,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Greeting:
-	//	"Hello" name=ID "!";
+	//	identifier name=ID "!";
 	public GreetingElements getGreetingAccess() {
 		return pGreeting;
 	}
@@ -772,6 +1102,88 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		return getStatement_partAccess().getRule();
 	}
 
+	//label_declaration_part:
+	//	"label" label ("," label)* ";";
+	public Label_declaration_partElements getLabel_declaration_partAccess() {
+		return pLabel_declaration_part;
+	}
+	
+	public ParserRule getLabel_declaration_partRule() {
+		return getLabel_declaration_partAccess().getRule();
+	}
+
+	//type_definition:
+	//	identifier "=" type;
+	public Type_definitionElements getType_definitionAccess() {
+		return pType_definition;
+	}
+	
+	public ParserRule getType_definitionRule() {
+		return getType_definitionAccess().getRule();
+	}
+
+	////EXPRESSIONS
+	//relational_operator:
+	//	"=" | "<>" | "<" | "<=" | ">" | ">=" | "in";
+	public Relational_operatorElements getRelational_operatorAccess() {
+		return pRelational_operator;
+	}
+	
+	public ParserRule getRelational_operatorRule() {
+		return getRelational_operatorAccess().getRule();
+	}
+
+	//addition_operator:
+	//	"+" | "-" | "or";
+	public Addition_operatorElements getAddition_operatorAccess() {
+		return pAddition_operator;
+	}
+	
+	public ParserRule getAddition_operatorRule() {
+		return getAddition_operatorAccess().getRule();
+	}
+
+	//multiplication_operator:
+	//	"*" | "/" | "div" | "mod" | "and";
+	public Multiplication_operatorElements getMultiplication_operatorAccess() {
+		return pMultiplication_operator;
+	}
+	
+	public ParserRule getMultiplication_operatorRule() {
+		return getMultiplication_operatorAccess().getRule();
+	}
+
+	//entire_variable:
+	//	variable_identifier | field_identifier;
+	public Entire_variableElements getEntire_variableAccess() {
+		return pEntire_variable;
+	}
+	
+	public ParserRule getEntire_variableRule() {
+		return getEntire_variableAccess().getRule();
+	}
+
+	////TYPES
+	//type:
+	//	"simple_type" | "structured_type" | "pointer_type" | "type_identifier";
+	public TypeElements getTypeAccess() {
+		return pType;
+	}
+	
+	public ParserRule getTypeRule() {
+		return getTypeAccess().getRule();
+	}
+
+	//enumerated_type:
+	//	"(" identifier_list ")";
+	public Enumerated_typeElements getEnumerated_typeAccess() {
+		return pEnumerated_type;
+	}
+	
+	public ParserRule getEnumerated_typeRule() {
+		return getEnumerated_typeAccess().getRule();
+	}
+
 	////VARIABLE AND IDENTIFIER CATEGORIES
 	//identifier:
 	//	letter (letter | digit)?;
@@ -783,6 +1195,16 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		return getIdentifierAccess().getRule();
 	}
 
+	//field_identifier:
+	//	identifier;
+	public Field_identifierElements getField_identifierAccess() {
+		return pField_identifier;
+	}
+	
+	public ParserRule getField_identifierRule() {
+		return getField_identifierAccess().getRule();
+	}
+
 	//constant_identifier:
 	//	identifier;
 	public Constant_identifierElements getConstant_identifierAccess() {
@@ -791,6 +1213,56 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getConstant_identifierRule() {
 		return getConstant_identifierAccess().getRule();
+	}
+
+	//variable_identifier:
+	//	identifier;
+	public Variable_identifierElements getVariable_identifierAccess() {
+		return pVariable_identifier;
+	}
+	
+	public ParserRule getVariable_identifierRule() {
+		return getVariable_identifierAccess().getRule();
+	}
+
+	//type_identifier:
+	//	identifier;
+	public Type_identifierElements getType_identifierAccess() {
+		return pType_identifier;
+	}
+	
+	public ParserRule getType_identifierRule() {
+		return getType_identifierAccess().getRule();
+	}
+
+	//procedure_identifier:
+	//	identifier;
+	public Procedure_identifierElements getProcedure_identifierAccess() {
+		return pProcedure_identifier;
+	}
+	
+	public ParserRule getProcedure_identifierRule() {
+		return getProcedure_identifierAccess().getRule();
+	}
+
+	//function_identifier:
+	//	identifier;
+	public Function_identifierElements getFunction_identifierAccess() {
+		return pFunction_identifier;
+	}
+	
+	public ParserRule getFunction_identifierRule() {
+		return getFunction_identifierAccess().getRule();
+	}
+
+	//bound_identifier:
+	//	identifier;
+	public Bound_identifierElements getBound_identifierAccess() {
+		return pBound_identifier;
+	}
+	
+	public ParserRule getBound_identifierRule() {
+		return getBound_identifierAccess().getRule();
 	}
 
 	////LOW LEVEL DEFINITIONS

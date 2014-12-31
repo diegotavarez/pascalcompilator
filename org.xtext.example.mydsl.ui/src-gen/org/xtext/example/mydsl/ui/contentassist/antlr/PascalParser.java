@@ -37,6 +37,11 @@ public class PascalParser extends AbstractContentAssistParser {
 			nameMappings = new HashMap<AbstractElement, String>() {
 				private static final long serialVersionUID = 1L;
 				{
+					put(grammarAccess.getRelational_operatorAccess().getAlternatives(), "rule__Relational_operator__Alternatives");
+					put(grammarAccess.getAddition_operatorAccess().getAlternatives(), "rule__Addition_operator__Alternatives");
+					put(grammarAccess.getMultiplication_operatorAccess().getAlternatives(), "rule__Multiplication_operator__Alternatives");
+					put(grammarAccess.getEntire_variableAccess().getAlternatives(), "rule__Entire_variable__Alternatives");
+					put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
 					put(grammarAccess.getIdentifierAccess().getAlternatives_1(), "rule__Identifier__Alternatives_1");
 					put(grammarAccess.getScale_factorAccess().getAlternatives_0(), "rule__Scale_factor__Alternatives_0");
 					put(grammarAccess.getSignAccess().getAlternatives(), "rule__Sign__Alternatives");
@@ -46,6 +51,10 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getProgramAccess().getGroup(), "rule__Program__Group__0");
 					put(grammarAccess.getProgram_headingAccess().getGroup(), "rule__Program_heading__Group__0");
 					put(grammarAccess.getBlockAccess().getGroup(), "rule__Block__Group__0");
+					put(grammarAccess.getLabel_declaration_partAccess().getGroup(), "rule__Label_declaration_part__Group__0");
+					put(grammarAccess.getLabel_declaration_partAccess().getGroup_2(), "rule__Label_declaration_part__Group_2__0");
+					put(grammarAccess.getType_definitionAccess().getGroup(), "rule__Type_definition__Group__0");
+					put(grammarAccess.getEnumerated_typeAccess().getGroup(), "rule__Enumerated_type__Group__0");
 					put(grammarAccess.getIdentifierAccess().getGroup(), "rule__Identifier__Group__0");
 					put(grammarAccess.getIdentifier_listAccess().getGroup(), "rule__Identifier_list__Group__0");
 					put(grammarAccess.getIdentifier_listAccess().getGroup_1(), "rule__Identifier_list__Group_1__0");

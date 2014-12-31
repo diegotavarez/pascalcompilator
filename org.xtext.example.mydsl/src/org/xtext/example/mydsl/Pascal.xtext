@@ -21,11 +21,41 @@ statement_part:
 	"statement_part";	
 label_declaration_part:
 	'label' label ("," label)* ";";
- 
+ type_definition:
+	identifier "=" type;
+
+//EXPRESSIONS
+relational_operator:
+	"=" | "<>" | "<" | "<=" | ">" | ">=" | "in";
+addition_operator:
+	"+" | "-" | 'or';
+multiplication_operator:
+"*" | "/" | 'div' | 'mod' | 'and';
+entire_variable:
+	variable_identifier | field_identifier; 
+
+//TYPES
+type:
+	'simple_type' | 'structured_type' | 'pointer_type' | 'type_identifier';	
+enumerated_type:
+	"(" identifier_list ")"; 
+
 //VARIABLE AND IDENTIFIER CATEGORIES
 identifier:
 	letter (letter | digit)?;
+field_identifier:
+	identifier;
 constant_identifier:
+	identifier;
+variable_identifier:
+	identifier;
+type_identifier:
+	identifier;
+procedure_identifier:
+	identifier;
+function_identifier:
+	identifier;
+bound_identifier:
 	identifier;
 
 //LOW LEVEL DEFINITIONS
