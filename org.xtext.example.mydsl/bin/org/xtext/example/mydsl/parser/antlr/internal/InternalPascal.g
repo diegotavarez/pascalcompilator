@@ -80,17 +80,17 @@ ruleModel returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getModelAccess().getGreetingsGreetingParserRuleCall_0()); 
+	        newCompositeNode(grammarAccess.getModelAccess().getProgramsProgramParserRuleCall_0()); 
 	    }
-		lv_greetings_0_0=ruleGreeting		{
+		lv_programs_0_0=ruleprogram		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getModelRule());
 	        }
        		add(
        			$current, 
-       			"greetings",
-        		lv_greetings_0_0, 
-        		"Greeting");
+       			"programs",
+        		lv_programs_0_0, 
+        		"program");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -102,54 +102,52 @@ ruleModel returns [EObject current=null]
 
 
 
-// Entry rule entryRuleGreeting
-entryRuleGreeting returns [EObject current=null] 
+
+
+// Entry rule entryRuleprogram
+entryRuleprogram returns [String current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getGreetingRule()); }
-	 iv_ruleGreeting=ruleGreeting 
-	 { $current=$iv_ruleGreeting.current; } 
+	{ newCompositeNode(grammarAccess.getProgramRule()); } 
+	 iv_ruleprogram=ruleprogram 
+	 { $current=$iv_ruleprogram.current.getText(); }  
 	 EOF 
 ;
 
-// Rule Greeting
-ruleGreeting returns [EObject current=null] 
+// Rule program
+ruleprogram returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
 (
     { 
-        newCompositeNode(grammarAccess.getGreetingAccess().getIdentifierParserRuleCall_0()); 
+        newCompositeNode(grammarAccess.getProgramAccess().getProgram_headingParserRuleCall_0()); 
     }
-ruleidentifier
+    this_program_heading_0=ruleprogram_heading    {
+		$current.merge(this_program_heading_0);
+    }
+
     { 
         afterParserOrEnumRuleCall();
     }
-(
-(
-		lv_name_1_0=RULE_ID
-		{
-			newLeafNode(lv_name_1_0, grammarAccess.getGreetingAccess().getNameIDTerminalRuleCall_1_0()); 
-		}
-		{
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getGreetingRule());
-	        }
-       		setWithLastConsumed(
-       			$current, 
-       			"name",
-        		lv_name_1_0, 
-        		"ID");
-	    }
 
-)
-)	otherlv_2='!' 
+    { 
+        newCompositeNode(grammarAccess.getProgramAccess().getBlockParserRuleCall_1()); 
+    }
+    this_block_1=ruleblock    {
+		$current.merge(this_block_1);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+
+	kw='.' 
     {
-    	newLeafNode(otherlv_2, grammarAccess.getGreetingAccess().getExclamationMarkKeyword_2());
+        $current.merge(kw);
+        newLeafNode(kw, grammarAccess.getProgramAccess().getFullStopKeyword_2()); 
     }
 )
-;
-
-
+    ;
 
 
 
@@ -406,12 +404,44 @@ ruleidentifier returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToke
     { 
         afterParserOrEnumRuleCall();
     }
+
+    { 
+        newCompositeNode(grammarAccess.getIdentifierAccess().getIdentifier2ParserRuleCall_1()); 
+    }
+    this_identifier2_1=ruleidentifier2    {
+		$current.merge(this_identifier2_1);
+    }
+
+    { 
+        afterParserOrEnumRuleCall();
+    }
+)
+    ;
+
+
+
+
+
+// Entry rule entryRuleidentifier2
+entryRuleidentifier2 returns [String current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getIdentifier2Rule()); } 
+	 iv_ruleidentifier2=ruleidentifier2 
+	 { $current=$iv_ruleidentifier2.current.getText(); }  
+	 EOF 
+;
+
+// Rule identifier2
+ruleidentifier2 returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
 (
     { 
-        newCompositeNode(grammarAccess.getIdentifierAccess().getLetterParserRuleCall_1_0()); 
+        newCompositeNode(grammarAccess.getIdentifier2Access().getLetterParserRuleCall_0()); 
     }
-    this_letter_1=ruleletter    {
-		$current.merge(this_letter_1);
+    this_letter_0=ruleletter    {
+		$current.merge(this_letter_0);
     }
 
     { 
@@ -420,16 +450,16 @@ ruleidentifier returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToke
 
     |
     { 
-        newCompositeNode(grammarAccess.getIdentifierAccess().getDigitParserRuleCall_1_1()); 
+        newCompositeNode(grammarAccess.getIdentifier2Access().getDigitParserRuleCall_1()); 
     }
-    this_digit_2=ruledigit    {
-		$current.merge(this_digit_2);
+    this_digit_1=ruledigit    {
+		$current.merge(this_digit_1);
     }
 
     { 
         afterParserOrEnumRuleCall();
     }
-)?)
+)*
     ;
 
 

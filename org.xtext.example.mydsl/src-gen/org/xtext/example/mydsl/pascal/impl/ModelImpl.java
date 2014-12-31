@@ -4,19 +4,14 @@ package org.xtext.example.mydsl.pascal.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import org.xtext.example.mydsl.pascal.Greeting;
 import org.xtext.example.mydsl.pascal.Model;
 import org.xtext.example.mydsl.pascal.PascalPackage;
 
@@ -27,7 +22,7 @@ import org.xtext.example.mydsl.pascal.PascalPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.pascal.impl.ModelImpl#getGreetings <em>Greetings</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.pascal.impl.ModelImpl#getPrograms <em>Programs</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,14 +31,14 @@ import org.xtext.example.mydsl.pascal.PascalPackage;
 public class ModelImpl extends MinimalEObjectImpl.Container implements Model
 {
   /**
-   * The cached value of the '{@link #getGreetings() <em>Greetings</em>}' containment reference list.
+   * The cached value of the '{@link #getPrograms() <em>Programs</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getGreetings()
+   * @see #getPrograms()
    * @generated
    * @ordered
    */
-  protected EList<Greeting> greetings;
+  protected EList<String> programs;
 
   /**
    * <!-- begin-user-doc -->
@@ -71,29 +66,13 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Greeting> getGreetings()
+  public EList<String> getPrograms()
   {
-    if (greetings == null)
+    if (programs == null)
     {
-      greetings = new EObjectContainmentEList<Greeting>(Greeting.class, this, PascalPackage.MODEL__GREETINGS);
+      programs = new EDataTypeEList<String>(String.class, this, PascalPackage.MODEL__PROGRAMS);
     }
-    return greetings;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-  {
-    switch (featureID)
-    {
-      case PascalPackage.MODEL__GREETINGS:
-        return ((InternalEList<?>)getGreetings()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return programs;
   }
 
   /**
@@ -106,8 +85,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case PascalPackage.MODEL__GREETINGS:
-        return getGreetings();
+      case PascalPackage.MODEL__PROGRAMS:
+        return getPrograms();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -123,9 +102,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case PascalPackage.MODEL__GREETINGS:
-        getGreetings().clear();
-        getGreetings().addAll((Collection<? extends Greeting>)newValue);
+      case PascalPackage.MODEL__PROGRAMS:
+        getPrograms().clear();
+        getPrograms().addAll((Collection<? extends String>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -141,8 +120,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case PascalPackage.MODEL__GREETINGS:
-        getGreetings().clear();
+      case PascalPackage.MODEL__PROGRAMS:
+        getPrograms().clear();
         return;
     }
     super.eUnset(featureID);
@@ -158,10 +137,27 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model
   {
     switch (featureID)
     {
-      case PascalPackage.MODEL__GREETINGS:
-        return greetings != null && !greetings.isEmpty();
+      case PascalPackage.MODEL__PROGRAMS:
+        return programs != null && !programs.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (programs: ");
+    result.append(programs);
+    result.append(')');
+    return result.toString();
   }
 
 } //ModelImpl

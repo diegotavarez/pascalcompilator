@@ -20,37 +20,37 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public class ModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Model");
-		private final Assignment cGreetingsAssignment = (Assignment)rule.eContents().get(1);
-		private final RuleCall cGreetingsGreetingParserRuleCall_0 = (RuleCall)cGreetingsAssignment.eContents().get(0);
+		private final Assignment cProgramsAssignment = (Assignment)rule.eContents().get(1);
+		private final RuleCall cProgramsProgramParserRuleCall_0 = (RuleCall)cProgramsAssignment.eContents().get(0);
 		
 		//Model:
-		//	greetings+=Greeting*;
+		//	programs+=program*;
 		public ParserRule getRule() { return rule; }
 
-		//greetings+=Greeting*
-		public Assignment getGreetingsAssignment() { return cGreetingsAssignment; }
+		//programs+=program*
+		public Assignment getProgramsAssignment() { return cProgramsAssignment; }
 
-		//Greeting
-		public RuleCall getGreetingsGreetingParserRuleCall_0() { return cGreetingsGreetingParserRuleCall_0; }
+		//program
+		public RuleCall getProgramsProgramParserRuleCall_0() { return cProgramsProgramParserRuleCall_0; }
 	}
 
 	public class GreetingElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Greeting");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final RuleCall cIdentifierParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Keyword cHelloKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final Keyword cExclamationMarkKeyword_2 = (Keyword)cGroup.eContents().get(2);
 		
 		//Greeting:
-		//	identifier name=ID "!";
+		//	"Hello" name=ID "!";
 		public ParserRule getRule() { return rule; }
 
-		//identifier name=ID "!"
+		//"Hello" name=ID "!"
 		public Group getGroup() { return cGroup; }
 
-		//identifier
-		public RuleCall getIdentifierParserRuleCall_0() { return cIdentifierParserRuleCall_0; }
+		//"Hello"
+		public Keyword getHelloKeyword_0() { return cHelloKeyword_0; }
 
 		//name=ID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
@@ -401,29 +401,41 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "identifier");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final RuleCall cLetterParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
-		private final Alternatives cAlternatives_1 = (Alternatives)cGroup.eContents().get(1);
-		private final RuleCall cLetterParserRuleCall_1_0 = (RuleCall)cAlternatives_1.eContents().get(0);
-		private final RuleCall cDigitParserRuleCall_1_1 = (RuleCall)cAlternatives_1.eContents().get(1);
+		private final RuleCall cIdentifier2ParserRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
 		
 		////VARIABLE AND IDENTIFIER CATEGORIES
 		//identifier:
-		//	letter (letter | digit)?;
+		//	letter identifier2;
 		public ParserRule getRule() { return rule; }
 
-		//letter (letter | digit)?
+		//letter identifier2
 		public Group getGroup() { return cGroup; }
 
 		//letter
 		public RuleCall getLetterParserRuleCall_0() { return cLetterParserRuleCall_0; }
 
-		//(letter | digit)?
-		public Alternatives getAlternatives_1() { return cAlternatives_1; }
+		//identifier2
+		public RuleCall getIdentifier2ParserRuleCall_1() { return cIdentifier2ParserRuleCall_1; }
+	}
+
+	public class Identifier2Elements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "identifier2");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cLetterParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cDigitParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//identifier2:
+		//	(letter | digit)*;
+		public ParserRule getRule() { return rule; }
+
+		//(letter | digit)*
+		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//letter
-		public RuleCall getLetterParserRuleCall_1_0() { return cLetterParserRuleCall_1_0; }
+		public RuleCall getLetterParserRuleCall_0() { return cLetterParserRuleCall_0; }
 
 		//digit
-		public RuleCall getDigitParserRuleCall_1_1() { return cDigitParserRuleCall_1_1; }
+		public RuleCall getDigitParserRuleCall_1() { return cDigitParserRuleCall_1; }
 	}
 
 	public class Field_identifierElements extends AbstractParserRuleElementFinder {
@@ -944,6 +956,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	private final TypeElements pType;
 	private final Enumerated_typeElements pEnumerated_type;
 	private final IdentifierElements pIdentifier;
+	private final Identifier2Elements pIdentifier2;
 	private final Field_identifierElements pField_identifier;
 	private final Constant_identifierElements pConstant_identifier;
 	private final Variable_identifierElements pVariable_identifier;
@@ -986,6 +999,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 		this.pType = new TypeElements();
 		this.pEnumerated_type = new Enumerated_typeElements();
 		this.pIdentifier = new IdentifierElements();
+		this.pIdentifier2 = new Identifier2Elements();
 		this.pField_identifier = new Field_identifierElements();
 		this.pConstant_identifier = new Constant_identifierElements();
 		this.pVariable_identifier = new Variable_identifierElements();
@@ -1032,7 +1046,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//Model:
-	//	greetings+=Greeting*;
+	//	programs+=program*;
 	public ModelElements getModelAccess() {
 		return pModel;
 	}
@@ -1042,7 +1056,7 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Greeting:
-	//	identifier name=ID "!";
+	//	"Hello" name=ID "!";
 	public GreetingElements getGreetingAccess() {
 		return pGreeting;
 	}
@@ -1186,13 +1200,23 @@ public class PascalGrammarAccess extends AbstractGrammarElementFinder {
 
 	////VARIABLE AND IDENTIFIER CATEGORIES
 	//identifier:
-	//	letter (letter | digit)?;
+	//	letter identifier2;
 	public IdentifierElements getIdentifierAccess() {
 		return pIdentifier;
 	}
 	
 	public ParserRule getIdentifierRule() {
 		return getIdentifierAccess().getRule();
+	}
+
+	//identifier2:
+	//	(letter | digit)*;
+	public Identifier2Elements getIdentifier2Access() {
+		return pIdentifier2;
+	}
+	
+	public ParserRule getIdentifier2Rule() {
+		return getIdentifier2Access().getRule();
 	}
 
 	//field_identifier:

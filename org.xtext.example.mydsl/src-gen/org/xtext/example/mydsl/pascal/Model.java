@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.xtext.example.mydsl.pascal.Model#getGreetings <em>Greetings</em>}</li>
+ *   <li>{@link org.xtext.example.mydsl.pascal.Model#getPrograms <em>Programs</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,19 +25,19 @@ import org.eclipse.emf.ecore.EObject;
 public interface Model extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Greetings</b></em>' containment reference list.
-   * The list contents are of type {@link org.xtext.example.mydsl.pascal.Greeting}.
+   * Returns the value of the '<em><b>Programs</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Greetings</em>' containment reference list isn't clear,
+   * If the meaning of the '<em>Programs</em>' attribute list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Greetings</em>' containment reference list.
-   * @see org.xtext.example.mydsl.pascal.PascalPackage#getModel_Greetings()
-   * @model containment="true"
+   * @return the value of the '<em>Programs</em>' attribute list.
+   * @see org.xtext.example.mydsl.pascal.PascalPackage#getModel_Programs()
+   * @model unique="false"
    * @generated
    */
-  EList<Greeting> getGreetings();
+  EList<String> getPrograms();
 
 } // Model

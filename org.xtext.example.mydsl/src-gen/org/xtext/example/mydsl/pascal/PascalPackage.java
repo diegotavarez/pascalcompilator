@@ -5,7 +5,6 @@ package org.xtext.example.mydsl.pascal;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,13 +66,13 @@ public interface PascalPackage extends EPackage
   int MODEL = 0;
 
   /**
-   * The feature id for the '<em><b>Greetings</b></em>' containment reference list.
+   * The feature id for the '<em><b>Programs</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int MODEL__GREETINGS = 0;
+  int MODEL__PROGRAMS = 0;
 
   /**
    * The number of structural features of the '<em>Model</em>' class.
@@ -124,15 +123,15 @@ public interface PascalPackage extends EPackage
   EClass getModel();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.xtext.example.mydsl.pascal.Model#getGreetings <em>Greetings</em>}'.
+   * Returns the meta object for the attribute list '{@link org.xtext.example.mydsl.pascal.Model#getPrograms <em>Programs</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Greetings</em>'.
-   * @see org.xtext.example.mydsl.pascal.Model#getGreetings()
+   * @return the meta object for the attribute list '<em>Programs</em>'.
+   * @see org.xtext.example.mydsl.pascal.Model#getPrograms()
    * @see #getModel()
    * @generated
    */
-  EReference getModel_Greetings();
+  EAttribute getModel_Programs();
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.pascal.Greeting <em>Greeting</em>}'.
@@ -189,12 +188,12 @@ public interface PascalPackage extends EPackage
     EClass MODEL = eINSTANCE.getModel();
 
     /**
-     * The meta object literal for the '<em><b>Greetings</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Programs</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference MODEL__GREETINGS = eINSTANCE.getModel_Greetings();
+    EAttribute MODEL__PROGRAMS = eINSTANCE.getModel_Programs();
 
     /**
      * The meta object literal for the '{@link org.xtext.example.mydsl.pascal.impl.GreetingImpl <em>Greeting</em>}' class.

@@ -42,7 +42,7 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMultiplication_operatorAccess().getAlternatives(), "rule__Multiplication_operator__Alternatives");
 					put(grammarAccess.getEntire_variableAccess().getAlternatives(), "rule__Entire_variable__Alternatives");
 					put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
-					put(grammarAccess.getIdentifierAccess().getAlternatives_1(), "rule__Identifier__Alternatives_1");
+					put(grammarAccess.getIdentifier2Access().getAlternatives(), "rule__Identifier2__Alternatives");
 					put(grammarAccess.getScale_factorAccess().getAlternatives_0(), "rule__Scale_factor__Alternatives_0");
 					put(grammarAccess.getSignAccess().getAlternatives(), "rule__Sign__Alternatives");
 					put(grammarAccess.getLetterAccess().getAlternatives(), "rule__Letter__Alternatives");
@@ -61,7 +61,7 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getScale_factorAccess().getGroup(), "rule__Scale_factor__Group__0");
 					put(grammarAccess.getUnsigned_digit_sequenceAccess().getGroup(), "rule__Unsigned_digit_sequence__Group__0");
 					put(grammarAccess.getDigit_sequenceAccess().getGroup(), "rule__Digit_sequence__Group__0");
-					put(grammarAccess.getModelAccess().getGreetingsAssignment(), "rule__Model__GreetingsAssignment");
+					put(grammarAccess.getModelAccess().getProgramsAssignment(), "rule__Model__ProgramsAssignment");
 					put(grammarAccess.getGreetingAccess().getNameAssignment_1(), "rule__Greeting__NameAssignment_1");
 				}
 			};
