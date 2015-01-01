@@ -4,9 +4,6 @@ generate pascal "http://www.xtext.org/example/mydsl/Pascal"
 
 Model:
 	programs+=program*;
-	
-Greeting:
-	'Hello' name=ID '!';
 
 //PROGRAMS AND BLOCKS
 program:
@@ -16,12 +13,7 @@ program_heading:
 block:
 	declaration_part statement_part;
 declaration_part:
-(label_declaration_part)?
-(constant_definition_part)?
-(type_definition_part)?
-(variable_declaration_part)?
-procedure_and_function_declaration_part;
-
+	(label_declaration_part)? (constant_definition_part)? (type_definition_part)? (variable_declaration_part)? procedure_and_function_declaration_part;
 label_declaration_part:
 	'label' label ("," label)* ";";
 constant_definition_part:
@@ -46,6 +38,8 @@ statement_sequence:
 	statement (statement)*;
 statement:
 	'statement' ";";
+case_label_list:
+	constant ("," constant)*;
 
 //EXPRESSIONS
 relational_operator:
@@ -59,9 +53,53 @@ entire_variable:
 
 //TYPES
 type:
-	'simple_type' | 'structured_type' | 'pointer_type' | 'type_identifier';	
+	simple_type | structured_type | pointer_type | type_identifier | 'TESTE';
+simple_type:
+	subrange_type | enumerated_type;
 enumerated_type:
 	"(" identifier_list ")"; 
+subrange_type:
+	lower_bound ".." upper_bound;
+lower_bound:
+	constant;
+upper_bound:
+	constant;
+structured_type:
+	('packed')? unpacked_structured_type;
+unpacked_structured_type:
+	array_type | record_type | set_type | file_type;
+array_type:
+	'array' "[ " index_type ("," index_type)* " ]" 'of' element_type;
+index_type:
+	simple_type;
+element_type:
+	type;  
+record_type:
+	'record' field_list 'end';
+set_type:
+	'set' 'of' base_type;
+base_type:
+	type;
+file_type:
+	'file' 'of' file_component_type;
+file_component_type:
+	type;
+pointer_type:
+"^" type_identifier;
+	
+//RECORD FIELDS
+field_list:
+	((fixed_part (";" variant_part)? | variant_part) (";")?)?;
+fixed_part:
+	record_section (";" record_section)*;
+record_section:
+	identifier_list ":" type;
+variant_part:
+	'case' tag_field type_identifier 'of' variant (";" variant)*;
+tag_field:
+	(IDENTIFIER ":")?;
+variant:
+	case_label_list ":" "(" field_list ")";  
 
 //VARIABLE AND IDENTIFIER CATEGORIES
 terminal IDENTIFIER: (('a'..'z')|('A'..'Z')|'_') (('a'..'z')|('A'..'Z')|'_'|('0'..'9'))*;
@@ -90,13 +128,13 @@ number:
 integer_number:
 	digit_sequence;
 real_number:
-	digit_sequence "." (unsigned_digit_sequence)? (scale_factor) | digit_sequence scale_factor;
+	digit_sequence "." (UNSIGNED_DIGIT_SEQUENCE)? (scale_factor) | digit_sequence scale_factor;
 scale_factor:
 	("E" | "e")digit_sequence;
-unsigned_digit_sequence:
-	DIGIT (DIGIT)*;
+terminal UNSIGNED_DIGIT_SEQUENCE:
+	('0'..'9') ('0'..'9')*;
 digit_sequence:
-	(sign)? unsigned_digit_sequence;
+	(sign)? UNSIGNED_DIGIT_SEQUENCE;
 sign:
 	'+' | '-';
 terminal LETTER:

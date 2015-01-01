@@ -65,7 +65,6 @@ public class PascalFactoryImpl extends EFactoryImpl implements PascalFactory
     switch (eClass.getClassifierID())
     {
       case PascalPackage.MODEL: return createModel();
-      case PascalPackage.GREETING: return createGreeting();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -80,17 +79,6 @@ public class PascalFactoryImpl extends EFactoryImpl implements PascalFactory
   {
     ModelImpl model = new ModelImpl();
     return model;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Greeting createGreeting()
-  {
-    GreetingImpl greeting = new GreetingImpl();
-    return greeting;
   }
 
   /**

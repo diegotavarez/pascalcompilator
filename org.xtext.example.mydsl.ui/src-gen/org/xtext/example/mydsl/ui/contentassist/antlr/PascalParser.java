@@ -43,6 +43,9 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getMultiplication_operatorAccess().getAlternatives(), "rule__Multiplication_operator__Alternatives");
 					put(grammarAccess.getEntire_variableAccess().getAlternatives(), "rule__Entire_variable__Alternatives");
 					put(grammarAccess.getTypeAccess().getAlternatives(), "rule__Type__Alternatives");
+					put(grammarAccess.getSimple_typeAccess().getAlternatives(), "rule__Simple_type__Alternatives");
+					put(grammarAccess.getUnpacked_structured_typeAccess().getAlternatives(), "rule__Unpacked_structured_type__Alternatives");
+					put(grammarAccess.getField_listAccess().getAlternatives_0(), "rule__Field_list__Alternatives_0");
 					put(grammarAccess.getIdentifier2Access().getAlternatives_1(), "rule__Identifier2__Alternatives_1");
 					put(grammarAccess.getNumberAccess().getAlternatives(), "rule__Number__Alternatives");
 					put(grammarAccess.getReal_numberAccess().getAlternatives(), "rule__Real_number__Alternatives");
@@ -50,7 +53,6 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getSignAccess().getAlternatives(), "rule__Sign__Alternatives");
 					put(grammarAccess.getConstantAccess().getAlternatives(), "rule__Constant__Alternatives");
 					put(grammarAccess.getConstantAccess().getAlternatives_0_1(), "rule__Constant__Alternatives_0_1");
-					put(grammarAccess.getGreetingAccess().getGroup(), "rule__Greeting__Group__0");
 					put(grammarAccess.getProgramAccess().getGroup(), "rule__Program__Group__0");
 					put(grammarAccess.getProgram_headingAccess().getGroup(), "rule__Program_heading__Group__0");
 					put(grammarAccess.getProgram_headingAccess().getGroup_2(), "rule__Program_heading__Group_2__0");
@@ -71,18 +73,36 @@ public class PascalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getStatement_partAccess().getGroup(), "rule__Statement_part__Group__0");
 					put(grammarAccess.getStatement_sequenceAccess().getGroup(), "rule__Statement_sequence__Group__0");
 					put(grammarAccess.getStatementAccess().getGroup(), "rule__Statement__Group__0");
+					put(grammarAccess.getCase_label_listAccess().getGroup(), "rule__Case_label_list__Group__0");
+					put(grammarAccess.getCase_label_listAccess().getGroup_1(), "rule__Case_label_list__Group_1__0");
 					put(grammarAccess.getEnumerated_typeAccess().getGroup(), "rule__Enumerated_type__Group__0");
+					put(grammarAccess.getSubrange_typeAccess().getGroup(), "rule__Subrange_type__Group__0");
+					put(grammarAccess.getStructured_typeAccess().getGroup(), "rule__Structured_type__Group__0");
+					put(grammarAccess.getArray_typeAccess().getGroup(), "rule__Array_type__Group__0");
+					put(grammarAccess.getArray_typeAccess().getGroup_3(), "rule__Array_type__Group_3__0");
+					put(grammarAccess.getRecord_typeAccess().getGroup(), "rule__Record_type__Group__0");
+					put(grammarAccess.getSet_typeAccess().getGroup(), "rule__Set_type__Group__0");
+					put(grammarAccess.getFile_typeAccess().getGroup(), "rule__File_type__Group__0");
+					put(grammarAccess.getPointer_typeAccess().getGroup(), "rule__Pointer_type__Group__0");
+					put(grammarAccess.getField_listAccess().getGroup(), "rule__Field_list__Group__0");
+					put(grammarAccess.getField_listAccess().getGroup_0_0(), "rule__Field_list__Group_0_0__0");
+					put(grammarAccess.getField_listAccess().getGroup_0_0_1(), "rule__Field_list__Group_0_0_1__0");
+					put(grammarAccess.getFixed_partAccess().getGroup(), "rule__Fixed_part__Group__0");
+					put(grammarAccess.getFixed_partAccess().getGroup_1(), "rule__Fixed_part__Group_1__0");
+					put(grammarAccess.getRecord_sectionAccess().getGroup(), "rule__Record_section__Group__0");
+					put(grammarAccess.getVariant_partAccess().getGroup(), "rule__Variant_part__Group__0");
+					put(grammarAccess.getVariant_partAccess().getGroup_5(), "rule__Variant_part__Group_5__0");
+					put(grammarAccess.getTag_fieldAccess().getGroup(), "rule__Tag_field__Group__0");
+					put(grammarAccess.getVariantAccess().getGroup(), "rule__Variant__Group__0");
 					put(grammarAccess.getIdentifier2Access().getGroup(), "rule__Identifier2__Group__0");
 					put(grammarAccess.getIdentifier_listAccess().getGroup(), "rule__Identifier_list__Group__0");
 					put(grammarAccess.getIdentifier_listAccess().getGroup_1(), "rule__Identifier_list__Group_1__0");
 					put(grammarAccess.getReal_numberAccess().getGroup_0(), "rule__Real_number__Group_0__0");
 					put(grammarAccess.getReal_numberAccess().getGroup_1(), "rule__Real_number__Group_1__0");
 					put(grammarAccess.getScale_factorAccess().getGroup(), "rule__Scale_factor__Group__0");
-					put(grammarAccess.getUnsigned_digit_sequenceAccess().getGroup(), "rule__Unsigned_digit_sequence__Group__0");
 					put(grammarAccess.getDigit_sequenceAccess().getGroup(), "rule__Digit_sequence__Group__0");
 					put(grammarAccess.getConstantAccess().getGroup_0(), "rule__Constant__Group_0__0");
 					put(grammarAccess.getModelAccess().getProgramsAssignment(), "rule__Model__ProgramsAssignment");
-					put(grammarAccess.getGreetingAccess().getNameAssignment_1(), "rule__Greeting__NameAssignment_1");
 				}
 			};
 		}

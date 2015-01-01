@@ -10,8 +10,5 @@
     <genClasses ecoreClass="Pascal.ecore#//Model">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Pascal.ecore#//Model/programs"/>
     </genClasses>
-    <genClasses ecoreClass="Pascal.ecore#//Greeting">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Pascal.ecore#//Greeting/name"/>
-    </genClasses>
   </genPackages>
 </genmodel:GenModel>

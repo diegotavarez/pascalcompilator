@@ -83,34 +83,6 @@ public interface PascalPackage extends EPackage
    */
   int MODEL_FEATURE_COUNT = 1;
 
-  /**
-   * The meta object id for the '{@link org.xtext.example.mydsl.pascal.impl.GreetingImpl <em>Greeting</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.example.mydsl.pascal.impl.GreetingImpl
-   * @see org.xtext.example.mydsl.pascal.impl.PascalPackageImpl#getGreeting()
-   * @generated
-   */
-  int GREETING = 1;
-
-  /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GREETING__NAME = 0;
-
-  /**
-   * The number of structural features of the '<em>Greeting</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GREETING_FEATURE_COUNT = 1;
-
 
   /**
    * Returns the meta object for class '{@link org.xtext.example.mydsl.pascal.Model <em>Model</em>}'.
@@ -132,27 +104,6 @@ public interface PascalPackage extends EPackage
    * @generated
    */
   EAttribute getModel_Programs();
-
-  /**
-   * Returns the meta object for class '{@link org.xtext.example.mydsl.pascal.Greeting <em>Greeting</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Greeting</em>'.
-   * @see org.xtext.example.mydsl.pascal.Greeting
-   * @generated
-   */
-  EClass getGreeting();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.xtext.example.mydsl.pascal.Greeting#getName <em>Name</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Name</em>'.
-   * @see org.xtext.example.mydsl.pascal.Greeting#getName()
-   * @see #getGreeting()
-   * @generated
-   */
-  EAttribute getGreeting_Name();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -194,24 +145,6 @@ public interface PascalPackage extends EPackage
      * @generated
      */
     EAttribute MODEL__PROGRAMS = eINSTANCE.getModel_Programs();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.example.mydsl.pascal.impl.GreetingImpl <em>Greeting</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.example.mydsl.pascal.impl.GreetingImpl
-     * @see org.xtext.example.mydsl.pascal.impl.PascalPackageImpl#getGreeting()
-     * @generated
-     */
-    EClass GREETING = eINSTANCE.getGreeting();
-
-    /**
-     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute GREETING__NAME = eINSTANCE.getGreeting_Name();
 
   }
 
