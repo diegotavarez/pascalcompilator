@@ -7,47 +7,88 @@ Model:
 
 //PROGRAMS AND BLOCKS
 program:
-	program_heading block ".";
+	program_heading block PONTO;
 program_heading:
-	'program' IDENTIFIER ("(" identifier_list ")")? ";";
+	'program' IDENTIFIER (PARENTESQ  identifier_list PARENTDIR)? PONTOV ;
 block:
 	declaration_part statement_part;
 declaration_part:
 	(label_declaration_part)? (constant_definition_part)? (type_definition_part)? (variable_declaration_part)? procedure_and_function_declaration_part;
 label_declaration_part:
-	'label' label ("," label)* ";";
+	'label' label (VIRGULA label)* PONTOV;
 constant_definition_part:
-	'const' constant_definition ";" (constant_definition ";")*;
+	'const' constant_definition PONTOV (constant_definition PONTOV)*;
 constant_definition:
-	IDENTIFIER "=" constant;
+	IDENTIFIER IG constant;
 type_definition_part:
-	'type' type_definition ";" (type_definition ";")*; 
+	'type' type_definition PONTOV (type_definition PONTOV)*; 
 type_definition:
-	IDENTIFIER "=" type;
+	IDENTIFIER IG type;
 variable_declaration_part:
-	'var' variable_declaration ";" (variable_declaration ";")*;
+	'var' variable_declaration PONTOV (variable_declaration PONTOV)*;
 variable_declaration:
-	identifier_list ":" type; 
+	identifier_list DOISPONTOS type; 
 procedure_and_function_declaration_part:
-	(('procedure_declaration' | 'function_declaration') ";")*;
+	(('procedure_declaration' | 'function_declaration') PONTOV)*;
 statement_part:
-	'begin' statement_sequence 'end'; 
+	'begin' StatementSequence 'end'; 
 
 //STATEMENTS
-statement_sequence:
-	statement (statement)*;
-statement:
-	'statement' ";";
+StatementSequence:
+    statement+=Statement (PONTOV statement+=Statement)*
+;
+Statement:
+	(label DOISPONTOS )? statement=(SimpleStatement | StructuredStatement);
+SimpleStatement:
+	(AssignmentStatement | ProcedureStatement | GotoStatement)
+;
+AssignmentStatement:
+    (variable='variable' | identifier=IDENTIFIER) ATRIBUICAO expression='expression'
+;
+ProcedureStatement:
+    name=IDENTIFIER actualParameterList=('ActualParameterList')?    
+;
+GotoStatement:
+    'goto' label    
+;
+StructuredStatement:
+    CompoundStatement |
+    RepetitiveStatement |
+    ConditionalStatement | 
+    WithStatement
+;
+CompoundStatement:
+    'begin' statementSequence=StatementSequence 'end'
+;
+RepetitiveStatement:
+    Whilestatement |
+    RepeatStatement |
+    ForStatement    
+;
+Whilestatement:
+    'while' expression='Expression' 'do' statement=Statement
+;
+
+RepeatStatement:
+    'repeat' statementSequence=StatementSequence 'until' expression='Expression'    
+;
+ForStatement:
+    'for'
+;
+ConditionalStatement:
+    'if'
+;
+
+WithStatement: 
+    'with'
+;
+
+
+
 case_label_list:
-	constant ("," constant)*;
+	constant (VIRGULA constant)*;
 
 //EXPRESSIONS
-relational_operator:
-	"=" | "<>" | "<" | "<=" | ">" | ">=" | "in";
-addition_operator:
-	"+" | "-" | 'or';
-multiplication_operator:
-"*" | "/" | 'div' | 'mod' | 'and';
 entire_variable:
 	variable_identifier | field_identifier; 
 
@@ -57,9 +98,9 @@ type:
 simple_type:
 	subrange_type | enumerated_type;
 enumerated_type:
-	"(" identifier_list ")"; 
+	PARENTESQ identifier_list PARENTDIR; 
 subrange_type:
-	lower_bound ".." upper_bound;
+	lower_bound PONTOPONTO upper_bound;
 lower_bound:
 	constant;
 upper_bound:
@@ -69,7 +110,7 @@ structured_type:
 unpacked_structured_type:
 	array_type | record_type | set_type | file_type;
 array_type:
-	'array' "[ " index_type ("," index_type)* " ]" 'of' element_type;
+	'array';
 index_type:
 	simple_type;
 element_type:
@@ -85,26 +126,23 @@ file_type:
 file_component_type:
 	type;
 pointer_type:
-"^" type_identifier;
+CHAPEU type_identifier;
 	
 //RECORD FIELDS
 field_list:
-	((fixed_part (";" variant_part)? | variant_part) (";")?)?;
+	((fixed_part (PONTOV variant_part)? | variant_part) (PONTOV)?)?;
 fixed_part:
-	record_section (";" record_section)*;
+	record_section (PONTOV record_section)*;
 record_section:
-	identifier_list ":" type;
+	identifier_list DOISPONTOS type;
 variant_part:
-	'case' tag_field type_identifier 'of' variant (";" variant)*;
+	'case' tag_field type_identifier 'of' variant (PONTOV variant)*;
 tag_field:
-	(IDENTIFIER ":")?;
+	(IDENTIFIER DOISPONTOS)?;
 variant:
-	case_label_list ":" "(" field_list ")";  
+	case_label_list DOISPONTOS PARENTESQ field_list PARENTDIR;  
 
 //VARIABLE AND IDENTIFIER CATEGORIES
-terminal IDENTIFIER: (('a'..'z')|('A'..'Z')|'_') (('a'..'z')|('A'..'Z')|'_'|('0'..'9'))*;
-identifier2:
-	LETTER (LETTER | DIGIT)*;
 field_identifier:
 	IDENTIFIER;
 constant_identifier:
@@ -122,13 +160,13 @@ bound_identifier:
 
 //LOW LEVEL DEFINITIONS
 identifier_list:
-	IDENTIFIER ("," IDENTIFIER)*;
+	IDENTIFIER (VIRGULA IDENTIFIER)*;
 number:
 	integer_number | real_number;
 integer_number:
 	digit_sequence;
 real_number:
-	digit_sequence "." (UNSIGNED_DIGIT_SEQUENCE)? (scale_factor) | digit_sequence scale_factor;
+	digit_sequence PONTO (UNSIGNED_DIGIT_SEQUENCE)? (scale_factor) | digit_sequence scale_factor;
 scale_factor:
 	("E" | "e")digit_sequence;
 terminal UNSIGNED_DIGIT_SEQUENCE:
@@ -137,11 +175,41 @@ digit_sequence:
 	(sign)? UNSIGNED_DIGIT_SEQUENCE;
 sign:
 	'+' | '-';
-terminal LETTER:
-	('a'..'z')|('A'..'Z');
-terminal DIGIT:
-	('0'..'9');
 label:
 	integer_number;
 constant:
 	(sign)? (constant_identifier | number) | STRING;
+	
+//TERMINAIS
+terminal fragment DIFERENTE : "<>";
+terminal fragment MENOR : "<";
+terminal fragment MENORIGUAL : "<=";
+terminal fragment MAIOR : ">";
+terminal fragment MAIORIGUAL : ">=";
+
+terminal fragment MULTIP : "*";
+terminal fragment DIVISAO : "/";
+terminal PONTOV : ";";
+terminal VIRGULA : ",";
+terminal PONTO : ".";
+terminal DOISPONTOS : ":";
+terminal ATRIBUICAO : ":=";
+terminal PARENTESQ : "(";
+terminal PARENTDIR : ")";
+terminal COLCHETEESQ : "[";
+terminal COLCHETEDIR : "]";
+terminal PONTOPONTO : "..";
+terminal CHAPEU : "^";
+terminal fragment ASPASSIMPLES : "'";
+terminal fragment IGUAL : "==";
+terminal IG: "=";                                   //OBS
+terminal fragment LETTER : ('a'..'z' |  'A'..'Z');
+terminal fragment DIGIT : ('0'..'9');
+terminal fragment EXPOENTE: 'E' | 'e';
+
+terminal IDENTIFIER:
+    (('a'..'z')|('A'..'Z')|'_') (('a'..'z')|('A'..'Z')|'_'|('0'..'9'))*;
+
+terminal WS: 
+    (' '|'\t'|'\r'|'\n')+
+;
