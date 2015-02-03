@@ -11,8 +11,8 @@ program:
 program_heading:
 	'program' IDENTIFIER (PARENTESQ  identifier_list PARENTDIR)? PONTOV ;
 block:
-	declaration_part statement_part;
-declaration_part:
+	declarationPart=DeclarationPart statementPart=StatementPart;
+DeclarationPart:
 	(label_declaration_part)? (constant_definition_part)? (type_definition_part)? (variable_declaration_part)? procedure_and_function_declaration_part;
 label_declaration_part:
 	'label' label (VIRGULA label)* PONTOV;
@@ -29,66 +29,111 @@ variable_declaration_part:
 variable_declaration:
 	identifier_list DOISPONTOS type; 
 procedure_and_function_declaration_part:
-	(('procedure_declaration' | 'function_declaration') PONTOV)*;
-statement_part:
+	{procedure_and_function_declaration_part}
+    ( (procedureDeclaration+=ProcedureDeclaration | functionDeclaration+=FunctionDeclaration) PONTOV )*;
+ProcedureDeclaration:
+    'procedure' IDENTIFIER (FormalParameterList)? PONTOV block;
+FunctionDeclaration:
+    'function' IDENTIFIER (FormalParameterList)? DOISPONTOS type PONTOV block ;
+StatementPart:
 	'begin' StatementSequence 'end'; 
+
+//PROCEDURE AND FUNCTION DEFINITIONS
+procedure_heading:
+	'procedure' IDENTIFIER ('formal_parameter_list')?;
+function_heading:
+    'function' id1=IDENTIFIER FormalParameterList=(FormalParameterList)? PONTOV id2=IDENTIFIER;
+procedure_identification:
+	'procedure' procedure_identifier;
+FormalParameterList:
+    PARENTESQ FormalParameterSection+=FormalParameterSection (PONTOV FormalParameterSection+=FormalParameterSection)* PARENTDIR;
+FormalParameterSection:
+    valueParameterSection=ValueParameterSection |
+    variableParamenterSection=VariableParamenterSection |
+    procedureHeading=procedure_heading |
+    functionHeading=function_heading;
+ValueParameterSection:
+    identifierList=identifier_list DOISPONTOS parameterType=ParameterType;
+VariableParamenterSection:
+    'var' identifierList=identifier_list DOISPONTOS parameterType=ParameterType;
+ParameterType:
+    id=IDENTIFIER |
+    conformantArraySchema=ConformantArraySchema;
+ConformantArraySchema:
+    PackedConformantArraySchema |
+    UnpackedConformantArraySchema ;
+PackedConformantArraySchema:
+    'packed array' COLCHETEESQ boundSpecification=BoundSpecification COLCHETEDIR 'of' id=IDENTIFIER;
+UnpackedConformantArraySchema:
+    'array' COLCHETEESQ boundSpecification+=BoundSpecification (PONTOV boundSpecification+=BoundSpecification)* 
+    COLCHETEDIR 'of' (id=IDENTIFIER | conformantArraySchema=ConformantArraySchema);
+BoundSpecification:
+    id1=IDENTIFIER PONTOPONTO id2=IDENTIFIER DOISPONTOS id3=IDENTIFIER;
 
 //STATEMENTS
 StatementSequence:
-    statement+=Statement (PONTOV statement+=Statement)*
-;
+    statement+=Statement (PONTOV statement+=Statement)*;
 Statement:
 	(label DOISPONTOS )? statement=(SimpleStatement | StructuredStatement);
 SimpleStatement:
-	(AssignmentStatement | ProcedureStatement | GotoStatement)
-;
+	(AssignmentStatement | ProcedureStatement | GotoStatement);
 AssignmentStatement:
-    (variable='variable' | identifier=IDENTIFIER) ATRIBUICAO expression='expression'
-;
+    (variable='variable' | identifier=IDENTIFIER) ATRIBUICAO expression=Expression;
 ProcedureStatement:
-    name=IDENTIFIER actualParameterList=('ActualParameterList')?    
-;
+    name=IDENTIFIER actualParameterList=('ActualParameterList')?;
 GotoStatement:
-    'goto' label    
-;
+    'goto' label;
 StructuredStatement:
     CompoundStatement |
     RepetitiveStatement |
     ConditionalStatement | 
-    WithStatement
-;
+    WithStatement;
 CompoundStatement:
-    'begin' statementSequence=StatementSequence 'end'
-;
+    'begin' statementSequence=StatementSequence 'end';
 RepetitiveStatement:
     Whilestatement |
     RepeatStatement |
-    ForStatement    
-;
+    ForStatement    ;
 Whilestatement:
-    'while' expression='Expression' 'do' statement=Statement
-;
+    'while' expression=Expression 'do' statement=Statement;
 
 RepeatStatement:
-    'repeat' statementSequence=StatementSequence 'until' expression='Expression'    
-;
+    'repeat' statementSequence=StatementSequence 'until' expression=Expression    ;
 ForStatement:
-    'for'
-;
+    'for';
 ConditionalStatement:
-    'if'
-;
-
+    'if';
 WithStatement: 
-    'with'
-;
-
-
-
+    'with';
 case_label_list:
 	constant (VIRGULA constant)*;
 
 //EXPRESSIONS
+Expression:
+    simpleExpression+=SimpleExpression (relational_operator+=RELATIONALOPERATOR simpleExpression+=SimpleExpression)?;
+SimpleExpression:
+    ('+' | '-')? term+=Term (ADDITIONOPERATOR term+=Term )*
+;
+Term:
+    factor+=Factor (MULTIPLICATIONOPERATOR factor+=Factor)*;
+Factor:
+	(=>functionDesignator=FunctionDesignator)
+    variable=Variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
+    PARENTESQ expression=Expression PARENTDIR | 'not' factor=Factor ;
+Variable:
+    name=IDENTIFIER variable1=(Variable1)?
+;
+Variable1:
+    (COLCHETEESQ expressionList=ExpressionList COLCHETEDIR) variable1=Variable1 |
+    (PONTO name=IDENTIFIER) variable1=Variable1 |
+    CHAPEU variable1=Variable1;
+Set:
+    COLCHETEESQ elementList=ElementList COLCHETEDIR;
+ElementList:
+	{ElementList}
+    (expression+=Expression (VIRGULA expression+=Expression)* )?;
+FunctionDesignator:
+    name=IDENTIFIER 'actualParameterList'?;
 entire_variable:
 	variable_identifier | field_identifier; 
 
@@ -159,6 +204,8 @@ bound_identifier:
 	IDENTIFIER;
 
 //LOW LEVEL DEFINITIONS
+ExpressionList:
+    expression+=Expression (VIRGULA expression+=Expression)*;
 identifier_list:
 	IDENTIFIER (VIRGULA IDENTIFIER)*;
 number:
@@ -179,7 +226,19 @@ label:
 	integer_number;
 constant:
 	(sign)? (constant_identifier | number) | STRING;
-	
+terminal RELATIONALOPERATOR:
+    IGUAL | DIFERENTE | MENOR | MENORIGUAL | MAIOR | MAIORIGUAL | 'in'
+;
+
+terminal ADDITIONOPERATOR:
+    '+' | '-' | 'or';
+terminal MULTIPLICATIONOPERATOR:
+    MULTIP | DIVISAO | 'div' | 'mod' | 'and';
+terminal STRING1:
+    ASPASSIMPLES STRINGCHARACTER (STRINGCHARACTER)* ASPASSIMPLES;
+terminal STRINGCHARACTER:
+"''" | (LETTER | DIGIT);
+
 //TERMINAIS
 terminal fragment DIFERENTE : "<>";
 terminal fragment MENOR : "<";
