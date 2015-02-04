@@ -13,11 +13,15 @@ program_heading:
 block:
 	declarationPart=DeclarationPart statementPart=StatementPart;
 DeclarationPart:
-	(label_declaration_part)? (constant_definition_part)? (type_definition_part)? (variable_declaration_part)? procedure_and_function_declaration_part;
+	labelDeclarationPart=(label_declaration_part)?
+    constantDefinitionPart=(constant_definition_part)?
+    typeDefinitionPart=(type_definition_part)?
+    variableDeclarationPart=(variable_declaration_part)?
+    procedureAndFunctionDeclarationPart=procedure_and_function_declaration_part;
 label_declaration_part:
-	'label' label (VIRGULA label)* PONTOV;
+	'label' label+=label (VIRGULA label+=label)* PONTOV;
 constant_definition_part:
-	'const' constant_definition PONTOV (constant_definition PONTOV)*;
+	'const' constantDefinition+=constant_definition PONTOV (constantDefinition+=constant_definition PONTOV)*;
 constant_definition:
 	IDENTIFIER IG constant;
 type_definition_part:
@@ -40,7 +44,7 @@ StatementPart:
 
 //PROCEDURE AND FUNCTION DEFINITIONS
 procedure_heading:
-	'procedure' IDENTIFIER ('formal_parameter_list')?;
+	'procedure' IDENTIFIER (FormalParameterList)?;
 function_heading:
     'function' id1=IDENTIFIER FormalParameterList=(FormalParameterList)? PONTOV id2=IDENTIFIER;
 procedure_identification:
