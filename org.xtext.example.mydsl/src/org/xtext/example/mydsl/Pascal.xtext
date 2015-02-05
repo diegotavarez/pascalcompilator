@@ -100,17 +100,22 @@ RepetitiveStatement:
     ForStatement    ;
 Whilestatement:
     'while' expression=Expression 'do' statement=Statement;
-
 RepeatStatement:
     'repeat' statementSequence=StatementSequence 'until' expression=Expression    ;
 ForStatement:
-    'for';
+	'for' name=IDENTIFIER ATRIBUICAO expression1=Expression ('to' | 'downto' ) expression2=Expression 'do' statement=Statement;
 ConditionalStatement:
-    'if';
-WithStatement: 
-    'with';
+    ifStatement=IfStatement | caseStatement=CaseStatement;
+IfStatement:
+    'if' expression=Expression 'then' ifStatement=Statement (=>'else' elseStatement=Statement)?;
+CaseStatement:
+    'case' expression=Expression 'of' caseLimb+=CaseLimb (PONTOV caseLimb+=CaseLimb)* (PONTOV)? 'end';
+CaseLimb:
+    caseLabelList=case_label_list DOISPONTOS statement=Statement;
 case_label_list:
 	constant (VIRGULA constant)*;
+WithStatement: 
+    'with' variable+=Variable (VIRGULA variable+=Variable)* 'do' statement=Statement;
 
 //EXPRESSIONS
 Expression:
