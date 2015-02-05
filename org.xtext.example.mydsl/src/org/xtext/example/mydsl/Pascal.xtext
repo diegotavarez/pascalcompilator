@@ -7,9 +7,9 @@ Model:
 
 //PROGRAMS AND BLOCKS
 program:
-    program = program_heading block=block PONTO;
+    program = program_heading block=block DOT;
 program_heading:
-	'program' IDENTIFIER (PARENTESQ  identifier_list PARENTDIR) PONTOV ;
+	'program' IDENTIFIER (LEFT_PARENTHESIS  identifier_list RIGHT_PARENTHESIS) SEMICOLON ;
 block:
 	declarationPart=DeclarationPart statementPart=StatementPart;
 DeclarationPart:
@@ -19,26 +19,26 @@ DeclarationPart:
     variableDeclarationPart=(variable_declaration_part)?
     procedureAndFunctionDeclarationPart=procedure_and_function_declaration_part;
 label_declaration_part:
-	'label' label+=label (VIRGULA label+=label)* PONTOV;
+	'label' label+=label (COMMA label+=label)* SEMICOLON;
 constant_definition_part:
-	'const' constantDefinition+=constant_definition PONTOV (constantDefinition+=constant_definition PONTOV)*;
+	'const' constantDefinition+=constant_definition SEMICOLON (constantDefinition+=constant_definition SEMICOLON)*;
 constant_definition:
 	IDENTIFIER IG constant;
 type_definition_part:
-    'type' typeDefinition+=type_definition PONTOV (typeDefinition+=type_definition PONTOV)*;
+    'type' typeDefinition+=type_definition SEMICOLON (typeDefinition+=type_definition SEMICOLON)*;
 type_definition:
 	IDENTIFIER IG type;
 variable_declaration_part:
-    'var' variableDeclaration+=variable_declaration PONTOV (variableDeclaration+=variable_declaration PONTOV)*;
+    'var' variableDeclaration+=variable_declaration SEMICOLON (variableDeclaration+=variable_declaration SEMICOLON)*;
 variable_declaration:
-    identifierList=identifier_list DOISPONTOS type=type;
+    identifierList=identifier_list COLON type=type;
 procedure_and_function_declaration_part:
 	{procedure_and_function_declaration_part}
-    ( (procedureDeclaration+=ProcedureDeclaration | functionDeclaration+=FunctionDeclaration) PONTOV )*;
+    ( (procedureDeclaration+=ProcedureDeclaration | functionDeclaration+=FunctionDeclaration) SEMICOLON )*;
 ProcedureDeclaration:
-    'procedure' name=IDENTIFIER (formalParameterList=FormalParameterList)? PONTOV block=block;
+    'procedure' name=IDENTIFIER (formalParameterList=FormalParameterList)? SEMICOLON block=block;
 FunctionDeclaration:
-    'function' name=IDENTIFIER (formalParameterList=FormalParameterList)? DOISPONTOS type=type PONTOV block=block ;
+    'function' name=IDENTIFIER (formalParameterList=FormalParameterList)? COLON type=type SEMICOLON block=block ;
 StatementPart:
 	'begin' StatementSequence 'end'; 
 
@@ -46,20 +46,20 @@ StatementPart:
 procedure_heading:
    'procedure' name=IDENTIFIER FormalParameterList=(FormalParameterList)?;
 function_heading:
-    'function' id1=IDENTIFIER FormalParameterList=(FormalParameterList)? PONTOV id2=IDENTIFIER;
+    'function' id1=IDENTIFIER FormalParameterList=(FormalParameterList)? SEMICOLON id2=IDENTIFIER;
 procedure_identification:
 	'procedure' procedure_identifier;
 FormalParameterList:
-    PARENTESQ FormalParameterSection+=FormalParameterSection (PONTOV FormalParameterSection+=FormalParameterSection)* PARENTDIR;
+    LEFT_PARENTHESIS FormalParameterSection+=FormalParameterSection (SEMICOLON FormalParameterSection+=FormalParameterSection)* RIGHT_PARENTHESIS;
 FormalParameterSection:
     valueParameterSection=ValueParameterSection |
     variableParamenterSection=VariableParamenterSection |
     procedureHeading=procedure_heading |
     functionHeading=function_heading;
 ValueParameterSection:
-    identifierList=identifier_list DOISPONTOS parameterType=ParameterType;
+    identifierList=identifier_list COLON parameterType=ParameterType;
 VariableParamenterSection:
-    'var' identifierList=identifier_list DOISPONTOS parameterType=ParameterType;
+    'var' identifierList=identifier_list COLON parameterType=ParameterType;
 ParameterType:
     id=IDENTIFIER |
     conformantArraySchema=ConformantArraySchema;
@@ -67,22 +67,22 @@ ConformantArraySchema:
     PackedConformantArraySchema |
     UnpackedConformantArraySchema ;
 PackedConformantArraySchema:
-    'packed array' COLCHETEESQ boundSpecification=BoundSpecification COLCHETEDIR 'of' id=IDENTIFIER;
+    'packed array' LEFT_BRACKETS boundSpecification=BoundSpecification RIGHT_BRACKETS 'of' id=IDENTIFIER;
 UnpackedConformantArraySchema:
-    'array' COLCHETEESQ boundSpecification+=BoundSpecification (PONTOV boundSpecification+=BoundSpecification)* 
-    COLCHETEDIR 'of' (id=IDENTIFIER | conformantArraySchema=ConformantArraySchema);
+    'array' LEFT_BRACKETS boundSpecification+=BoundSpecification (SEMICOLON boundSpecification+=BoundSpecification)* 
+    RIGHT_BRACKETS 'of' (id=IDENTIFIER | conformantArraySchema=ConformantArraySchema);
 BoundSpecification:
-    id1=IDENTIFIER PONTOPONTO id2=IDENTIFIER DOISPONTOS id3=IDENTIFIER;
+    id1=IDENTIFIER DIAERESIS id2=IDENTIFIER COLON id3=IDENTIFIER;
 
 //STATEMENTS
 StatementSequence:
-    statement+=Statement (PONTOV statement+=Statement)*;
+    statement+=Statement (SEMICOLON statement+=Statement)*;
 Statement:
-	(label DOISPONTOS )? statement=(SimpleStatement | StructuredStatement);
+	(label COLON )? statement=(SimpleStatement | StructuredStatement);
 SimpleStatement:
 	(AssignmentStatement | ProcedureStatement | GotoStatement);
 AssignmentStatement:
-    (variable='variable' | identifier=IDENTIFIER) ATRIBUICAO expression=Expression;
+    (variable='variable' | identifier=IDENTIFIER) ASSIGNMENT_SIGN expression=Expression;
 ProcedureStatement:
     name=IDENTIFIER actualParameterList=('ActualParameterList')?;
 GotoStatement:
@@ -103,19 +103,19 @@ Whilestatement:
 RepeatStatement:
     'repeat' statementSequence=StatementSequence 'until' expression=Expression    ;
 ForStatement:
-	'for' name=IDENTIFIER ATRIBUICAO expression1=Expression ('to' | 'downto' ) expression2=Expression 'do' statement=Statement;
+	'for' name=IDENTIFIER ASSIGNMENT_SIGN expression1=Expression ('to' | 'downto' ) expression2=Expression 'do' statement=Statement;
 ConditionalStatement:
     ifStatement=IfStatement | caseStatement=CaseStatement;
 IfStatement:
     'if' expression=Expression 'then' ifStatement=Statement (=>'else' elseStatement=Statement)?;
 CaseStatement:
-    'case' expression=Expression 'of' caseLimb+=CaseLimb (PONTOV caseLimb+=CaseLimb)* (PONTOV)? 'end';
+    'case' expression=Expression 'of' caseLimb+=CaseLimb (SEMICOLON caseLimb+=CaseLimb)* (SEMICOLON)? 'end';
 CaseLimb:
-    caseLabelList=case_label_list DOISPONTOS statement=Statement;
+    caseLabelList=case_label_list COLON statement=Statement;
 case_label_list:
-    constant+=constant (VIRGULA constant+=constant)*;
+    constant+=constant (COMMA constant+=constant)*;
 WithStatement: 
-    'with' variable+=Variable (VIRGULA variable+=Variable)* 'do' statement=Statement;
+    'with' variable+=Variable (COMMA variable+=Variable)* 'do' statement=Statement;
 
 //EXPRESSIONS
 Expression:
@@ -128,18 +128,18 @@ Term:
 Factor:
 	(=>functionDesignator=FunctionDesignator)
     variable=Variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
-    PARENTESQ expression=Expression PARENTDIR | 'not' factor=Factor ;
+    LEFT_PARENTHESIS expression=Expression RIGHT_PARENTHESIS | 'not' factor=Factor ;
 Variable:
     name=IDENTIFIER variable1=(Variable1)?;
 Variable1:
-    (COLCHETEESQ expressionList=ExpressionList COLCHETEDIR) variable1=Variable1 |
-    (PONTO name=IDENTIFIER) variable1=Variable1 |
-    CHAPEU variable1=Variable1;
+    (LEFT_BRACKETS expressionList=ExpressionList RIGHT_BRACKETS) variable1=Variable1 |
+    (DOT name=IDENTIFIER) variable1=Variable1 |
+    CARET variable1=Variable1;
 Set:
-    COLCHETEESQ elementList=ElementList COLCHETEDIR;
+    LEFT_BRACKETS elementList=ElementList RIGHT_BRACKETS;
 ElementList:
 	{ElementList}
-    (expression+=Expression (VIRGULA expression+=Expression)* )?;
+    (expression+=Expression (COMMA expression+=Expression)* )?;
 FunctionDesignator:
     name=IDENTIFIER 'actualParameterList'?;
 entire_variable:
@@ -155,9 +155,9 @@ simple_type:
 	=>(primitiveType=('boolean'|'char'|'integer'|'real'))
     subrangeType=subrange_type | enumeratedType=enumerated_type;
 enumerated_type:
-    PARENTESQ identifierList=identifier_list PARENTDIR;
+    LEFT_PARENTHESIS identifierList=identifier_list RIGHT_PARENTHESIS;
 subrange_type:
-    constant=constant PONTOPONTO constant2=constant;
+    constant=constant DIAERESIS constant2=constant;
 structured_type:
     ('packed')? unpackedStructuredType=unpacked_structured_type;
 unpacked_structured_type:
@@ -166,7 +166,7 @@ unpacked_structured_type:
     setType=set_type |
     fileType=file_type;
 array_type:
-    'array' COLCHETEESQ simpleType+=simple_type (VIRGULA simpleType+=simple_type)* COLCHETEDIR 'of' type=type;
+    'array' LEFT_BRACKETS simpleType+=simple_type (COMMA simpleType+=simple_type)* RIGHT_BRACKETS 'of' type=type;
 record_type:
 	'record' fieldlist=field_list 'end';
 set_type:
@@ -174,23 +174,23 @@ set_type:
 file_type:
 	'file' 'of' type=type;
 pointer_type:
-	CHAPEU name=IDENTIFIER;
+	CARET name=IDENTIFIER;
 	
 //RECORD FIELDS
 field_list:
 	{field_list}
-    ( (fixedPart=fixed_part (PONTOV variantPart=variant_part)? | variantPart=variant_part ) (PONTOV)? )? ;
+    ( (fixedPart=fixed_part (SEMICOLON variantPart=variant_part)? | variantPart=variant_part ) (SEMICOLON)? )? ;
 fixed_part:
-    recordSection+=record_section (PONTOV recordSection+=record_section)*;
+    recordSection+=record_section (SEMICOLON recordSection+=record_section)*;
 record_section:
-    identifierList=identifier_list DOISPONTOS type=type;
+    identifierList=identifier_list COLON type=type;
 variant_part:
-    'case' tagfield=tag_field id=IDENTIFIER 'of' variant+=variant (PONTOV variant+=variant)*;
+    'case' tagfield=tag_field id=IDENTIFIER 'of' variant+=variant (SEMICOLON variant+=variant)*;
 tag_field:
 	{tag_field}
-    (id=IDENTIFIER DOISPONTOS)?;
+    (id=IDENTIFIER COLON)?;
 variant:
-    caseLabelList=case_label_list DOISPONTOS PARENTESQ fieldList=field_list PARENTDIR;
+    caseLabelList=case_label_list COLON LEFT_PARENTHESIS fieldList=field_list RIGHT_PARENTHESIS;
 
 //VARIABLE AND IDENTIFIER CATEGORIES
 field_identifier:
@@ -210,9 +210,9 @@ bound_identifier:
 
 //LOW LEVEL DEFINITIONS
 ExpressionList:
-    expression+=Expression (VIRGULA expression+=Expression)*;
+    expression+=Expression (COMMA expression+=Expression)*;
 identifier_list:
-    ids+=IDENTIFIER (VIRGULA ids+=IDENTIFIER)*;
+    ids+=IDENTIFIER (COMMA ids+=IDENTIFIER)*;
 number:
     integer=INTEGER_NUMBER |
     real=REAL_NUMBER;
@@ -229,44 +229,44 @@ sign:
 constant:
     ('+' | '-')? (name=IDENTIFIER | number=number) | string=STRING1;    
 terminal RELATIONALOPERATOR:
-    IGUAL | DIFERENTE | MENOR | MENORIGUAL | MAIOR | MAIORIGUAL | 'in'
+    EQUALS_SIGN | DIFFERENT_SIGN | LESS_THAN_SIGN | LESS_OR_EQUALS_SIGN | GREATER_THAN_SIGN | GREATER_OR_EQUALS_SIGN | 'in'
 ;
 
 terminal ADDITIONOPERATOR:
     '+' | '-' | 'or';
 terminal MULTIPLICATIONOPERATOR:
-    MULTIP | DIVISAO | 'div' | 'mod' | 'and';
+    MULTIP_SIGN | DIV_SIGN | 'div' | 'mod' | 'and';
 terminal INTEGER_NUMBER:
     ('+' | '-')? DIGIT+;
 terminal REAL_NUMBER:
-    ('+' | '-')? DIGIT+ ((PONTO DIGIT* (EXPOENTE ('+' | '-')? DIGIT+)?) |(EXPOENTE ('+' | '-')? DIGIT+) );
+    ('+' | '-')? DIGIT+ ((DOT DIGIT* (EXPOENTE ('+' | '-')? DIGIT+)?) |(EXPOENTE ('+' | '-')? DIGIT+) );
 terminal STRING1:
     ASPASSIMPLES STRINGCHARACTER (STRINGCHARACTER)* ASPASSIMPLES;
 terminal STRINGCHARACTER:
 "''" | (LETTER | DIGIT);
 
 //TERMINAIS
-terminal fragment DIFERENTE : "<>";
-terminal fragment MENOR : "<";
-terminal fragment MENORIGUAL : "<=";
-terminal fragment MAIOR : ">";
-terminal fragment MAIORIGUAL : ">=";
+terminal fragment DIFFERENT_SIGN : "<>";
+terminal fragment LESS_THAN_SIGN : "<";
+terminal fragment LESS_OR_EQUALS_SIGN : "<=";
+terminal fragment GREATER_THAN_SIGN : ">";
+terminal fragment GREATER_OR_EQUALS_SIGN : ">=";
 
-terminal fragment MULTIP : "*";
-terminal fragment DIVISAO : "/";
-terminal PONTOV : ";";
-terminal VIRGULA : ",";
-terminal PONTO : ".";
-terminal DOISPONTOS : ":";
-terminal ATRIBUICAO : ":=";
-terminal PARENTESQ : "(";
-terminal PARENTDIR : ")";
-terminal COLCHETEESQ : "[";
-terminal COLCHETEDIR : "]";
-terminal PONTOPONTO : "..";
-terminal CHAPEU : "^";
+terminal fragment MULTIP_SIGN : "*";
+terminal fragment DIV_SIGN : "/";
+terminal SEMICOLON : ";";
+terminal COMMA : ",";
+terminal DOT : ".";
+terminal COLON : ":";
+terminal ASSIGNMENT_SIGN : ":=";
+terminal LEFT_PARENTHESIS : "(";
+terminal RIGHT_PARENTHESIS : ")";
+terminal LEFT_BRACKETS : "[";
+terminal RIGHT_BRACKETS : "]";
+terminal DIAERESIS : "..";
+terminal CARET : "^";
 terminal fragment ASPASSIMPLES : "'";
-terminal fragment IGUAL : "==";
+terminal fragment EQUALS_SIGN : "==";
 terminal IG: "=";                                   //OBS
 terminal fragment LETTER : ('a'..'z' |  'A'..'Z');
 terminal fragment DIGIT : ('0'..'9');
