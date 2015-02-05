@@ -7,7 +7,7 @@ Model:
 
 //PROGRAMS AND BLOCKS
 program:
-	program_heading block PONTO;
+    program = program_heading block=block PONTO;
 program_heading:
 	'program' IDENTIFIER (PARENTESQ  identifier_list PARENTDIR)? PONTOV ;
 block:
@@ -25,20 +25,20 @@ constant_definition_part:
 constant_definition:
 	IDENTIFIER IG constant;
 type_definition_part:
-	'type' type_definition PONTOV (type_definition PONTOV)*; 
+    'type' typeDefinition+=type_definition PONTOV (typeDefinition+=type_definition PONTOV)*;
 type_definition:
 	IDENTIFIER IG type;
 variable_declaration_part:
-	'var' variable_declaration PONTOV (variable_declaration PONTOV)*;
+    'var' variableDeclaration+=variable_declaration PONTOV (variableDeclaration+=variable_declaration PONTOV)*;
 variable_declaration:
-	identifier_list DOISPONTOS type; 
+    identifierList=identifier_list DOISPONTOS type=type;
 procedure_and_function_declaration_part:
 	{procedure_and_function_declaration_part}
     ( (procedureDeclaration+=ProcedureDeclaration | functionDeclaration+=FunctionDeclaration) PONTOV )*;
 ProcedureDeclaration:
     'procedure' IDENTIFIER (FormalParameterList)? PONTOV block;
 FunctionDeclaration:
-    'function' IDENTIFIER (FormalParameterList)? DOISPONTOS type PONTOV block ;
+    'function' name=IDENTIFIER (formalParameterList=FormalParameterList)? DOISPONTOS type=type PONTOV block=block ;
 StatementPart:
 	'begin' StatementSequence 'end'; 
 
@@ -113,7 +113,7 @@ CaseStatement:
 CaseLimb:
     caseLabelList=case_label_list DOISPONTOS statement=Statement;
 case_label_list:
-	constant (VIRGULA constant)*;
+    constant+=constant (VIRGULA constant+=constant)*;
 WithStatement: 
     'with' variable+=Variable (VIRGULA variable+=Variable)* 'do' statement=Statement;
 
@@ -130,8 +130,7 @@ Factor:
     variable=Variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
     PARENTESQ expression=Expression PARENTDIR | 'not' factor=Factor ;
 Variable:
-    name=IDENTIFIER variable1=(Variable1)?
-;
+    name=IDENTIFIER variable1=(Variable1)?;
 Variable1:
     (COLCHETEESQ expressionList=ExpressionList COLCHETEDIR) variable1=Variable1 |
     (PONTO name=IDENTIFIER) variable1=Variable1 |
@@ -148,53 +147,50 @@ entire_variable:
 
 //TYPES
 type:
-	simple_type | structured_type | pointer_type | type_identifier | 'TESTE';
+    simpleType=simple_type |
+    structuredType=structured_type |
+    pointerType=pointer_type |
+    name=IDENTIFIER;
 simple_type:
-	subrange_type | enumerated_type;
+	=>(primitiveType=('boolean'|'char'|'integer'|'real'))
+    subrangeType=subrange_type | enumeratedType=enumerated_type;
 enumerated_type:
-	PARENTESQ identifier_list PARENTDIR; 
+    PARENTESQ identifierList=identifier_list PARENTDIR;
 subrange_type:
-	lower_bound PONTOPONTO upper_bound;
-lower_bound:
-	constant;
-upper_bound:
-	constant;
+    constant=constant PONTOPONTO constant2=constant;
 structured_type:
-	('packed')? unpacked_structured_type;
+    ('packed')? unpackedStructuredType=unpacked_structured_type;
 unpacked_structured_type:
-	array_type | record_type | set_type | file_type;
+    arrayType=array_type |
+    recordType=record_type |
+    setType=set_type |
+    fileType=file_type;
 array_type:
-	'array';
-index_type:
-	simple_type;
-element_type:
-	type;  
+    'array' COLCHETEESQ simpleType+=simple_type (VIRGULA simpleType+=simple_type)* COLCHETEDIR 'of' type=type;
 record_type:
-	'record' field_list 'end';
+	'record' fieldlist=field_list 'end';
 set_type:
-	'set' 'of' base_type;
-base_type:
-	type;
+	'set' 'of' type=type;
 file_type:
-	'file' 'of' file_component_type;
-file_component_type:
-	type;
+	'file' 'of' type=type;
 pointer_type:
-CHAPEU type_identifier;
+	CHAPEU name=IDENTIFIER;
 	
 //RECORD FIELDS
 field_list:
-	((fixed_part (PONTOV variant_part)? | variant_part) (PONTOV)?)?;
+	{field_list}
+    ( (fixedPart=fixed_part (PONTOV variantPart=variant_part)? | variantPart=variant_part ) (PONTOV)? )? ;
 fixed_part:
-	record_section (PONTOV record_section)*;
+    recordSection+=record_section (PONTOV recordSection+=record_section)*;
 record_section:
-	identifier_list DOISPONTOS type;
+    identifierList=identifier_list DOISPONTOS type=type;
 variant_part:
-	'case' tag_field type_identifier 'of' variant (PONTOV variant)*;
+    'case' tagfield=tag_field id=IDENTIFIER 'of' variant+=variant (PONTOV variant+=variant)*;
 tag_field:
-	(IDENTIFIER DOISPONTOS)?;
+	{tag_field}
+    (id=IDENTIFIER DOISPONTOS)?;
 variant:
-	case_label_list DOISPONTOS PARENTESQ field_list PARENTDIR;  
+    caseLabelList=case_label_list DOISPONTOS PARENTESQ fieldList=field_list PARENTDIR;
 
 //VARIABLE AND IDENTIFIER CATEGORIES
 field_identifier:
@@ -216,13 +212,12 @@ bound_identifier:
 ExpressionList:
     expression+=Expression (VIRGULA expression+=Expression)*;
 identifier_list:
-	IDENTIFIER (VIRGULA IDENTIFIER)*;
+    ids+=IDENTIFIER (VIRGULA ids+=IDENTIFIER)*;
 number:
-	integer_number | real_number;
-integer_number:
-	digit_sequence;
-real_number:
-	digit_sequence PONTO (UNSIGNED_DIGIT_SEQUENCE)? (scale_factor) | digit_sequence scale_factor;
+    integer=INTEGER_NUMBER |
+    real=REAL_NUMBER;
+label:
+    int=INTEGER_NUMBER;
 scale_factor:
 	("E" | "e")digit_sequence;
 terminal UNSIGNED_DIGIT_SEQUENCE:
@@ -231,10 +226,8 @@ digit_sequence:
 	(sign)? UNSIGNED_DIGIT_SEQUENCE;
 sign:
 	'+' | '-';
-label:
-	integer_number;
 constant:
-	(sign)? (constant_identifier | number) | STRING;
+    ('+' | '-')? (name=IDENTIFIER | number=number) | string=STRING1;    
 terminal RELATIONALOPERATOR:
     IGUAL | DIFERENTE | MENOR | MENORIGUAL | MAIOR | MAIORIGUAL | 'in'
 ;
@@ -243,6 +236,10 @@ terminal ADDITIONOPERATOR:
     '+' | '-' | 'or';
 terminal MULTIPLICATIONOPERATOR:
     MULTIP | DIVISAO | 'div' | 'mod' | 'and';
+terminal INTEGER_NUMBER:
+    ('+' | '-')? DIGIT+;
+terminal REAL_NUMBER:
+    ('+' | '-')? DIGIT+ ((PONTO DIGIT* (EXPOENTE ('+' | '-')? DIGIT+)?) |(EXPOENTE ('+' | '-')? DIGIT+) );
 terminal STRING1:
     ASPASSIMPLES STRINGCHARACTER (STRINGCHARACTER)* ASPASSIMPLES;
 terminal STRINGCHARACTER:
