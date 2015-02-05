@@ -9,7 +9,7 @@ Model:
 program:
     program = program_heading block=block PONTO;
 program_heading:
-	'program' IDENTIFIER (PARENTESQ  identifier_list PARENTDIR)? PONTOV ;
+	'program' IDENTIFIER (PARENTESQ  identifier_list PARENTDIR) PONTOV ;
 block:
 	declarationPart=DeclarationPart statementPart=StatementPart;
 DeclarationPart:
@@ -36,7 +36,7 @@ procedure_and_function_declaration_part:
 	{procedure_and_function_declaration_part}
     ( (procedureDeclaration+=ProcedureDeclaration | functionDeclaration+=FunctionDeclaration) PONTOV )*;
 ProcedureDeclaration:
-    'procedure' IDENTIFIER (FormalParameterList)? PONTOV block;
+    'procedure' name=IDENTIFIER (formalParameterList=FormalParameterList)? PONTOV block=block;
 FunctionDeclaration:
     'function' name=IDENTIFIER (formalParameterList=FormalParameterList)? DOISPONTOS type=type PONTOV block=block ;
 StatementPart:
@@ -44,7 +44,7 @@ StatementPart:
 
 //PROCEDURE AND FUNCTION DEFINITIONS
 procedure_heading:
-	'procedure' IDENTIFIER (FormalParameterList)?;
+   'procedure' name=IDENTIFIER FormalParameterList=(FormalParameterList)?;
 function_heading:
     'function' id1=IDENTIFIER FormalParameterList=(FormalParameterList)? PONTOV id2=IDENTIFIER;
 procedure_identification:
