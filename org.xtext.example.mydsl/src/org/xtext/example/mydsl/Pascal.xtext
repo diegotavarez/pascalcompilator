@@ -11,7 +11,7 @@ program:
 program_heading:
 	'program' IDENTIFIER (LEFT_PARENTHESIS  identifier_list RIGHT_PARENTHESIS) SEMICOLON ;
 block:
-	declarationPart=DeclarationPart statementPart=StatementPart;
+	declarationPart=DeclarationPart statementPart=statement_part;
 DeclarationPart:
 	labelDeclarationPart=(label_declaration_part)?
     constantDefinitionPart=(constant_definition_part)?
@@ -34,102 +34,102 @@ variable_declaration:
     identifierList=identifier_list COLON type=type;
 procedure_and_function_declaration_part:
 	{procedure_and_function_declaration_part}
-    ( (procedureDeclaration+=ProcedureDeclaration | functionDeclaration+=FunctionDeclaration) SEMICOLON )*;
-ProcedureDeclaration:
-    'procedure' name=IDENTIFIER (formalParameterList=FormalParameterList)? SEMICOLON block=block;
-FunctionDeclaration:
-    'function' name=IDENTIFIER (formalParameterList=FormalParameterList)? COLON type=type SEMICOLON block=block ;
-StatementPart:
-	'begin' StatementSequence 'end'; 
+    ( (procedureDeclaration+=procedure_declaration | functionDeclaration+=function_declaration) SEMICOLON )*;
+procedure_declaration:
+    'procedure' name=IDENTIFIER (formalParameterList=formal_parameter_list)? SEMICOLON block=block;
+function_declaration:
+    'function' name=IDENTIFIER (formalParameterList=formal_parameter_list)? COLON type=type SEMICOLON block=block ;
+statement_part:
+	'begin' statement_sequence 'end'; 
 
 //PROCEDURE AND FUNCTION DEFINITIONS
 procedure_heading:
-   'procedure' name=IDENTIFIER FormalParameterList=(FormalParameterList)?;
+   'procedure' name=IDENTIFIER FormalParameterList=(formal_parameter_list)?;
 function_heading:
-    'function' id1=IDENTIFIER FormalParameterList=(FormalParameterList)? SEMICOLON id2=IDENTIFIER;
+    'function' id1=IDENTIFIER FormalParameterList=(formal_parameter_list)? SEMICOLON id2=IDENTIFIER;
 procedure_identification:
 	'procedure' procedure_identifier;
-FormalParameterList:
-    LEFT_PARENTHESIS FormalParameterSection+=FormalParameterSection (SEMICOLON FormalParameterSection+=FormalParameterSection)* RIGHT_PARENTHESIS;
-FormalParameterSection:
-    valueParameterSection=ValueParameterSection |
-    variableParamenterSection=VariableParamenterSection |
+formal_parameter_list:
+    LEFT_PARENTHESIS FormalParameterSection+=formal_parameter_section (SEMICOLON FormalParameterSection+=formal_parameter_section)* RIGHT_PARENTHESIS;
+formal_parameter_section:
+    valueParameterSection=value_parameter_section |
+    variableParamenterSection=variable_parameter_section |
     procedureHeading=procedure_heading |
     functionHeading=function_heading;
-ValueParameterSection:
-    identifierList=identifier_list COLON parameterType=ParameterType;
-VariableParamenterSection:
-    'var' identifierList=identifier_list COLON parameterType=ParameterType;
-ParameterType:
+value_parameter_section:
+    identifierList=identifier_list COLON parameterType=parameter_type;
+variable_parameter_section:
+    'var' identifierList=identifier_list COLON parameterType=parameter_type;
+parameter_type:
     id=IDENTIFIER |
-    conformantArraySchema=ConformantArraySchema;
-ConformantArraySchema:
-    PackedConformantArraySchema |
-    UnpackedConformantArraySchema ;
-PackedConformantArraySchema:
-    'packed array' LEFT_BRACKETS boundSpecification=BoundSpecification RIGHT_BRACKETS 'of' id=IDENTIFIER;
-UnpackedConformantArraySchema:
-    'array' LEFT_BRACKETS boundSpecification+=BoundSpecification (SEMICOLON boundSpecification+=BoundSpecification)* 
-    RIGHT_BRACKETS 'of' (id=IDENTIFIER | conformantArraySchema=ConformantArraySchema);
-BoundSpecification:
+    conformantArraySchema=conformant_array_schema;
+conformant_array_schema:
+    packed_conformant_array_schema |
+    unpacked_conformant_array_Schema ;
+packed_conformant_array_schema:
+    'packed array' LEFT_BRACKETS boundSpecification=bound_specification RIGHT_BRACKETS 'of' id=IDENTIFIER;
+unpacked_conformant_array_Schema:
+    'array' LEFT_BRACKETS boundSpecification+=bound_specification (SEMICOLON boundSpecification+=bound_specification)* 
+    RIGHT_BRACKETS 'of' (id=IDENTIFIER | conformantArraySchema=conformant_array_schema);
+bound_specification:
     id1=IDENTIFIER DIAERESIS id2=IDENTIFIER COLON id3=IDENTIFIER;
 
 //STATEMENTS
-StatementSequence:
-    statement+=Statement (SEMICOLON statement+=Statement)*;
-Statement:
-	(label COLON )? statement=(SimpleStatement | StructuredStatement);
-SimpleStatement:
-	(AssignmentStatement | ProcedureStatement | GotoStatement);
-AssignmentStatement:
-    (variable='variable' | identifier=IDENTIFIER) ASSIGNMENT_SIGN expression=Expression;
-ProcedureStatement:
+statement_sequence:
+    statement+=statement (SEMICOLON statement+=statement)*;
+statement:
+	(label COLON )? statement=(simple_statement | structured_statement);
+simple_statement:
+	(assignment_statement | procedure_statement | goto_statement);
+assignment_statement:
+    (variable='variable' | identifier=IDENTIFIER) ASSIGNMENT_SIGN expression=expression;
+procedure_statement:
     name=IDENTIFIER actualParameterList=('ActualParameterList')?;
-GotoStatement:
+goto_statement:
     'goto' label;
-StructuredStatement:
-    CompoundStatement |
-    RepetitiveStatement |
-    ConditionalStatement | 
-    WithStatement;
-CompoundStatement:
-    'begin' statementSequence=StatementSequence 'end';
-RepetitiveStatement:
-    Whilestatement |
-    RepeatStatement |
-    ForStatement    ;
-Whilestatement:
-    'while' expression=Expression 'do' statement=Statement;
-RepeatStatement:
-    'repeat' statementSequence=StatementSequence 'until' expression=Expression    ;
-ForStatement:
-	'for' name=IDENTIFIER ASSIGNMENT_SIGN expression1=Expression ('to' | 'downto' ) expression2=Expression 'do' statement=Statement;
-ConditionalStatement:
-    ifStatement=IfStatement | caseStatement=CaseStatement;
-IfStatement:
-    'if' expression=Expression 'then' ifStatement=Statement (=>'else' elseStatement=Statement)?;
-CaseStatement:
-    'case' expression=Expression 'of' caseLimb+=CaseLimb (SEMICOLON caseLimb+=CaseLimb)* (SEMICOLON)? 'end';
-CaseLimb:
-    caseLabelList=case_label_list COLON statement=Statement;
+structured_statement:
+    compound_statement |
+    repetitive_statement |
+    conditional_statement | 
+    with_statement;
+compound_statement:
+    'begin' statementSequence=statement_sequence 'end';
+repetitive_statement:
+    while_statement |
+    repeat_statement |
+    for_statement    ;
+while_statement:
+    'while' expression=expression 'do' statement=statement;
+repeat_statement:
+    'repeat' statementSequence=statement_sequence 'until' expression=expression    ;
+for_statement:
+	'for' name=IDENTIFIER ASSIGNMENT_SIGN expression1=expression ('to' | 'downto' ) expression2=expression 'do' statement=statement;
+conditional_statement:
+    ifStatement=if_statement | caseStatement=case_statement;
+if_statement:
+    'if' expression=expression 'then' ifStatement=statement (=>'else' elseStatement=statement)?;
+case_statement:
+    'case' expression=expression 'of' caseLimb+=case_limb (SEMICOLON caseLimb+=case_limb)* (SEMICOLON)? 'end';
+case_limb:
+    caseLabelList=case_label_list COLON statement=statement;
 case_label_list:
     constant+=constant (COMMA constant+=constant)*;
-WithStatement: 
-    'with' variable+=Variable (COMMA variable+=Variable)* 'do' statement=Statement;
+with_statement: 
+    'with' variable+=variable (COMMA variable+=variable)* 'do' statement=statement;
 
 //EXPRESSIONS
-Expression:
-    simpleExpression+=SimpleExpression (relational_operator+=RELATIONALOPERATOR simpleExpression+=SimpleExpression)?;
-SimpleExpression:
-    ('+' | '-')? term+=Term (ADDITIONOPERATOR term+=Term )*
+expression:
+    simpleExpression+=simple_expression (relational_operator+=RELATIONALOPERATOR simpleExpression+=simple_expression)?;
+simple_expression:
+    ('+' | '-')? term+=term (ADDITIONOPERATOR term+=term )*
 ;
-Term:
-    factor+=Factor (MULTIPLICATIONOPERATOR factor+=Factor)*;
-Factor:
+term:
+    factor+=factor (MULTIPLICATIONOPERATOR factor+=factor)*;
+factor:
 	(=>functionDesignator=FunctionDesignator)
-    variable=Variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
-    LEFT_PARENTHESIS expression=Expression RIGHT_PARENTHESIS | 'not' factor=Factor ;
-Variable:
+    variable=variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
+    LEFT_PARENTHESIS expression=expression RIGHT_PARENTHESIS | 'not' factor=factor ;
+variable:
     name=IDENTIFIER variable1=(Variable1)?;
 Variable1:
     (LEFT_BRACKETS expressionList=ExpressionList RIGHT_BRACKETS) variable1=Variable1 |
@@ -139,7 +139,7 @@ Set:
     LEFT_BRACKETS elementList=ElementList RIGHT_BRACKETS;
 ElementList:
 	{ElementList}
-    (expression+=Expression (COMMA expression+=Expression)* )?;
+    (expression+=expression (COMMA expression+=expression)* )?;
 FunctionDesignator:
     name=IDENTIFIER 'actualParameterList'?;
 entire_variable:
@@ -210,7 +210,7 @@ bound_identifier:
 
 //LOW LEVEL DEFINITIONS
 ExpressionList:
-    expression+=Expression (COMMA expression+=Expression)*;
+    expression+=expression (COMMA expression+=expression)*;
 identifier_list:
     ids+=IDENTIFIER (COMMA ids+=IDENTIFIER)*;
 number:
