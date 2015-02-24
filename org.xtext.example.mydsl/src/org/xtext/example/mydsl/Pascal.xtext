@@ -19,22 +19,22 @@ DeclarationPart:
     variableDeclarationPart=(variable_declaration_part)?
     procedureAndFunctionDeclarationPart=procedure_and_function_declaration_part;
 label_declaration_part:
-	'label' label+=label (COMMA label+=label)* SEMICOLON;
+	'label' labels+=label (COMMA labels+=label)* SEMICOLON;
 constant_definition_part:
-	'const' constantDefinition+=constant_definition SEMICOLON (constantDefinition+=constant_definition SEMICOLON)*;
+	'const' constantDefinitions+=constant_definition SEMICOLON (constantDefinitions+=constant_definition SEMICOLON)*;
 constant_definition:
 	IDENTIFIER IG constant;
 type_definition_part:
-    'type' typeDefinition+=type_definition SEMICOLON (typeDefinition+=type_definition SEMICOLON)*;
+    'type' typeDefinitions+=type_definition SEMICOLON (typeDefinitions+=type_definition SEMICOLON)*;
 type_definition:
 	IDENTIFIER IG type;
 variable_declaration_part:
-    'var' variableDeclaration+=variable_declaration SEMICOLON (variableDeclaration+=variable_declaration SEMICOLON)*;
+    'var' variableDeclarations+=variable_declaration SEMICOLON (variableDeclarations+=variable_declaration SEMICOLON)*;
 variable_declaration:
     identifierList=identifier_list COLON type=type;
 procedure_and_function_declaration_part:
 	{procedure_and_function_declaration_part}
-    ( (procedureDeclaration+=procedure_declaration | functionDeclaration+=function_declaration) SEMICOLON )*;
+    ( (procedureDeclarations+=procedure_declaration | functionDeclarations+=function_declaration) SEMICOLON )*;
 procedure_declaration:
     'procedure' name=IDENTIFIER (formalParameterList=formal_parameter_list)? SEMICOLON block=block;
 function_declaration:
@@ -50,7 +50,7 @@ function_heading:
 procedure_identification:
 	'procedure' procedure_identifier;
 formal_parameter_list:
-    LEFT_PARENTHESIS FormalParameterSection+=formal_parameter_section (SEMICOLON FormalParameterSection+=formal_parameter_section)* RIGHT_PARENTHESIS;
+    LEFT_PARENTHESIS FormalParameterSections+=formal_parameter_section (SEMICOLON FormalParameterSections+=formal_parameter_section)* RIGHT_PARENTHESIS;
 formal_parameter_section:
     valueParameterSection=value_parameter_section |
     variableParamenterSection=variable_parameter_section |
@@ -69,14 +69,14 @@ conformant_array_schema:
 packed_conformant_array_schema:
     'packed array' LEFT_BRACKETS boundSpecification=bound_specification RIGHT_BRACKETS 'of' id=IDENTIFIER;
 unpacked_conformant_array_Schema:
-    'array' LEFT_BRACKETS boundSpecification+=bound_specification (SEMICOLON boundSpecification+=bound_specification)* 
+    'array' LEFT_BRACKETS boundSpecifications+=bound_specification (SEMICOLON boundSpecifications+=bound_specification)* 
     RIGHT_BRACKETS 'of' (id=IDENTIFIER | conformantArraySchema=conformant_array_schema);
 bound_specification:
     id1=IDENTIFIER DIAERESIS id2=IDENTIFIER COLON id3=IDENTIFIER;
 
 //STATEMENTS
 statement_sequence:
-    statement+=statement (SEMICOLON statement+=statement)*;
+    statements+=statement (SEMICOLON statements+=statement)*;
 statement:
 	(label COLON )? statement=(simple_statement | structured_statement);
 simple_statement:
@@ -109,22 +109,22 @@ conditional_statement:
 if_statement:
     'if' expression=expression 'then' ifStatement=statement (=>'else' elseStatement=statement)?;
 case_statement:
-    'case' expression=expression 'of' caseLimb+=case_limb (SEMICOLON caseLimb+=case_limb)* (SEMICOLON)? 'end';
+    'case' expression=expression 'of' caseLimbs+=case_limb (SEMICOLON caseLimbs+=case_limb)* (SEMICOLON)? 'end';
 case_limb:
     caseLabelList=case_label_list COLON statement=statement;
 case_label_list:
-    constant+=constant (COMMA constant+=constant)*;
+    constants+=constant (COMMA constants+=constant)*;
 with_statement: 
-    'with' variable+=variable (COMMA variable+=variable)* 'do' statement=statement;
+    'with' variables+=variable (COMMA variables+=variable)* 'do' statement=statement;
 
 //EXPRESSIONS
 expression:
-    simpleExpression+=simple_expression (relational_operator+=RELATIONALOPERATOR simpleExpression+=simple_expression)?;
+    simpleExpressions+=simple_expression (relational_operators+=RELATIONALOPERATOR simpleExpressions+=simple_expression)?;
 simple_expression:
-    ('+' | '-')? term+=term (ADDITIONOPERATOR term+=term )*
+    ('+' | '-')? terms+=term (ADDITIONOPERATOR terms+=term )*
 ;
 term:
-    factor+=factor (MULTIPLICATIONOPERATOR factor+=factor)*;
+    factors+=factor (MULTIPLICATIONOPERATOR factors+=factor)*;
 factor:
 	(=>functionDesignator=FunctionDesignator)
     variable=variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
@@ -139,7 +139,7 @@ Set:
     LEFT_BRACKETS elementList=ElementList RIGHT_BRACKETS;
 ElementList:
 	{ElementList}
-    (expression+=expression (COMMA expression+=expression)* )?;
+    (expressions+=expression (COMMA expressions+=expression)* )?;
 FunctionDesignator:
     name=IDENTIFIER 'actualParameterList'?;
 entire_variable:
@@ -166,7 +166,7 @@ unpacked_structured_type:
     setType=set_type |
     fileType=file_type;
 array_type:
-    'array' LEFT_BRACKETS simpleType+=simple_type (COMMA simpleType+=simple_type)* RIGHT_BRACKETS 'of' type=type;
+    'array' LEFT_BRACKETS simpleTypes+=simple_type (COMMA simpleTypes+=simple_type)* RIGHT_BRACKETS 'of' type=type;
 record_type:
 	'record' fieldlist=field_list 'end';
 set_type:
@@ -181,11 +181,11 @@ field_list:
 	{field_list}
     ( (fixedPart=fixed_part (SEMICOLON variantPart=variant_part)? | variantPart=variant_part ) (SEMICOLON)? )? ;
 fixed_part:
-    recordSection+=record_section (SEMICOLON recordSection+=record_section)*;
+    recordSections+=record_section (SEMICOLON recordSections+=record_section)*;
 record_section:
     identifierList=identifier_list COLON type=type;
 variant_part:
-    'case' tagfield=tag_field id=IDENTIFIER 'of' variant+=variant (SEMICOLON variant+=variant)*;
+    'case' tagfield=tag_field id=IDENTIFIER 'of' variants+=variant (SEMICOLON variants+=variant)*;
 tag_field:
 	{tag_field}
     (id=IDENTIFIER COLON)?;
@@ -210,7 +210,7 @@ bound_identifier:
 
 //LOW LEVEL DEFINITIONS
 ExpressionList:
-    expression+=expression (COMMA expression+=expression)*;
+    expressions+=expression (COMMA expressions+=expression)*;
 identifier_list:
     ids+=IDENTIFIER (COMMA ids+=IDENTIFIER)*;
 number:
