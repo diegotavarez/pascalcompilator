@@ -20,21 +20,37 @@ DeclarationPart:
     procedureAndFunctionDeclarationPart=procedure_and_function_declaration_part;
 label_declaration_part:
 	'label' labels+=label (COMMA labels+=label)* SEMICOLON;
+	
+	
 constant_definition_part:
 	'const' constantDefinitions+=constant_definition SEMICOLON (constantDefinitions+=constant_definition SEMICOLON)*;
+	
+	
 constant_definition:
 	IDENTIFIER IG constant;
+	
+	
 type_definition_part:
     'type' typeDefinitions+=type_definition SEMICOLON (typeDefinitions+=type_definition SEMICOLON)*;
+    
+    
 type_definition:
 	IDENTIFIER IG type;
+	
+	
 variable_declaration_part:
     'var' variableDeclarations+=variable_declaration SEMICOLON (variableDeclarations+=variable_declaration SEMICOLON)*;
+    
+    
 variable_declaration:
     identifierList=identifier_list COLON type=type;
+    
+    
 procedure_and_function_declaration_part:
 	{procedure_and_function_declaration_part}
     ( (procedureDeclarations+=procedure_declaration | functionDeclarations+=function_declaration) SEMICOLON )*;
+    
+    
 procedure_declaration:
     'procedure' name=IDENTIFIER (formalParameterList=formal_parameter_list)? SEMICOLON block=block;
 function_declaration:
