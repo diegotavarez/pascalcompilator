@@ -7,104 +7,208 @@ Model:
 
 //PROGRAMS AND BLOCKS
 program:
-	program_heading block ".";
+    program = program_heading block=block DOT;
 program_heading:
-	'program' IDENTIFIER ("(" identifier_list ")")? ";";
+	'program' IDENTIFIER (LEFT_PARENTHESIS  identifier_list RIGHT_PARENTHESIS) SEMICOLON ;
 block:
-	declaration_part statement_part;
-declaration_part:
-	(label_declaration_part)? (constant_definition_part)? (type_definition_part)? (variable_declaration_part)? procedure_and_function_declaration_part;
+	declarationPart=DeclarationPart statementPart=statement_part;
+DeclarationPart:
+	labelDeclarationPart=(label_declaration_part)?
+    constantDefinitionPart=(constant_definition_part)?
+    typeDefinitionPart=(type_definition_part)?
+    variableDeclarationPart=(variable_declaration_part)?
+    procedureAndFunctionDeclarationPart=procedure_and_function_declaration_part;
 label_declaration_part:
-	'label' label ("," label)* ";";
+	'label' labels+=label (COMMA labels+=label)* SEMICOLON;
+	
+	
 constant_definition_part:
-	'const' constant_definition ";" (constant_definition ";")*;
+	'const' constantDefinitions+=constant_definition SEMICOLON (constantDefinitions+=constant_definition SEMICOLON)*;
+	
+	
 constant_definition:
-	IDENTIFIER "=" constant;
+	IDENTIFIER IG constant;
+	
+	
 type_definition_part:
-	'type' type_definition ";" (type_definition ";")*; 
+    'type' typeDefinitions+=type_definition SEMICOLON (typeDefinitions+=type_definition SEMICOLON)*;
+    
+    
 type_definition:
-	IDENTIFIER "=" type;
+	IDENTIFIER IG type;
+	
+	
 variable_declaration_part:
-	'var' variable_declaration ";" (variable_declaration ";")*;
+    'var' variableDeclarations+=variable_declaration SEMICOLON (variableDeclarations+=variable_declaration SEMICOLON)*;
+    
+    
 variable_declaration:
-	identifier_list ":" type; 
+    identifierList=identifier_list COLON type=type;
+    
+    
 procedure_and_function_declaration_part:
-	(('procedure_declaration' | 'function_declaration') ";")*;
+	{procedure_and_function_declaration_part}
+    ( (procedureDeclarations+=procedure_declaration | functionDeclarations+=function_declaration) SEMICOLON )*;
+    
+    
+procedure_declaration:
+    'procedure' name=IDENTIFIER (formalParameterList=formal_parameter_list)? SEMICOLON block=block;
+function_declaration:
+    'function' name=IDENTIFIER (formalParameterList=formal_parameter_list)? COLON type=type SEMICOLON block=block ;
 statement_part:
 	'begin' statement_sequence 'end'; 
 
+//PROCEDURE AND FUNCTION DEFINITIONS
+procedure_heading:
+   'procedure' name=IDENTIFIER FormalParameterList=(formal_parameter_list)?;
+function_heading:
+    'function' id1=IDENTIFIER FormalParameterList=(formal_parameter_list)? SEMICOLON id2=IDENTIFIER;
+procedure_identification:
+	'procedure' procedure_identifier;
+formal_parameter_list:
+    LEFT_PARENTHESIS FormalParameterSections+=formal_parameter_section (SEMICOLON FormalParameterSections+=formal_parameter_section)* RIGHT_PARENTHESIS;
+formal_parameter_section:
+    valueParameterSection=value_parameter_section |
+    variableParamenterSection=variable_parameter_section |
+    procedureHeading=procedure_heading |
+    functionHeading=function_heading;
+value_parameter_section:
+    identifierList=identifier_list COLON parameterType=parameter_type;
+variable_parameter_section:
+    'var' identifierList=identifier_list COLON parameterType=parameter_type;
+parameter_type:
+    id=IDENTIFIER |
+    conformantArraySchema=conformant_array_schema;
+conformant_array_schema:
+    packed_conformant_array_schema |
+    unpacked_conformant_array_Schema ;
+packed_conformant_array_schema:
+    'packed array' LEFT_BRACKETS boundSpecification=bound_specification RIGHT_BRACKETS 'of' id=IDENTIFIER;
+unpacked_conformant_array_Schema:
+    'array' LEFT_BRACKETS boundSpecifications+=bound_specification (SEMICOLON boundSpecifications+=bound_specification)* 
+    RIGHT_BRACKETS 'of' (id=IDENTIFIER | conformantArraySchema=conformant_array_schema);
+bound_specification:
+    id1=IDENTIFIER DIAERESIS id2=IDENTIFIER COLON id3=IDENTIFIER;
+
 //STATEMENTS
 statement_sequence:
-	statement (statement)*;
+    statements+=statement (SEMICOLON statements+=statement)*;
 statement:
-	'statement' ";";
+	(label COLON )? statement=(simple_statement | structured_statement);
+simple_statement:
+	(assignment_statement | procedure_statement | goto_statement);
+assignment_statement:
+    (variable='variable' | identifier=IDENTIFIER) ASSIGNMENT_SIGN expression=expression;
+procedure_statement:
+    name=IDENTIFIER actualParameterList=('ActualParameterList')?;
+goto_statement:
+    'goto' label;
+structured_statement:
+    compound_statement |
+    repetitive_statement |
+    conditional_statement | 
+    with_statement;
+compound_statement:
+    'begin' statementSequence=statement_sequence 'end';
+repetitive_statement:
+    while_statement |
+    repeat_statement |
+    for_statement    ;
+while_statement:
+    'while' expression=expression 'do' statement=statement;
+repeat_statement:
+    'repeat' statementSequence=statement_sequence 'until' expression=expression    ;
+for_statement:
+	'for' name=IDENTIFIER ASSIGNMENT_SIGN expression1=expression ('to' | 'downto' ) expression2=expression 'do' statement=statement;
+conditional_statement:
+    ifStatement=if_statement | caseStatement=case_statement;
+if_statement:
+    'if' expression=expression 'then' ifStatement=statement (=>'else' elseStatement=statement)?;
+case_statement:
+    'case' expression=expression 'of' caseLimbs+=case_limb (SEMICOLON caseLimbs+=case_limb)* (SEMICOLON)? 'end';
+case_limb:
+    caseLabelList=case_label_list COLON statement=statement;
 case_label_list:
-	constant ("," constant)*;
+    constants+=constant (COMMA constants+=constant)*;
+with_statement: 
+    'with' variables+=variable (COMMA variables+=variable)* 'do' statement=statement;
 
 //EXPRESSIONS
-relational_operator:
-	"=" | "<>" | "<" | "<=" | ">" | ">=" | "in";
-addition_operator:
-	"+" | "-" | 'or';
-multiplication_operator:
-"*" | "/" | 'div' | 'mod' | 'and';
+expression:
+    simpleExpressions+=simple_expression (relational_operators+=RELATIONALOPERATOR simpleExpressions+=simple_expression)?;
+simple_expression:
+    ('+' | '-')? terms+=term (ADDITIONOPERATOR terms+=term )*
+;
+term:
+    factors+=factor (MULTIPLICATIONOPERATOR factors+=factor)*;
+factor:
+	(=>functionDesignator=FunctionDesignator)
+    variable=variable | number=number | string=STRING1 | set=Set | nil='nil' | id=IDENTIFIER | 
+    LEFT_PARENTHESIS expression=expression RIGHT_PARENTHESIS | 'not' factor=factor ;
+variable:
+    name=IDENTIFIER variable1=(Variable1)?;
+Variable1:
+    (LEFT_BRACKETS expressionList=ExpressionList RIGHT_BRACKETS) variable1=Variable1 |
+    (DOT name=IDENTIFIER) variable1=Variable1 |
+    CARET variable1=Variable1;
+Set:
+    LEFT_BRACKETS elementList=ElementList RIGHT_BRACKETS;
+ElementList:
+	{ElementList}
+    (expressions+=expression (COMMA expressions+=expression)* )?;
+FunctionDesignator:
+    name=IDENTIFIER 'actualParameterList'?;
 entire_variable:
 	variable_identifier | field_identifier; 
 
 //TYPES
 type:
-	simple_type | structured_type | pointer_type | type_identifier | 'TESTE';
+    simpleType=simple_type |
+    structuredType=structured_type |
+    pointerType=pointer_type |
+    name=IDENTIFIER;
 simple_type:
-	subrange_type | enumerated_type;
+	=>(primitiveType=('boolean'|'char'|'integer'|'real'))
+    subrangeType=subrange_type | enumeratedType=enumerated_type;
 enumerated_type:
-	"(" identifier_list ")"; 
+    LEFT_PARENTHESIS identifierList=identifier_list RIGHT_PARENTHESIS;
 subrange_type:
-	lower_bound ".." upper_bound;
-lower_bound:
-	constant;
-upper_bound:
-	constant;
+    constant=constant DIAERESIS constant2=constant;
 structured_type:
-	('packed')? unpacked_structured_type;
+    ('packed')? unpackedStructuredType=unpacked_structured_type;
 unpacked_structured_type:
-	array_type | record_type | set_type | file_type;
+    arrayType=array_type |
+    recordType=record_type |
+    setType=set_type |
+    fileType=file_type;
 array_type:
-	'array' "[ " index_type ("," index_type)* " ]" 'of' element_type;
-index_type:
-	simple_type;
-element_type:
-	type;  
+    'array' LEFT_BRACKETS simpleTypes+=simple_type (COMMA simpleTypes+=simple_type)* RIGHT_BRACKETS 'of' type=type;
 record_type:
-	'record' field_list 'end';
+	'record' fieldlist=field_list 'end';
 set_type:
-	'set' 'of' base_type;
-base_type:
-	type;
+	'set' 'of' type=type;
 file_type:
-	'file' 'of' file_component_type;
-file_component_type:
-	type;
+	'file' 'of' type=type;
 pointer_type:
-"^" type_identifier;
+	CARET name=IDENTIFIER;
 	
 //RECORD FIELDS
 field_list:
-	((fixed_part (";" variant_part)? | variant_part) (";")?)?;
+	{field_list}
+    ( (fixedPart=fixed_part (SEMICOLON variantPart=variant_part)? | variantPart=variant_part ) (SEMICOLON)? )? ;
 fixed_part:
-	record_section (";" record_section)*;
+    recordSections+=record_section (SEMICOLON recordSections+=record_section)*;
 record_section:
-	identifier_list ":" type;
+    identifierList=identifier_list COLON type=type;
 variant_part:
-	'case' tag_field type_identifier 'of' variant (";" variant)*;
+    'case' tagfield=tag_field id=IDENTIFIER 'of' variants+=variant (SEMICOLON variants+=variant)*;
 tag_field:
-	(IDENTIFIER ":")?;
+	{tag_field}
+    (id=IDENTIFIER COLON)?;
 variant:
-	case_label_list ":" "(" field_list ")";  
+    caseLabelList=case_label_list COLON LEFT_PARENTHESIS fieldList=field_list RIGHT_PARENTHESIS;
 
 //VARIABLE AND IDENTIFIER CATEGORIES
-terminal IDENTIFIER: (('a'..'z')|('A'..'Z')|'_') (('a'..'z')|('A'..'Z')|'_'|('0'..'9'))*;
-identifier2:
-	LETTER (LETTER | DIGIT)*;
 field_identifier:
 	IDENTIFIER;
 constant_identifier:
@@ -121,14 +225,15 @@ bound_identifier:
 	IDENTIFIER;
 
 //LOW LEVEL DEFINITIONS
+ExpressionList:
+    expressions+=expression (COMMA expressions+=expression)*;
 identifier_list:
-	IDENTIFIER ("," IDENTIFIER)*;
+    ids+=IDENTIFIER (COMMA ids+=IDENTIFIER)*;
 number:
-	integer_number | real_number;
-integer_number:
-	digit_sequence;
-real_number:
-	digit_sequence "." (UNSIGNED_DIGIT_SEQUENCE)? (scale_factor) | digit_sequence scale_factor;
+    integer=INTEGER_NUMBER |
+    real=REAL_NUMBER;
+label:
+    int=INTEGER_NUMBER;
 scale_factor:
 	("E" | "e")digit_sequence;
 terminal UNSIGNED_DIGIT_SEQUENCE:
@@ -137,11 +242,55 @@ digit_sequence:
 	(sign)? UNSIGNED_DIGIT_SEQUENCE;
 sign:
 	'+' | '-';
-terminal LETTER:
-	('a'..'z')|('A'..'Z');
-terminal DIGIT:
-	('0'..'9');
-label:
-	integer_number;
 constant:
-	(sign)? (constant_identifier | number) | STRING;
+    ('+' | '-')? (name=IDENTIFIER | number=number) | string=STRING1;    
+terminal RELATIONALOPERATOR:
+    EQUALS_SIGN | DIFFERENT_SIGN | LESS_THAN_SIGN | LESS_OR_EQUALS_SIGN | GREATER_THAN_SIGN | GREATER_OR_EQUALS_SIGN | 'in'
+;
+
+terminal ADDITIONOPERATOR:
+    '+' | '-' | 'or';
+terminal MULTIPLICATIONOPERATOR:
+    MULTIP_SIGN | DIV_SIGN | 'div' | 'mod' | 'and';
+terminal INTEGER_NUMBER:
+    ('+' | '-')? DIGIT+;
+terminal REAL_NUMBER:
+    ('+' | '-')? DIGIT+ ((DOT DIGIT* (EXPOENTE ('+' | '-')? DIGIT+)?) |(EXPOENTE ('+' | '-')? DIGIT+) );
+terminal STRING1:
+    ASPASSIMPLES STRINGCHARACTER (STRINGCHARACTER)* ASPASSIMPLES;
+terminal STRINGCHARACTER:
+"''" | (LETTER | DIGIT);
+
+//TERMINAIS
+terminal fragment DIFFERENT_SIGN : "<>";
+terminal fragment LESS_THAN_SIGN : "<";
+terminal fragment LESS_OR_EQUALS_SIGN : "<=";
+terminal fragment GREATER_THAN_SIGN : ">";
+terminal fragment GREATER_OR_EQUALS_SIGN : ">=";
+
+terminal fragment MULTIP_SIGN : "*";
+terminal fragment DIV_SIGN : "/";
+terminal SEMICOLON : ";";
+terminal COMMA : ",";
+terminal DOT : ".";
+terminal COLON : ":";
+terminal ASSIGNMENT_SIGN : ":=";
+terminal LEFT_PARENTHESIS : "(";
+terminal RIGHT_PARENTHESIS : ")";
+terminal LEFT_BRACKETS : "[";
+terminal RIGHT_BRACKETS : "]";
+terminal DIAERESIS : "..";
+terminal CARET : "^";
+terminal fragment ASPASSIMPLES : "'";
+terminal fragment EQUALS_SIGN : "==";
+terminal IG: "=";                                   //OBS
+terminal fragment LETTER : ('a'..'z' |  'A'..'Z');
+terminal fragment DIGIT : ('0'..'9');
+terminal fragment EXPOENTE: 'E' | 'e';
+
+terminal IDENTIFIER:
+    (('a'..'z')|('A'..'Z')|'_') (('a'..'z')|('A'..'Z')|'_'|('0'..'9'))*;
+
+terminal WS: 
+    (' '|'\t'|'\r'|'\n')+
+;

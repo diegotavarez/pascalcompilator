@@ -3,6 +3,11 @@
  */
 package org.xtext.example.mydsl.validation;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtext.validation.Check;
+import org.xtext.example.mydsl.pascal.identifier_list;
+import org.xtext.example.mydsl.pascal.variable_declaration;
+import org.xtext.example.mydsl.pascal.variable_declaration_part;
 import org.xtext.example.mydsl.validation.AbstractPascalValidator;
 
 /**
@@ -12,4 +17,42 @@ import org.xtext.example.mydsl.validation.AbstractPascalValidator;
  */
 @SuppressWarnings("all")
 public class PascalValidator extends AbstractPascalValidator {
+  @Check
+  public void checkvariable_declaration_part(final variable_declaration_part declarations) {
+    EList<variable_declaration> variableDeclarations = declarations.getVariableDeclarations();
+    EList<String> variable_ids = null;
+    for (int i = 0; (i < variableDeclarations.size()); i++) {
+      {
+        variable_declaration declaracao_atual = variableDeclarations.get(i);
+        identifier_list _identifierList = declaracao_atual.getIdentifierList();
+        EList<String> declaracao_atual_ids = _identifierList.getIds();
+        int _size = declaracao_atual_ids.size();
+        String _valueOf = String.valueOf(_size);
+        String _plus = ((("declaracao_atual_ids.size : " + Integer.valueOf(i)) + " - ") + _valueOf);
+        this.warning(_plus, null);
+        for (int id_i = 0; (id_i < declaracao_atual_ids.size()); id_i++) {
+          {
+            String _get = declaracao_atual_ids.get(id_i);
+            variable_ids.add(_get);
+            int _size_1 = variable_ids.size();
+            String _plus_1 = ((("variables_ids.size : " + Integer.valueOf(i)) + " - ") + Integer.valueOf(_size_1));
+            String _valueOf_1 = String.valueOf(_plus_1);
+            this.warning(_valueOf_1, null);
+          }
+        }
+      }
+    }
+    for (int j = 0; (j < variable_ids.size()); j++) {
+      {
+        String idAtual = variable_ids.get(j);
+        for (int k = (j + 1); (k < (variable_ids.size() - 1)); k++) {
+          String _get = variable_ids.get(k);
+          boolean _equals = idAtual.equals(_get);
+          if (_equals) {
+            this.error("Não pode ter variaveis com mesmo nome.", null);
+          }
+        }
+      }
+    }
+  }
 }

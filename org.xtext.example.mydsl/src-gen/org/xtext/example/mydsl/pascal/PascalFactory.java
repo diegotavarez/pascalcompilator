@@ -32,6 +32,681 @@ public interface PascalFactory extends EFactory
   Model createModel();
 
   /**
+   * Returns a new object of class '<em>program</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>program</em>'.
+   * @generated
+   */
+  program createprogram();
+
+  /**
+   * Returns a new object of class '<em>program heading</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>program heading</em>'.
+   * @generated
+   */
+  program_heading createprogram_heading();
+
+  /**
+   * Returns a new object of class '<em>block</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>block</em>'.
+   * @generated
+   */
+  block createblock();
+
+  /**
+   * Returns a new object of class '<em>Declaration Part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Declaration Part</em>'.
+   * @generated
+   */
+  DeclarationPart createDeclarationPart();
+
+  /**
+   * Returns a new object of class '<em>label declaration part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>label declaration part</em>'.
+   * @generated
+   */
+  label_declaration_part createlabel_declaration_part();
+
+  /**
+   * Returns a new object of class '<em>constant definition part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>constant definition part</em>'.
+   * @generated
+   */
+  constant_definition_part createconstant_definition_part();
+
+  /**
+   * Returns a new object of class '<em>constant definition</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>constant definition</em>'.
+   * @generated
+   */
+  constant_definition createconstant_definition();
+
+  /**
+   * Returns a new object of class '<em>type definition part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>type definition part</em>'.
+   * @generated
+   */
+  type_definition_part createtype_definition_part();
+
+  /**
+   * Returns a new object of class '<em>type definition</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>type definition</em>'.
+   * @generated
+   */
+  type_definition createtype_definition();
+
+  /**
+   * Returns a new object of class '<em>variable declaration part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>variable declaration part</em>'.
+   * @generated
+   */
+  variable_declaration_part createvariable_declaration_part();
+
+  /**
+   * Returns a new object of class '<em>variable declaration</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>variable declaration</em>'.
+   * @generated
+   */
+  variable_declaration createvariable_declaration();
+
+  /**
+   * Returns a new object of class '<em>procedure and function declaration part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>procedure and function declaration part</em>'.
+   * @generated
+   */
+  procedure_and_function_declaration_part createprocedure_and_function_declaration_part();
+
+  /**
+   * Returns a new object of class '<em>procedure declaration</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>procedure declaration</em>'.
+   * @generated
+   */
+  procedure_declaration createprocedure_declaration();
+
+  /**
+   * Returns a new object of class '<em>function declaration</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>function declaration</em>'.
+   * @generated
+   */
+  function_declaration createfunction_declaration();
+
+  /**
+   * Returns a new object of class '<em>statement part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>statement part</em>'.
+   * @generated
+   */
+  statement_part createstatement_part();
+
+  /**
+   * Returns a new object of class '<em>procedure heading</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>procedure heading</em>'.
+   * @generated
+   */
+  procedure_heading createprocedure_heading();
+
+  /**
+   * Returns a new object of class '<em>function heading</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>function heading</em>'.
+   * @generated
+   */
+  function_heading createfunction_heading();
+
+  /**
+   * Returns a new object of class '<em>formal parameter list</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>formal parameter list</em>'.
+   * @generated
+   */
+  formal_parameter_list createformal_parameter_list();
+
+  /**
+   * Returns a new object of class '<em>formal parameter section</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>formal parameter section</em>'.
+   * @generated
+   */
+  formal_parameter_section createformal_parameter_section();
+
+  /**
+   * Returns a new object of class '<em>value parameter section</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>value parameter section</em>'.
+   * @generated
+   */
+  value_parameter_section createvalue_parameter_section();
+
+  /**
+   * Returns a new object of class '<em>variable parameter section</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>variable parameter section</em>'.
+   * @generated
+   */
+  variable_parameter_section createvariable_parameter_section();
+
+  /**
+   * Returns a new object of class '<em>parameter type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>parameter type</em>'.
+   * @generated
+   */
+  parameter_type createparameter_type();
+
+  /**
+   * Returns a new object of class '<em>conformant array schema</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>conformant array schema</em>'.
+   * @generated
+   */
+  conformant_array_schema createconformant_array_schema();
+
+  /**
+   * Returns a new object of class '<em>packed conformant array schema</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>packed conformant array schema</em>'.
+   * @generated
+   */
+  packed_conformant_array_schema createpacked_conformant_array_schema();
+
+  /**
+   * Returns a new object of class '<em>unpacked conformant array Schema</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>unpacked conformant array Schema</em>'.
+   * @generated
+   */
+  unpacked_conformant_array_Schema createunpacked_conformant_array_Schema();
+
+  /**
+   * Returns a new object of class '<em>bound specification</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>bound specification</em>'.
+   * @generated
+   */
+  bound_specification createbound_specification();
+
+  /**
+   * Returns a new object of class '<em>statement sequence</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>statement sequence</em>'.
+   * @generated
+   */
+  statement_sequence createstatement_sequence();
+
+  /**
+   * Returns a new object of class '<em>statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>statement</em>'.
+   * @generated
+   */
+  statement createstatement();
+
+  /**
+   * Returns a new object of class '<em>simple statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>simple statement</em>'.
+   * @generated
+   */
+  simple_statement createsimple_statement();
+
+  /**
+   * Returns a new object of class '<em>assignment statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>assignment statement</em>'.
+   * @generated
+   */
+  assignment_statement createassignment_statement();
+
+  /**
+   * Returns a new object of class '<em>procedure statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>procedure statement</em>'.
+   * @generated
+   */
+  procedure_statement createprocedure_statement();
+
+  /**
+   * Returns a new object of class '<em>goto statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>goto statement</em>'.
+   * @generated
+   */
+  goto_statement creategoto_statement();
+
+  /**
+   * Returns a new object of class '<em>structured statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>structured statement</em>'.
+   * @generated
+   */
+  structured_statement createstructured_statement();
+
+  /**
+   * Returns a new object of class '<em>compound statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>compound statement</em>'.
+   * @generated
+   */
+  compound_statement createcompound_statement();
+
+  /**
+   * Returns a new object of class '<em>repetitive statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>repetitive statement</em>'.
+   * @generated
+   */
+  repetitive_statement createrepetitive_statement();
+
+  /**
+   * Returns a new object of class '<em>while statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>while statement</em>'.
+   * @generated
+   */
+  while_statement createwhile_statement();
+
+  /**
+   * Returns a new object of class '<em>repeat statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>repeat statement</em>'.
+   * @generated
+   */
+  repeat_statement createrepeat_statement();
+
+  /**
+   * Returns a new object of class '<em>for statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>for statement</em>'.
+   * @generated
+   */
+  for_statement createfor_statement();
+
+  /**
+   * Returns a new object of class '<em>conditional statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>conditional statement</em>'.
+   * @generated
+   */
+  conditional_statement createconditional_statement();
+
+  /**
+   * Returns a new object of class '<em>if statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>if statement</em>'.
+   * @generated
+   */
+  if_statement createif_statement();
+
+  /**
+   * Returns a new object of class '<em>case statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>case statement</em>'.
+   * @generated
+   */
+  case_statement createcase_statement();
+
+  /**
+   * Returns a new object of class '<em>case limb</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>case limb</em>'.
+   * @generated
+   */
+  case_limb createcase_limb();
+
+  /**
+   * Returns a new object of class '<em>case label list</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>case label list</em>'.
+   * @generated
+   */
+  case_label_list createcase_label_list();
+
+  /**
+   * Returns a new object of class '<em>with statement</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>with statement</em>'.
+   * @generated
+   */
+  with_statement createwith_statement();
+
+  /**
+   * Returns a new object of class '<em>expression</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>expression</em>'.
+   * @generated
+   */
+  expression createexpression();
+
+  /**
+   * Returns a new object of class '<em>simple expression</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>simple expression</em>'.
+   * @generated
+   */
+  simple_expression createsimple_expression();
+
+  /**
+   * Returns a new object of class '<em>term</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>term</em>'.
+   * @generated
+   */
+  term createterm();
+
+  /**
+   * Returns a new object of class '<em>factor</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>factor</em>'.
+   * @generated
+   */
+  factor createfactor();
+
+  /**
+   * Returns a new object of class '<em>variable</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>variable</em>'.
+   * @generated
+   */
+  variable createvariable();
+
+  /**
+   * Returns a new object of class '<em>Variable1</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Variable1</em>'.
+   * @generated
+   */
+  Variable1 createVariable1();
+
+  /**
+   * Returns a new object of class '<em>Set</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Set</em>'.
+   * @generated
+   */
+  Set createSet();
+
+  /**
+   * Returns a new object of class '<em>Element List</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Element List</em>'.
+   * @generated
+   */
+  ElementList createElementList();
+
+  /**
+   * Returns a new object of class '<em>Function Designator</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Function Designator</em>'.
+   * @generated
+   */
+  FunctionDesignator createFunctionDesignator();
+
+  /**
+   * Returns a new object of class '<em>type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>type</em>'.
+   * @generated
+   */
+  type createtype();
+
+  /**
+   * Returns a new object of class '<em>simple type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>simple type</em>'.
+   * @generated
+   */
+  simple_type createsimple_type();
+
+  /**
+   * Returns a new object of class '<em>enumerated type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>enumerated type</em>'.
+   * @generated
+   */
+  enumerated_type createenumerated_type();
+
+  /**
+   * Returns a new object of class '<em>subrange type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>subrange type</em>'.
+   * @generated
+   */
+  subrange_type createsubrange_type();
+
+  /**
+   * Returns a new object of class '<em>structured type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>structured type</em>'.
+   * @generated
+   */
+  structured_type createstructured_type();
+
+  /**
+   * Returns a new object of class '<em>unpacked structured type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>unpacked structured type</em>'.
+   * @generated
+   */
+  unpacked_structured_type createunpacked_structured_type();
+
+  /**
+   * Returns a new object of class '<em>array type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>array type</em>'.
+   * @generated
+   */
+  array_type createarray_type();
+
+  /**
+   * Returns a new object of class '<em>record type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>record type</em>'.
+   * @generated
+   */
+  record_type createrecord_type();
+
+  /**
+   * Returns a new object of class '<em>set type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>set type</em>'.
+   * @generated
+   */
+  set_type createset_type();
+
+  /**
+   * Returns a new object of class '<em>file type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>file type</em>'.
+   * @generated
+   */
+  file_type createfile_type();
+
+  /**
+   * Returns a new object of class '<em>pointer type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>pointer type</em>'.
+   * @generated
+   */
+  pointer_type createpointer_type();
+
+  /**
+   * Returns a new object of class '<em>field list</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>field list</em>'.
+   * @generated
+   */
+  field_list createfield_list();
+
+  /**
+   * Returns a new object of class '<em>fixed part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>fixed part</em>'.
+   * @generated
+   */
+  fixed_part createfixed_part();
+
+  /**
+   * Returns a new object of class '<em>record section</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>record section</em>'.
+   * @generated
+   */
+  record_section createrecord_section();
+
+  /**
+   * Returns a new object of class '<em>variant part</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>variant part</em>'.
+   * @generated
+   */
+  variant_part createvariant_part();
+
+  /**
+   * Returns a new object of class '<em>tag field</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>tag field</em>'.
+   * @generated
+   */
+  tag_field createtag_field();
+
+  /**
+   * Returns a new object of class '<em>variant</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>variant</em>'.
+   * @generated
+   */
+  variant createvariant();
+
+  /**
+   * Returns a new object of class '<em>Expression List</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Expression List</em>'.
+   * @generated
+   */
+  ExpressionList createExpressionList();
+
+  /**
+   * Returns a new object of class '<em>identifier list</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>identifier list</em>'.
+   * @generated
+   */
+  identifier_list createidentifier_list();
+
+  /**
+   * Returns a new object of class '<em>number</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>number</em>'.
+   * @generated
+   */
+  number createnumber();
+
+  /**
+   * Returns a new object of class '<em>label</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>label</em>'.
+   * @generated
+   */
+  label createlabel();
+
+  /**
+   * Returns a new object of class '<em>constant</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>constant</em>'.
+   * @generated
+   */
+  constant createconstant();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
