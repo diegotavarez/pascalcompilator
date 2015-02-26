@@ -4,11 +4,8 @@
 package org.xtext.example.mydsl.validation
 
 import org.eclipse.xtext.validation.Check
-import org.xtext.example.mydsl.pascal.variable_declaration
+import org.xtext.example.mydsl.pascal.variable
 import org.xtext.example.mydsl.pascal.variable_declaration_part
-import org.eclipse.emf.common.util.EList
-import java.util.ArrayList
-import java.io.Console
 
 //import org.eclipse.xtext.validation.Check
 /**
@@ -17,6 +14,7 @@ import java.io.Console
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class PascalValidator extends AbstractPascalValidator {
+	
 
 	//  public static val INVALID_NAME = 'invalidName'
 	//
@@ -70,10 +68,11 @@ class PascalValidator extends AbstractPascalValidator {
 	//			}
 	//		}
 	//	}
+	
 	@Check
-	def checkvariable_declaration_part(variable_declaration_part declarations) {
+	def checkvariable_unique_declaration(variable_declaration_part declarations) {
+		val String[] variable_ids  = newArrayOfSize(200)
 		var variableDeclarations = declarations.variableDeclarations
-		val String[] variable_ids = newArrayOfSize(200)
 		var id = 0
 
 		for (var i = 0; i < variableDeclarations.size; i++) {
@@ -91,5 +90,59 @@ class PascalValidator extends AbstractPascalValidator {
 			}
 		}
 	}
+	
+	@Check
+	def checkvariable_declaration(variable variable, variable_declaration_part declarations) {
+		val name = variable.name
+		
+		val String[] variable_ids = newArrayOfSize(200)
+		var variableDeclarations = declarations.variableDeclarations
+		var id = 0
 
+		for (var i = 0; i < variableDeclarations.size; i++) {
+			var declaracao_atual = variableDeclarations.get(i);
+			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
+
+			for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
+				if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
+					variable_ids.set(id, declaracao_atual_ids.get(id_i))
+					id = id + 1
+
+				}
+			}
+		}
+		
+		if (!variable_ids.contains(name)){
+			error("A variável não foi declarada.", null)				
+		} 
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
