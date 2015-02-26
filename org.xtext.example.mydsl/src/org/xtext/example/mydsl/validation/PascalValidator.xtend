@@ -73,26 +73,23 @@ class PascalValidator extends AbstractPascalValidator {
 	@Check
 	def checkvariable_declaration_part(variable_declaration_part declarations) {
 		var variableDeclarations = declarations.variableDeclarations
-		var EList<String> variable_ids = {
-		}
+		val String[] variable_ids = newArrayOfSize(200)
+		var id = 0
 
 		for (var i = 0; i < variableDeclarations.size; i++) {
-
 			var declaracao_atual = variableDeclarations.get(i);
 			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
 
 			for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
 				if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
+					variable_ids.set(id, declaracao_atual_ids.get(id_i))
+					id = id + 1
 
-					variable_ids.add(declaracao_atual_ids.get(id_i))
-					
 				} else {
-					error("FERROU", null)
+					error("A variável " + declaracao_atual_ids.get(id_i) + " já foi declarada.", null)
 				}
 			}
-
 		}
-
 	}
 
 }
