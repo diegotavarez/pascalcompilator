@@ -3,8 +3,10 @@
  */
 package org.xtext.example.mydsl.validation;
 
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtext.validation.Check;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.xtext.example.mydsl.pascal.identifier_list;
 import org.xtext.example.mydsl.pascal.variable_declaration;
 import org.xtext.example.mydsl.pascal.variable_declaration_part;
@@ -20,7 +22,8 @@ public class PascalValidator extends AbstractPascalValidator {
   @Check
   public void checkvariable_declaration_part(final variable_declaration_part declarations) {
     EList<variable_declaration> variableDeclarations = declarations.getVariableDeclarations();
-    EList<String> variable_ids = null;
+    final String[] variable_ids = new String[200];
+    int id = 0;
     for (int i = 0; (i < variableDeclarations.size()); i++) {
       {
         variable_declaration declaracao_atual = variableDeclarations.get(i);
@@ -28,13 +31,17 @@ public class PascalValidator extends AbstractPascalValidator {
         EList<String> declaracao_atual_ids = _identifierList.getIds();
         for (int id_i = 0; (id_i < declaracao_atual_ids.size()); id_i++) {
           String _get = declaracao_atual_ids.get(id_i);
-          boolean _contains = variable_ids.contains(_get);
+          boolean _contains = ((List<String>)Conversions.doWrapArray(variable_ids)).contains(_get);
           boolean _not = (!_contains);
           if (_not) {
             String _get_1 = declaracao_atual_ids.get(id_i);
-            variable_ids.add(_get_1);
+            variable_ids[id] = _get_1;
+            id = (id + 1);
           } else {
-            this.error("FERROU", null);
+            String _get_2 = declaracao_atual_ids.get(id_i);
+            String _plus = ("A variável " + _get_2);
+            String _plus_1 = (_plus + " já foi declarada.");
+            this.error(_plus_1, null);
           }
         }
       }
