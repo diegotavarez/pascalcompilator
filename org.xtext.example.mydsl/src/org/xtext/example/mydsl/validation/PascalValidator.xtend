@@ -8,6 +8,7 @@ import org.xtext.example.mydsl.pascal.variable_declaration
 import org.xtext.example.mydsl.pascal.variable_declaration_part
 import org.eclipse.emf.common.util.EList
 import java.util.ArrayList
+import java.io.Console
 
 //import org.eclipse.xtext.validation.Check
 /**
@@ -27,86 +28,71 @@ class PascalValidator extends AbstractPascalValidator {
 	//					INVALID_NAME)
 	//		}
 	//	}
-	
-	
-//	@Check
-//	def checkvariable_declaration_part(variable_declaration_part declarations) {
-//		var variableDeclarations = declarations.variableDeclarations
-//
-//		for (var i = 0; i < variableDeclarations.size; i++) {
-//			var declaracao_atual = variableDeclarations.get(i);
-//			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
-//
-//			for (var j = 0; j < declaracao_atual_ids.size; j++) {
-//				var idAtual = declaracao_atual_ids.get(j)
-//				for (var k = j + 1; k < declaracao_atual_ids.size - 1; k++) {
-//					if (idAtual.equals(declaracao_atual_ids.get(k))) {
-//						error("Não pode ter variaveis com mesmo nome", null);
-//					}
-//
-//				}
-//			}
-//		}
-//
-//	}
-
-//	@Check
-//	def checkvariable_declaration_part(variable_declaration_part declarations) {
-//		var variableDeclarations = declarations.variableDeclarations
-//
-//		for (var i = 0; i < variableDeclarations.size; i++) {
-//			var declaracao_atual = variableDeclarations.get(i);
-//			checkvariable_declaration(declaracao_atual);
-//		}
-//	}
-	
-//	@Check
-//	def checkvariable_declaration(variable_declaration declaration) {
-//		var declaracao_atual_ids = declaration.identifierList.ids;
-//		for (var j = 0; j < declaracao_atual_ids.size; j++) {
-//			var idAtual = declaracao_atual_ids.get(j)
-//			for (var k = j + 1; k < declaracao_atual_ids.size; k++) {
-//				if (idAtual.equals(declaracao_atual_ids.get(k))) {
-//					error("Não pode ter variaveis com mesmo nome na mesma declaracao", null);
-//				}
-//
-//			}
-//		}
-//	}
-	
+	//	@Check
+	//	def checkvariable_declaration_part(variable_declaration_part declarations) {
+	//		var variableDeclarations = declarations.variableDeclarations
+	//
+	//		for (var i = 0; i < variableDeclarations.size; i++) {
+	//			var declaracao_atual = variableDeclarations.get(i);
+	//			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
+	//
+	//			for (var j = 0; j < declaracao_atual_ids.size; j++) {
+	//				var idAtual = declaracao_atual_ids.get(j)
+	//				for (var k = j + 1; k < declaracao_atual_ids.size - 1; k++) {
+	//					if (idAtual.equals(declaracao_atual_ids.get(k))) {
+	//						error("Não pode ter variaveis com mesmo nome", null);
+	//					}
+	//
+	//				}
+	//			}
+	//		}
+	//
+	//	}
+	//	@Check
+	//	def checkvariable_declaration_part(variable_declaration_part declarations) {
+	//		var variableDeclarations = declarations.variableDeclarations
+	//
+	//		for (var i = 0; i < variableDeclarations.size; i++) {
+	//			var declaracao_atual = variableDeclarations.get(i);
+	//			checkvariable_declaration(declaracao_atual);
+	//		}
+	//	}
+	//	@Check
+	//	def checkvariable_declaration(variable_declaration declaration) {
+	//		var declaracao_atual_ids = declaration.identifierList.ids;
+	//		for (var j = 0; j < declaracao_atual_ids.size; j++) {
+	//			var idAtual = declaracao_atual_ids.get(j)
+	//			for (var k = j + 1; k < declaracao_atual_ids.size; k++) {
+	//				if (idAtual.equals(declaracao_atual_ids.get(k))) {
+	//					error("Não pode ter variaveis com mesmo nome na mesma declaracao", null);
+	//				}
+	//
+	//			}
+	//		}
+	//	}
 	@Check
 	def checkvariable_declaration_part(variable_declaration_part declarations) {
 		var variableDeclarations = declarations.variableDeclarations
-		var EList<String> variable_ids = {}
-		
+		var EList<String> variable_ids = {
+		}
+
 		for (var i = 0; i < variableDeclarations.size; i++) {
+
 			var declaracao_atual = variableDeclarations.get(i);
 			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
-			
-			warning("declaracao_atual_ids.size : " + i + " - "+ String.valueOf(declaracao_atual_ids.size), null);
-			
-			for(var id_i = 0; id_i < declaracao_atual_ids.size; id_i++){
-				variable_ids.add(declaracao_atual_ids.get(id_i))
-			warning(String.valueOf("variables_ids.size : " + i + " - "+ variable_ids.size), null);
-			}
-			
-			
-			
-		}
-		
-		
-		for (var j = 0; j < variable_ids.size; j++) {
-			var idAtual = variable_ids.get(j)
-			for (var k = j + 1; k < variable_ids.size - 1; k++) {
-				if (idAtual.equals(variable_ids.get(k))) {
-					error("Não pode ter variaveis com mesmo nome.", null);
+
+			for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
+				if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
+
+					variable_ids.add(declaracao_atual_ids.get(id_i))
+					
+				} else {
+					error("FERROU", null)
 				}
-
 			}
+
 		}
-		
+
 	}
-
-
 
 }
