@@ -3,7 +3,9 @@
  */
 package org.xtext.example.mydsl.validation
 
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
+import org.xtext.example.mydsl.pascal.block
 import org.xtext.example.mydsl.pascal.variable
 import org.xtext.example.mydsl.pascal.variable_declaration_part
 
@@ -14,64 +16,10 @@ import org.xtext.example.mydsl.pascal.variable_declaration_part
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class PascalValidator extends AbstractPascalValidator {
-	
 
-	//  public static val INVALID_NAME = 'invalidName'
-	//
-	//	@Check
-	//	def checkGreetingStartsWithCapital(Greeting greeting) {
-	//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-	//			warning('Name should start with a capital', 
-	//					MyDslPackage.Literals.GREETING__NAME,
-	//					INVALID_NAME)
-	//		}
-	//	}
-	//	@Check
-	//	def checkvariable_declaration_part(variable_declaration_part declarations) {
-	//		var variableDeclarations = declarations.variableDeclarations
-	//
-	//		for (var i = 0; i < variableDeclarations.size; i++) {
-	//			var declaracao_atual = variableDeclarations.get(i);
-	//			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
-	//
-	//			for (var j = 0; j < declaracao_atual_ids.size; j++) {
-	//				var idAtual = declaracao_atual_ids.get(j)
-	//				for (var k = j + 1; k < declaracao_atual_ids.size - 1; k++) {
-	//					if (idAtual.equals(declaracao_atual_ids.get(k))) {
-	//						error("Não pode ter variaveis com mesmo nome", null);
-	//					}
-	//
-	//				}
-	//			}
-	//		}
-	//
-	//	}
-	//	@Check
-	//	def checkvariable_declaration_part(variable_declaration_part declarations) {
-	//		var variableDeclarations = declarations.variableDeclarations
-	//
-	//		for (var i = 0; i < variableDeclarations.size; i++) {
-	//			var declaracao_atual = variableDeclarations.get(i);
-	//			checkvariable_declaration(declaracao_atual);
-	//		}
-	//	}
-	//	@Check
-	//	def checkvariable_declaration(variable_declaration declaration) {
-	//		var declaracao_atual_ids = declaration.identifierList.ids;
-	//		for (var j = 0; j < declaracao_atual_ids.size; j++) {
-	//			var idAtual = declaracao_atual_ids.get(j)
-	//			for (var k = j + 1; k < declaracao_atual_ids.size; k++) {
-	//				if (idAtual.equals(declaracao_atual_ids.get(k))) {
-	//					error("Não pode ter variaveis com mesmo nome na mesma declaracao", null);
-	//				}
-	//
-	//			}
-	//		}
-	//	}
-	
 	@Check
 	def checkvariable_unique_declaration(variable_declaration_part declarations) {
-		val String[] variable_ids  = newArrayOfSize(200)
+		val String[] variable_ids = newArrayOfSize(200)
 		var variableDeclarations = declarations.variableDeclarations
 		var id = 0
 
@@ -90,59 +38,84 @@ class PascalValidator extends AbstractPascalValidator {
 			}
 		}
 	}
-	
-	@Check
-	def checkvariable_declaration(variable variable, variable_declaration_part declarations) {
+
+	def searchVariableDeclaration(variable variable, EObject parent) {
 		val name = variable.name
-		
-		val String[] variable_ids = newArrayOfSize(200)
-		var variableDeclarations = declarations.variableDeclarations
-		var id = 0
+		if (parent == null) {
+			return null
+		} else if (!(parent instanceof block)) {
+			searchVariableDeclaration(variable, parent.eContainer)
+		} else {
+			val block = parent as block
+			val block_declaration_part = block.declarationPart
+			val declarations = block_declaration_part.variableDeclarationPart
 
-		for (var i = 0; i < variableDeclarations.size; i++) {
-			var declaracao_atual = variableDeclarations.get(i);
-			var declaracao_atual_ids = declaracao_atual.identifierList.ids;
+			val String[] variable_ids = newArrayOfSize(200)
+			var variableDeclarations = declarations.variableDeclarations
+			var id = 0
 
-			for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
-				if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
-					variable_ids.set(id, declaracao_atual_ids.get(id_i))
-					id = id + 1
+			for (var i = 0; i < variableDeclarations.size; i++) {
+				var declaracao_atual = variableDeclarations.get(i);
+				var declaracao_atual_ids = declaracao_atual.identifierList.ids;
 
+				for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
+					if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
+						variable_ids.set(id, declaracao_atual_ids.get(id_i))
+						id = id + 1
+
+					}
 				}
 			}
+
+			if (!variable_ids.contains(name) || variableDeclarations.size==0) {
+				error("A variável " + name + " não foi declarada.", null)
+			}
 		}
-		
-		if (!variable_ids.contains(name)){
-			error("A variável não foi declarada.", null)				
-		} 
-		
 	}
 	
+	@Check
+	def checkVariableDeclaration(variable variable){
+		searchVariableDeclaration(variable, variable.eContainer)
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//	def searchProcedureDeclaration(variable variable, EObject parent) {
+//		val name = variable.name
+//		if (parent == null) {
+//			return null
+//		} else if (!(parent instanceof block)) {
+//			searchVariableDeclaration(variable, parent.eContainer)
+//		} else {
+//			val block = parent as block
+//			val block_declaration_part = block.declarationPart
+//			val declarations = block_declaration_part.variableDeclarationPart
+//
+//			val String[] variable_ids = newArrayOfSize(200)
+//			var variableDeclarations = declarations.variableDeclarations
+//			var id = 0
+//
+//			for (var i = 0; i < variableDeclarations.size; i++) {
+//				var declaracao_atual = variableDeclarations.get(i);
+//				var declaracao_atual_ids = declaracao_atual.identifierList.ids;
+//
+//				for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
+//					if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
+//						variable_ids.set(id, declaracao_atual_ids.get(id_i))
+//						id = id + 1
+//
+//					}
+//				}
+//			}
+//
+//			if (!variable_ids.contains(name) || variableDeclarations.size==0) {
+//				error("A variável " + name + " não foi declarada.", null)
+//			}
+//		}
+//	}
+//	
+//	@Check
+//	def checkProcedureDeclaration(variable variable){
+//		searchProcedureDeclaration(variable, variable.eContainer)
+//	}
+
+
 }
