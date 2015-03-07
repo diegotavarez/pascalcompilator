@@ -6,6 +6,7 @@ package org.xtext.example.mydsl.validation
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 import org.xtext.example.mydsl.pascal.block
+import org.xtext.example.mydsl.pascal.procedure_statement
 import org.xtext.example.mydsl.pascal.variable
 import org.xtext.example.mydsl.pascal.variable_declaration_part
 
@@ -67,55 +68,55 @@ class PascalValidator extends AbstractPascalValidator {
 				}
 			}
 
-			if (!variable_ids.contains(name) || variableDeclarations.size==0) {
+			if (!variable_ids.contains(name) || variableDeclarations.size == 0) {
 				error("A variável " + name + " não foi declarada.", null)
 			}
 		}
 	}
-	
+
 	@Check
-	def checkVariableDeclaration(variable variable){
+	def checkVariableDeclaration(variable variable) {
 		searchVariableDeclaration(variable, variable.eContainer)
 	}
+
+	def searchProcedureDeclaration(procedure_statement procedure_statement, EObject parent) {
+		val procedureIdentifier = procedure_statement.procedureIdentifier
+		val name = procedureIdentifier.procedure_name
+
+		if (parent == null) {
+			return null
+		} else if (!(parent instanceof block)) {
+			searchProcedureDeclaration(procedure_statement, parent.eContainer)
+		} else {
+			val block = parent as block
+			val block_declaration_part = block.declarationPart
+			val declarations = block_declaration_part.procedureAndFunctionDeclarationPart
+
+			val String[] procedure_ids = newArrayOfSize(200)
+			var procedureDeclarations = declarations.procedureDeclarations
+			var id = 0
+
+			for (var i = 0; i < procedureDeclarations.size; i++) {
+				var declaracao_atual = procedureDeclarations.get(i);
+				var cabecalho_atual = declaracao_atual.heading
+				var nome_atual = cabecalho_atual.procedureName
+
+				if (!procedure_ids.contains(nome_atual)) {
+					procedure_ids.set(id, nome_atual)
+					id = id + 1
+				}
+			}
+
+			if (!procedure_ids.contains(name) || procedureDeclarations.size == 0) {
+				error("O procedure " + name + " não foi declarado ou não possui esta assinatura.", null)
+			}
+		}
+	}
+
+	@Check
+	def checkProcedureDeclaration(procedure_statement procedure_statement) {
+		searchProcedureDeclaration(procedure_statement, procedure_statement.eContainer)
+	}
+
 	
-//	def searchProcedureDeclaration(variable variable, EObject parent) {
-//		val name = variable.name
-//		if (parent == null) {
-//			return null
-//		} else if (!(parent instanceof block)) {
-//			searchVariableDeclaration(variable, parent.eContainer)
-//		} else {
-//			val block = parent as block
-//			val block_declaration_part = block.declarationPart
-//			val declarations = block_declaration_part.variableDeclarationPart
-//
-//			val String[] variable_ids = newArrayOfSize(200)
-//			var variableDeclarations = declarations.variableDeclarations
-//			var id = 0
-//
-//			for (var i = 0; i < variableDeclarations.size; i++) {
-//				var declaracao_atual = variableDeclarations.get(i);
-//				var declaracao_atual_ids = declaracao_atual.identifierList.ids;
-//
-//				for (var id_i = 0; id_i < declaracao_atual_ids.size; id_i++) {
-//					if (!variable_ids.contains(declaracao_atual_ids.get(id_i))) {
-//						variable_ids.set(id, declaracao_atual_ids.get(id_i))
-//						id = id + 1
-//
-//					}
-//				}
-//			}
-//
-//			if (!variable_ids.contains(name) || variableDeclarations.size==0) {
-//				error("A variável " + name + " não foi declarada.", null)
-//			}
-//		}
-//	}
-//	
-//	@Check
-//	def checkProcedureDeclaration(variable variable){
-//		searchProcedureDeclaration(variable, variable.eContainer)
-//	}
-
-
 }

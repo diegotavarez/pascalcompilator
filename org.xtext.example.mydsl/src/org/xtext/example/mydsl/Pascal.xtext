@@ -404,7 +404,7 @@ type_identifier:
 	typeIdentifierName=IDENTIFIER;
 	
 procedure_identifier:
-	IDENTIFIER;
+	procedure_name=IDENTIFIER;
 	
 function_identifier:
 	identifier=IDENTIFIER;
