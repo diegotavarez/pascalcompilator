@@ -399,7 +399,7 @@ terminal REAL_NUMBER:
     ('+' | '-')? DIGIT+ ((DOT DIGIT* (EXPOENTE ('+' | '-')? DIGIT+)?) |(EXPOENTE ('+' | '-')? DIGIT+) );
     
 terminal STRING1:
-    ASPASSIMPLES STRINGCHARACTER (STRINGCHARACTER)* ASPASSIMPLES;
+     ASPASSIMPLES ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|"'") )* ASPASSIMPLES;
     
 terminal STRINGCHARACTER:
 	"''" | (LETTER | DIGIT);
