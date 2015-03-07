@@ -93,11 +93,6 @@ procedure_heading:
    
 function_heading:
     'function' id1=IDENTIFIER FormalParameterList=(formal_parameter_list)? COLON id2=IDENTIFIER;
-    
-    
-procedure_identification:
-	'procedure' procedure_identifier;
-	
 	
 formal_parameter_list:
     LEFT_PARENTHESIS FormalParameterSections+=formal_parameter_section (SEMICOLON FormalParameterSections+=formal_parameter_section)* RIGHT_PARENTHESIS;
@@ -401,12 +396,6 @@ variant:
 
 
 //VARIABLE AND IDENTIFIER CATEGORIES
-field_identifier:
-	IDENTIFIER;
-	
-constant_identifier:
-	IDENTIFIER;
-	
 variable_identifier:
 	identifier=IDENTIFIER
 ;
@@ -419,20 +408,12 @@ procedure_identifier:
 	
 function_identifier:
 	identifier=IDENTIFIER;
-	
-bound_identifier:
-	IDENTIFIER;
 
 
 //LOW LEVEL DEFINITIONS
 
 identifier_list:
     ids+=IDENTIFIER (COMMA ids+=IDENTIFIER)*;
-    
-    
-number:
-    integer=INTEGER_NUMBER |
-    real=REAL_NUMBER;
     
 label:
     digit_sequence;
@@ -462,17 +443,11 @@ terminal RELATIONALOPERATOR:
 terminal MULTIPLICATIONOPERATOR:
     MULTIP_SIGN | DIV_SIGN | 'div' | 'mod' | 'and';
     
-terminal INTEGER_NUMBER:
-    ('+' | '-')? DIGIT+;
-    
 REAL_NUMBER:
 	digitSequence=digit_sequence DOT unsignedDigitSequence=UNSIGNED_DIGIT_SEQUENCE?scaleFactor=scale_factor? | (digitSequence=digit_sequence scaleFactor=scale_factor)
 ;    
 terminal STRING1:
      ASPASSIMPLES ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|"'") )* ASPASSIMPLES;
-    
-terminal STRINGCHARACTER:
-	"''" | (LETTER | DIGIT);
 
 terminal DIRECTIVE:
 	'forward'
@@ -504,12 +479,11 @@ terminal DIAERESIS : "..";
 terminal CARET : "^";
 terminal fragment ASPASSIMPLES : "'";
 terminal fragment EQUALS_SIGN : "==";
-terminal IG: "=";                                   //OBS
+terminal IG: "="; 
 terminal LETTER:
 	'A'..'Z' | 'a' .. 'z';
 terminal DIGIT:
 	'0'..'9';
-terminal fragment EXPOENTE: 'E' | 'e';
 
 terminal IDENTIFIER:
 	LETTER ('_'|LETTER | DIGIT)*
