@@ -5,6 +5,7 @@ package org.xtext.example.mydsl.validation
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
+import org.xtext.example.mydsl.pascal.DeclarationPart
 import org.xtext.example.mydsl.pascal.block
 import org.xtext.example.mydsl.pascal.procedure_and_function_declaration_part
 import org.xtext.example.mydsl.pascal.procedure_statement
@@ -58,6 +59,27 @@ class PascalValidator extends AbstractPascalValidator {
 
 				} else {
 					error("O procedure " + nome_atual + " já foi declarado.", null)
+				}
+		}
+	}
+	
+	@Check
+	def check_unique_constant_definition(DeclarationPart DeclarationPart) {
+		val declarations = DeclarationPart.constantDefinitionPart
+		val String[] constant_ids = newArrayOfSize(200)
+		var constantDefinitions = declarations.constantDefinitions
+		var id = 0
+
+		for (var i = 0; i < constantDefinitions.size; i++) {
+			var declaracao_atual = constantDefinitions.get(i);
+			var nome_atual = declaracao_atual.constantName
+				
+				if (!constant_ids.contains(nome_atual)) {
+					constant_ids.set(id, nome_atual)
+					id = id + 1
+
+				} else {
+					error("A constante " + nome_atual + " já foi definida.", null)
 				}
 		}
 	}
@@ -140,6 +162,45 @@ class PascalValidator extends AbstractPascalValidator {
 	def checkProcedureDeclaration(procedure_statement procedure_statement) {
 		searchProcedureDeclaration(procedure_statement, procedure_statement.eContainer)
 	}
+	
+//	def searchConstantDefinition(procedure_statement procedure_statement, EObject parent) {
+//		val procedureIdentifier = procedure_statement.procedureIdentifier
+//		val name = procedureIdentifier.procedure_name
+//
+//		if (parent == null) {
+//			return null
+//		} else if (!(parent instanceof block)) {
+//			searchConstantDefinition(procedure_statement, parent.eContainer)
+//		} else {
+//			val block = parent as block
+//			val block_declaration_part = block.declarationPart
+//			val declarations = block_declaration_part.procedureAndFunctionDeclarationPart
+//
+//			val String[] procedure_ids = newArrayOfSize(200)
+//			var procedureDeclarations = declarations.procedureDeclarations
+//			var id = 0
+//
+//			for (var i = 0; i < procedureDeclarations.size; i++) {
+//				var declaracao_atual = procedureDeclarations.get(i);
+//				var cabecalho_atual = declaracao_atual.heading
+//				var nome_atual = cabecalho_atual.procedureName
+//
+//				if (!procedure_ids.contains(nome_atual)) {
+//					procedure_ids.set(id, nome_atual)
+//					id = id + 1
+//				}
+//			}
+//
+//			if (!procedure_ids.contains(name) || procedureDeclarations.size == 0) {
+//				error("O procedure " + name + " não foi declarado ou não possui esta assinatura.", null)
+//			}
+//		}
+//	}
+//
+//	@Check
+//	def checkConstantDefinition(procedure_statement procedure_statement) {
+//		searchConstantDefinition(procedure_statement, procedure_statement.eContainer)
+//	}
 
 	
 }
