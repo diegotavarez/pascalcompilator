@@ -6,6 +6,7 @@ package org.xtext.example.mydsl.validation
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 import org.xtext.example.mydsl.pascal.block
+import org.xtext.example.mydsl.pascal.procedure_and_function_declaration_part
 import org.xtext.example.mydsl.pascal.procedure_statement
 import org.xtext.example.mydsl.pascal.variable
 import org.xtext.example.mydsl.pascal.variable_declaration_part
@@ -39,6 +40,28 @@ class PascalValidator extends AbstractPascalValidator {
 			}
 		}
 	}
+	
+	@Check
+	def check_unique_procedure_declaration(procedure_and_function_declaration_part declarations) {
+		val String[] procedure_ids = newArrayOfSize(200)
+		var procedureDeclarations = declarations.procedureDeclarations
+		var id = 0
+
+		for (var i = 0; i < procedureDeclarations.size; i++) {
+			var declaracao_atual = procedureDeclarations.get(i);
+			var cabecalho_atual = declaracao_atual.heading
+			var nome_atual = cabecalho_atual.procedureName
+				
+				if (!procedure_ids.contains(nome_atual)) {
+					procedure_ids.set(id, nome_atual)
+					id = id + 1
+
+				} else {
+					error("O procedure " + nome_atual + " já foi declarado.", null)
+				}
+		}
+	}
+	
 
 	def searchVariableDeclaration(variable variable, EObject parent) {
 		val name = variable.name
