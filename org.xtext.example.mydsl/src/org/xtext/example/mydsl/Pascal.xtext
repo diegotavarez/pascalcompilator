@@ -7,10 +7,12 @@ Model:
 
 //PROGRAMS AND BLOCKS
 program:
-    program = program_heading block=block DOT;
+    heading = program_heading block=block progEnd=program_end;
 program_heading:
-	'program' IDENTIFIER (LEFT_PARENTHESIS  identifier_list RIGHT_PARENTHESIS) SEMICOLON ;
-	
+	'program' programName=IDENTIFIER LEFT_PARENTHESIS  params=identifier_list RIGHT_PARENTHESIS SEMICOLON ;
+program_end:
+	valur = DOT
+;
 	
 block:
 	declarationPart=DeclarationPart statementPart=statement_part;
@@ -62,8 +64,19 @@ procedure_declaration:
     
     
 function_declaration:
-    'function' name=IDENTIFIER (formalParameterList=formal_parameter_list)? COLON type=type SEMICOLON block=block ;
-    
+	{FunctionDeclarationWithHeading}
+	heading=function_heading SEMICOLON (body=function_body | DIRECTIVE) |
+	{FunctionDeclarationWithIdentification}
+	heading=function_identification SEMICOLON body=function_body
+;
+
+function_identification:
+	'function' functionName=function_identifier
+;
+
+function_body:
+	block=block
+;
     
 statement_part:
 	'begin' statement_sequence 'end';
@@ -366,22 +379,26 @@ number:
     real=REAL_NUMBER;
     
 label:
-    int=INTEGER_NUMBER;
+    digit_sequence;
     
 scale_factor:
 	("E" | "e")digit_sequence;
 	
 terminal UNSIGNED_DIGIT_SEQUENCE:
-	('0'..'9') ('0'..'9')*;
+	DIGIT+;
 	
 digit_sequence:
-	(sign)? UNSIGNED_DIGIT_SEQUENCE;
+	sign=sign? value=UNSIGNED_DIGIT_SEQUENCE;
 	
 sign:
 	'+' | '-';
 	
 constant:
-    ('+' | '-')? (name=IDENTIFIER | number=number) | string=STRING1;   
+	{ConstFromId} sign=sign?identifier=IDENTIFIER|
+	{ConstFromDigitSequence} sign=sign?digitSequence=digit_sequence|
+	{ConstFromReal} sign=sign?realNumber=REAL_NUMBER | 
+	{ConstFromString} string=STRING1
+; 
      
 terminal RELATIONALOPERATOR:
     EQUALS_SIGN | DIFFERENT_SIGN | LESS_THAN_SIGN | LESS_OR_EQUALS_SIGN | GREATER_THAN_SIGN | GREATER_OR_EQUALS_SIGN | 'in';
@@ -395,14 +412,18 @@ terminal MULTIPLICATIONOPERATOR:
 terminal INTEGER_NUMBER:
     ('+' | '-')? DIGIT+;
     
-terminal REAL_NUMBER:
-    ('+' | '-')? DIGIT+ ((DOT DIGIT* (EXPOENTE ('+' | '-')? DIGIT+)?) |(EXPOENTE ('+' | '-')? DIGIT+) );
-    
+REAL_NUMBER:
+	digitSequence=digit_sequence DOT unsignedDigitSequence=UNSIGNED_DIGIT_SEQUENCE?scaleFactor=scale_factor? | (digitSequence=digit_sequence scaleFactor=scale_factor)
+;    
 terminal STRING1:
      ASPASSIMPLES ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|"'") )* ASPASSIMPLES;
     
 terminal STRINGCHARACTER:
 	"''" | (LETTER | DIGIT);
+
+terminal DIRECTIVE:
+	'forward'
+;
 
 
 //TERMINAIS
@@ -428,12 +449,15 @@ terminal CARET : "^";
 terminal fragment ASPASSIMPLES : "'";
 terminal fragment EQUALS_SIGN : "==";
 terminal IG: "=";                                   //OBS
-terminal fragment LETTER : ('a'..'z' |  'A'..'Z');
-terminal fragment DIGIT : ('0'..'9');
+terminal LETTER:
+	'A'..'Z' | 'a' .. 'z';
+terminal DIGIT:
+	'0'..'9';
 terminal fragment EXPOENTE: 'E' | 'e';
 
 terminal IDENTIFIER:
-    (('a'..'z')|('A'..'Z')|'_') (('a'..'z')|('A'..'Z')|'_'|('0'..'9'))*;
+	LETTER ('_'|LETTER | DIGIT)*
+;
 
 terminal WS: 
     (' '|'\t'|'\r'|'\n')+;
