@@ -9,6 +9,8 @@ import org.xtext.example.mydsl.pascal.DeclarationPart
 import org.xtext.example.mydsl.pascal.block
 import org.xtext.example.mydsl.pascal.procedure_and_function_declaration_part
 import org.xtext.example.mydsl.pascal.procedure_statement
+import org.xtext.example.mydsl.pascal.type
+import org.xtext.example.mydsl.pascal.type_identifier
 import org.xtext.example.mydsl.pascal.variable
 import org.xtext.example.mydsl.pascal.variable_declaration_part
 
@@ -19,7 +21,8 @@ import org.xtext.example.mydsl.pascal.variable_declaration_part
  * see http://www.eclipse.org/Xtext/documentation.html#validation
  */
 class PascalValidator extends AbstractPascalValidator {
-
+	public static val String[] AVAILABLE_TYPES = #["integer", "char", "string", "real", "boolean"];
+	
 	@Check
 	def checkvariable_unique_declaration(variable_declaration_part declarations) {
 		val String[] variable_ids = newArrayOfSize(200)
@@ -41,7 +44,7 @@ class PascalValidator extends AbstractPascalValidator {
 			}
 		}
 	}
-	
+
 	@Check
 	def check_unique_procedure_declaration(procedure_and_function_declaration_part declarations) {
 		val String[] procedure_ids = newArrayOfSize(200)
@@ -52,14 +55,14 @@ class PascalValidator extends AbstractPascalValidator {
 			var declaracao_atual = procedureDeclarations.get(i);
 			var cabecalho_atual = declaracao_atual.heading
 			var nome_atual = cabecalho_atual.procedureName
-				
-				if (!procedure_ids.contains(nome_atual)) {
-					procedure_ids.set(id, nome_atual)
-					id = id + 1
 
-				} else {
-					error("O procedure " + nome_atual + " já foi declarado.", null)
-				}
+			if (!procedure_ids.contains(nome_atual)) {
+				procedure_ids.set(id, nome_atual)
+				id = id + 1
+
+			} else {
+				error("O procedure " + nome_atual + " já foi declarado.", null)
+			}
 		}
 	}
 	
@@ -73,17 +76,16 @@ class PascalValidator extends AbstractPascalValidator {
 		for (var i = 0; i < constantDefinitions.size; i++) {
 			var declaracao_atual = constantDefinitions.get(i);
 			var nome_atual = declaracao_atual.constantName
-				
-				if (!constant_ids.contains(nome_atual)) {
-					constant_ids.set(id, nome_atual)
-					id = id + 1
 
-				} else {
-					error("A constante " + nome_atual + " já foi definida.", null)
-				}
+			if (!constant_ids.contains(nome_atual)) {
+				constant_ids.set(id, nome_atual)
+				id = id + 1
+
+			} else {
+				error("A constante " + nome_atual + " já foi definida.", null)
+			}
 		}
 	}
-	
 
 	def searchVariableDeclaration(variable variable, EObject parent) {
 		val name = variable.name
@@ -163,44 +165,15 @@ class PascalValidator extends AbstractPascalValidator {
 		searchProcedureDeclaration(procedure_statement, procedure_statement.eContainer)
 	}
 	
-//	def searchConstantDefinition(procedure_statement procedure_statement, EObject parent) {
-//		val procedureIdentifier = procedure_statement.procedureIdentifier
-//		val name = procedureIdentifier.procedure_name
-//
-//		if (parent == null) {
-//			return null
-//		} else if (!(parent instanceof block)) {
-//			searchConstantDefinition(procedure_statement, parent.eContainer)
-//		} else {
-//			val block = parent as block
-//			val block_declaration_part = block.declarationPart
-//			val declarations = block_declaration_part.procedureAndFunctionDeclarationPart
-//
-//			val String[] procedure_ids = newArrayOfSize(200)
-//			var procedureDeclarations = declarations.procedureDeclarations
-//			var id = 0
-//
-//			for (var i = 0; i < procedureDeclarations.size; i++) {
-//				var declaracao_atual = procedureDeclarations.get(i);
-//				var cabecalho_atual = declaracao_atual.heading
-//				var nome_atual = cabecalho_atual.procedureName
-//
-//				if (!procedure_ids.contains(nome_atual)) {
-//					procedure_ids.set(id, nome_atual)
-//					id = id + 1
-//				}
-//			}
-//
-//			if (!procedure_ids.contains(name) || procedureDeclarations.size == 0) {
-//				error("O procedure " + name + " não foi declarado ou não possui esta assinatura.", null)
-//			}
-//		}
-//	}
-//
-//	@Check
-//	def checkConstantDefinition(procedure_statement procedure_statement) {
-//		searchConstantDefinition(procedure_statement, procedure_statement.eContainer)
-//	}
-
+	
+	@Check
+	def checkType(type type) {
+		if (type instanceof type_identifier) {
+			val t = type as type_identifier
+			if (!AVAILABLE_TYPES.contains(t.typeIdentifierName)) {
+				error("O tipo " + t.typeIdentifierName +  " não é suportado", null);
+			}
+		}
+	}
 	
 }
